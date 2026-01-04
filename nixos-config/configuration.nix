@@ -21,6 +21,8 @@
     ./modules/packages/base.nix
     ./modules/packages/cli.nix
     ./modules/packages/dev.nix
+    ./modules/packages/media.nix
+    ./modules/packages/productivity.nix
   ];
 
   # Bootloader.
