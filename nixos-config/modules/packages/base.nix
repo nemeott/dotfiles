@@ -3,7 +3,8 @@
 {
   environment.systemPackages = with pkgs; [
     # Editor / basics
-    nano
+    bash # (installed by default, but just in case)
+    nano # (installed by default, but just in case)
     wget
     curl
 

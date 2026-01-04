@@ -2,9 +2,11 @@
 
 {
   environment.systemPackages = with pkgs; [
+    bash-completion
+
     # atuin
     bat # cat
-    bat-extras.batman
+    bat-extras.batman # man
     bat-extras.batpipe
     btop # top
     eza # ls
@@ -12,6 +14,7 @@
     fzf # fuzzy finder
     ripgrep # grep
     zoxide # cd
+
+    fastfetch
   ];
-  # TODO: Set aliases here
 }

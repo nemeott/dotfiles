@@ -75,7 +75,7 @@ esac
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
+    #alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
@@ -112,22 +112,59 @@ if ! shopt -oq posix; then
   fi
 fi
 
-bind 'set show-all-if-ambiguous on' # Show all possible completions if not specific enough
+# Show all possible completions if not specific enough
+bind 'set show-all-if-ambiguous on'
+
+# Enable CLI tools enhancements
+
+# Show a warning only in interactive shells
+_warn_missing() {
+  [[ $- == *i* ]] && printf 'Warning: %s not found; skipping %s\n' "$1" "$2" >&2
+}
 
 # Enable fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if command -v fzf >/dev/null 2>&1; then
+    [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+else
+    _warn_missing fzf "fzf initialization"
+fi
 
-# Replace cd command with zoxide
-eval "$(zoxide init bash --cmd cd)"
+# Enable zoxide and replace cd (can also use cdi to search cd history)
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init bash --cmd cd)"
+else
+    _warn_missing zoxide "zoxide initialization"
+fi
 
-# Enable batman (colored man) and batpipe (colored less)
-eval "$(batman --export-env)"
-eval "$(batpipe)"
+# Enable batman (colored man pages)
+if command -v batman >/dev/null 2>&1; then
+    eval "$(batman --export-env)"
+else
+    _warn_missing batman "batman initialization"
+fi
 
-# Enable better bash history
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-# eval "$(atuin init bash)"
+# Enable batpipe (colored less)
+if command -v batpipe >/dev/null 2>&1; then
+    eval "$(batpipe)"
+else
+    _warn_missing batpipe "batpipe initialization"
+fi
 
+# Enable atuin for better bash history (atuin needs bash-preexec)
+if [[ -f ~/.bash-preexec.sh ]]; then
+    if command -v atuin >/dev/null 2>&1; then
+        source ~/.bash-preexec.sh
+        eval "$(atuin init bash)"
+    else
+        _warn_missing atuin "atuin initialization"
+    fi
+else
+    _warn_missing ~/.bash-preexec.sh $'atuin installation\ninstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
+fi
+
+unset -f _warn_missing
+
+# Set VSCode as default editor
 export EDITOR="code"
 export VISUAL="code"
-export SUDO_EDITOR="code --wait"
+export SUDO_EDITOR="code --wait" # (sudoedit)
