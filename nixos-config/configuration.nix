@@ -23,6 +23,7 @@
     ./modules/packages/dev.nix
     ./modules/packages/media.nix
     ./modules/packages/productivity.nix
+    ./modules/packages/browsers.nix
   ];
 
   # Bootloader.
@@ -64,9 +65,6 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  # Install firefox.
-  programs.firefox.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
