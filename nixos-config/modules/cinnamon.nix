@@ -23,6 +23,8 @@
     mouse.naturalScrolling = false; # org/gnome/desktop/peripherals/mouse
   };
 
+  # dconf dump | cat
+
   # Set base theme in org/cinnamon/theme
   # name='Mint-Y-Dark-Blue'
 

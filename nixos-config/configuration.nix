@@ -10,7 +10,6 @@
     # sudo nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
     # sudo nix-channel --update
     <nixos-hardware/common/cpu/intel/tiger-lake>
-    <nixos-hardware/common/pc/laptop>
 
     /etc/nixos/hardware-configuration.nix # Using default hardware configuration at /etc/nixos
 
@@ -30,20 +29,26 @@
     ./modules/packages/browsers.nix
   ];
 
+  # Use facter for better hardware support
+  hardware.facter.reportPath = ../../facter.json;
+  # Generate facter config file with:
+  # sudo nix run --option experimental-features "nix-command flakes" nixpkgs#nixos-facter -- -o facter.json
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  networking.hostName = "icarus"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking = {
+    hostName = "icarus"; # Define your hostname (default is nixos)
+    # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+    # Configure network proxy if necessary
+    # proxy.default = "http://user:password@proxy:port/";
+    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
+    # Enable networking
+    networkmanager.enable = true;
+  };
 
   # Set time zone and select internationalisation properties
   time.timeZone = "America/New_York";

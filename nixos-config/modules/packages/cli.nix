@@ -18,6 +18,8 @@
     xclip # Needed for aliases interacting with the clipboard
 
     fastfetch
+
+    nvd # NixOS version diff
   ];
 
   environment.shellAliases = {
@@ -27,5 +29,7 @@
     nrt = "nixos-rebuild test";
 
     nsp = "nix-shell -p";
+
+    nrdiff = "nixos-rebuild build '$@' && nvd diff /run/current-system result";
   };
 }
