@@ -26,6 +26,7 @@
     nrs = "nixos-rebuild switch";
     nrb = "nixos-rebuild boot";
     nrbb = "nixos-rebuild boot && reboot";
+    nrbs = "nixos-rebuild boot && shutdown -h now";
     nrt = "nixos-rebuild test";
 
     nsp = "nix-shell -p";
