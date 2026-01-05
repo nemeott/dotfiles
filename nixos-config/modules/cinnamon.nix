@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, pkgs, ... }:
 
 {
   # Enable the X11 windowing system.
@@ -14,50 +14,33 @@
     variant = "";
   };
 
-  # services.xserver.desktopManager.cinnamon.settings.naturalScrolling = true;
+  # Use sane scrolling config
+  services.libinput = {
+    enable = true;
 
-  # Enable touchpad support with natural scrolling
-  # services.libinput.enable = true;
-  # services.libinput.touchpad.naturalScrolling = true; # ! Not working
+    # Want to set this in dconf (org/cinnamon/desktop/peripherals/touchpad)
+    touchpad.naturalScrolling = false; # ! Not working
+    mouse.naturalScrolling = false; # org/gnome/desktop/peripherals/mouse
+  };
 
-  # # Enable dconf to manage Cinnamon settings
-  # programs.dconf.enable = true;
+  # Set base theme in org/cinnamon/theme
+  # name='Mint-Y-Dark-Blue'
 
-  # # Install the Mint-Y themes package
-  # environment.systemPackages = with pkgs; [
-  #   mint-themes
-  #   mint-y-icons
-  #   dconf
-  # ];
+  # Set theme in org/cinnamon/desktop/interface
+  # cursor-theme='Bibata-Modern-Classic'
+  # gtk-theme='Mint-Y-Dark-Blue'
+  # icon-theme='Mint-Y-Blue'
 
-  # # === Direct dconf configuration ===
-  # # This runs once when the system builds
-  # system.activationScripts.set-cinnamon-theme = {
-  #   text = ''
-  #     # Create dconf database if it doesn't exist
-  #     if [ -f /etc/dconf/db/local.d/00-cinnamon-settings ]; then
-  #       echo "Cinnamon theme already configured in dconf"
-  #     else
-  #       echo "Setting Cinnamon theme to Mint-Y-Dark-Blue..."
-        
-  #       # Create the dconf settings file
-  #       mkdir -p /etc/dconf/db/local.d
-  #       cat > /etc/dconf/db/local.d/00-cinnamon-settings << 'EOF'
-  #       [org/cinnamon/desktop/interface]
-  #       gtk-theme='Mint-Y-Dark-Blue'
-  #       icon-theme='Mint-Y-Dark-Blue'
-  #       cursor-theme='Mint-Y-Dark-Blue'
+  # Disable sounds in org/cinnamon/sounds
+  # login-enabled=false
+  # logout-enabled=false
+  # plug-enabled=false
+  # switch-enabled=false
+  # tile-enabled=false
+  # unplug-enabled=false
 
-  #       [org/cinnamon/desktop/wm/preferences]
-  #       theme='Mint-Y-Dark-Blue'
-
-  #       [org/cinnamon/theme]
-  #       name='Mint-Y-Dark-Blue'
-  #       EOF
-              
-  #       # Update dconf database
-  #       ${pkgs.dconf}/bin/dconf update
-  #     fi
-  #   '';
-  # };
+  # org/gnome/desktop/interface
+  # cursor-theme='Bibata-Modern-Classic'
+  # gtk-theme='Mint-Y-Dark-Blue'
+  # icon-theme='Mint-Y-Blue'
 }

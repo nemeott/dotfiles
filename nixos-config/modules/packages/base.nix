@@ -1,10 +1,11 @@
 { pkgs, ... }:
 
 {
+  programs.bash.enable = true; # Installed by default, but just in case
+  programs.nano.enable = true; # Installed by default, but just in case
+
   environment.systemPackages = with pkgs; [
-    # Editor / basics
-    bash # (installed by default, but just in case)
-    nano # (installed by default, but just in case)
+    # Basics
     wget
     curl
 

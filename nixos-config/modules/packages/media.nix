@@ -11,5 +11,13 @@
     # CLI media tools
     ffmpeg
     imagemagick
+
+    # Media editing
+    gimp
+    audacity
+
+    # Music
+    musescore
+    muse-sounds-manager
   ];
 }

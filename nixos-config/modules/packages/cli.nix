@@ -1,11 +1,11 @@
 { pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    bash-completion
+  programs.bat.enable = true; # cat
+  programs.zoxide.enable = true; # cd
 
-    # atuin
-    bat # cat
+  environment.systemPackages = with pkgs; [
+    # # atuin
     bat-extras.batman # man
     bat-extras.batpipe
     btop # top
@@ -13,8 +13,19 @@
     fd # find
     fzf # fuzzy finder
     ripgrep # grep
-    zoxide # cd
+
+    bash-completion # Needed by atuin
+    xclip # Needed for aliases interacting with the clipboard
 
     fastfetch
   ];
+
+  environment.shellAliases = {
+    nrs = "nixos-rebuild switch";
+    nrb = "nixos-rebuild boot";
+    nrbb = "nixos-rebuild boot && reboot";
+    nrt = "nixos-rebuild test";
+
+    nsp = "nix-shell -p";
+  };
 }

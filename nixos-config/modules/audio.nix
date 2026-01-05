@@ -15,10 +15,6 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
 
-    # wireplumber.enable = true;
+    #wireplumber.enable = true;
   };
-
-  # hardware.firmware = [ pkgs.sof-firmware ]; # Install SOF firmware for Intel audio
-  # hardware.enableAllFirmware = true;
-  # boot.kernelParams = [ "snd-intel-dspcfg.dsp_driver=1" ];
 }

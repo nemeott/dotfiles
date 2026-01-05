@@ -6,11 +6,15 @@
 
 {
   imports = [
-    # Include the results of the hardware scan.
-    /etc/nixos/hardware-configuration.nix # Using default hardware configuration at /etc/nixos
-    ./chrome-device.nix # Custom hardware configuration for Chromebook
+    # Add nixos-hardware modules for better hardware support
+    # sudo nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
+    # sudo nix-channel --update
     <nixos-hardware/common/cpu/intel/tiger-lake>
     <nixos-hardware/common/pc/laptop>
+
+    /etc/nixos/hardware-configuration.nix # Using default hardware configuration at /etc/nixos
+
+    ./chrome-device.nix # Custom hardware configuration for Chromebook
 
     # Modules
     ./modules/user.nix
@@ -65,6 +69,9 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  # Also need to do this to allow unfree packages for nix-shell
+  # mkdir -p ~/.config/nixpkgs
+  # echo '{ allowUnfree = true; }' > ~/.config/nixpkgs/config.nix
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
