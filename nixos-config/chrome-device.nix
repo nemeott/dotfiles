@@ -121,7 +121,10 @@ in
     '';
   };
   environment = {
-    systemPackages = [ pkgs.sof-firmware ];
+    systemPackages = with pkgs; [
+      sof-firmware
+      pavucontrol # Needed to adjust audio settings (select "Pro Audio" profile)
+    ];
     sessionVariables.ALSA_CONFIG_UCM2 = "${cb-ucm-conf}/share/alsa/ucm2";
   };
 
