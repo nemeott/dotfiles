@@ -159,7 +159,7 @@ if [[ -f ~/.bash-preexec.sh ]]; then
         _warn_missing atuin "atuin initialization"
     fi
 else
-    _warn_missing ~/.bash-preexec.sh $'atuin installation\ninstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
+    _warn_missing ~/.bash-preexec.sh $'atuin initialization\ninstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
 fi
 
 unset -f _warn_missing

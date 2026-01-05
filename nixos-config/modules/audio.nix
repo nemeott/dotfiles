@@ -1,40 +1,104 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
-  # Enable sound with pulseaudio instead of pipewire
-  services.pulseaudio.enable = false;
-  # services.pulseaudio = {
-  #   enable = true;
-
-  #   daemon.config = {
-  #     enable-deferred-volume = "no"; # Disable deferred volume to avoid starting in "None" profile
-  #     flat-volumes = "no"; # Prevent apps from changing volume implicitly
-  #   };
-
-  #   extraConfig = ''
-  #     # Use legacy ALSA profile probing
-  #     load-module module-udev-detect ignore_dB=1 use_ucm=0
-
-  #     # Force the fallback profile to avoid "None" profile on startup ! NOT WORKING; ADJUST MANUALLY
-  #     set-card-profile alsa_card.pci-0000_00_1f.3-platform-tgl_rt5682_def \
-  #       output:stereo-fallback+input:stereo-fallback
-
-  #     # Mute the default sink on startup
-  #     set-sink-mute @DEFAULT_SINK@ 1
-  #   '';
-  # };
-
-  # Disable pipewire services
-  services.pipewire = {
+  # Use pulseaudio instead of pipewire
+  services.pipewire.enable = false;
+  services.pulseaudio = {
     enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    #jack.enable = true;
 
-    # # Session manager for pipewire
-    # wireplumber.enable = false;
+    daemon.config = {
+      enable-deferred-volume = "no"; # Disable deferred volume to avoid starting in "None" profile
+      flat-volumes = "no"; # Prevent apps from changing volume implicitly
+    };
+
+    extraConfig = ''
+      # Use legacy ALSA profile probing
+      load-module module-udev-detect ignore_dB=1 use_ucm=0
+
+      # # Force the fallback profile to avoid "None" profile on startup ! NOT WORKING; ADJUST MANUALLY
+      # set-card-profile alsa_card.pci-0000_00_1f.3-platform-tgl_rt5682_def \
+      #   output:stereo-fallback+input:stereo-fallback
+
+      # # Mute the default sink on startup and set to 0 volume
+      # set-sink-mute @DEFAULT_SINK@ 1
+      # set-sink-volume @DEFAULT_SINK@ 0
+    '';
   };
 
+  # Still need to switch audio sink manually with
+  #   pacmd set-card-profile alsa_card.pci-0000_00_1f.3-platform-tgl_rt5682_def output:stereo-fallback+input:stereo-fallback
+  
+  # Create a systemd service to switch audio sink and mute on login
+  #   Check service status with:
+  #     systemctl --user status set_audio_sink_tigerlake.service
+  #     journalctl --user -u set_audio_sink_tigerlake.service -b
+  #     systemctl --user list-units | rg pulse
+  systemd.user.services.set_audio_sink_tigerlake = {
+    description = "Switch to working audio sink (and mute)";
+
+    wantedBy = [ "default.target" ];
+
+    # Provide pactl/pacmd
+    path = [
+      pkgs.pulseaudio
+      pkgs.bash
+    ];
+
+    # Best-effort ordering; PulseAudio may be socket-activated depending on setup
+    after = [
+      "pulseaudio.service"
+      "pulseaudio.socket"
+    ];
+    wants = [
+      "pulseaudio.service"
+      "pulseaudio.socket"
+    ];
+
+    unitConfig = {
+      # Avoid hitting start-limit too quickly during boot/login
+      StartLimitIntervalSec = 30;
+      StartLimitBurst = 200;
+    };
+
+    serviceConfig = {
+      Type = "oneshot";
+
+      # Retry instead of sleeping in a loop
+      Restart = "on-failure";
+      RestartSec = "200ms";
+    };
+
+    script = ''
+      set -euo pipefail
+
+      # Switch profile (can recreate sinks)
+      pactl set-card-profile \
+        alsa_card.pci-0000_00_1f.3-platform-tgl_rt5682_def \
+        output:stereo-fallback+input:stereo-fallback
+
+      # Apply to the current default sink; if default isn't ready yet,
+      # pactl exits nonzero, and systemd will retry shortly.
+      pactl set-sink-mute @DEFAULT_SINK@ 1
+      pactl set-sink-volume @DEFAULT_SINK@ 0
+    '';
+  };
+
+  # # Use pipewire instead of pulseaudio
+  # services.pulseaudio.enable = false;
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true; # Expose ALSA sinks
+  #   alsa.support32Bit = true; # 32-bit app support
+  #   pulse.enable = true; # pactl/pavucontrol compatibility
+  #   #jack.enable = true;
+
+  #   # Session manager for pipewire
+  #   wireplumber.enable = true;
+  # };
+  # Need to run these commands somehow on startup
+  # wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
+  # wpctl set-volume @DEFAULT_AUDIO_SINK@ 0
+
+  # Enable realtime scheduling
   security.rtkit.enable = true;
 }
