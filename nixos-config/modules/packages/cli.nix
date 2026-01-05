@@ -1,5 +1,10 @@
 { pkgs, ... }:
 
+let
+  nrdiff = pkgs.writeShellScriptBin "nrdiff" ''
+    nixos-rebuild build "$@" && nvd diff /run/current-system result
+  '';
+in
 {
   programs.bat.enable = true; # cat
   programs.zoxide.enable = true; # cd
@@ -20,6 +25,7 @@
     fastfetch
 
     nvd # NixOS version diff
+    nrdiff # Custom diff command to rebuild and get the diff
   ];
 
   environment.shellAliases = {
@@ -30,7 +36,5 @@
     nrt = "nixos-rebuild test";
 
     nsp = "nix-shell -p";
-
-    nrdiff = "nixos-rebuild build '$@' && nvd diff /run/current-system result";
   };
 }
