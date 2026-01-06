@@ -1,9 +1,3 @@
-# cd ~/dotfiles
-# nix-build -E 'with import <nixpkgs> {}; callPackage ./nixos-config/modules/packages/musescore-evolution/package.nix {}'
-
-# ls -l result/bin
-# ./result/bin/mscore-evolution
-
 {
   stdenv,
   lib,
@@ -47,6 +41,8 @@ stdenv.mkDerivation (finalAttrs: {
 
   # From top-level CMakeLists.txt:
   # - DOWNLOAD_SOUNDFONT defaults ON and tries to fetch from the network.
+  # Can still download manually at Help > Manage Resources
+  # ! BUG: Having the Drumline soundfont installed causes MuseScore to load slowly on startup.
   cmakeFlags = [
     "-DDOWNLOAD_SOUNDFONT=OFF"
   ];
@@ -105,12 +101,15 @@ stdenv.mkDerivation (finalAttrs: {
     qt5.qtxmlpatterns
     qt5.qtquickcontrols2
     qt5.qtgraphicaleffects
+
     # qt5.qtwebengine # Avoid depending on insecure QtWebEngine (and having to compile qt5.qtwebengine (huge))
+    # Because we don't use this, we need to patch the CMakeLists and install scripts to not try to bundle it.
   ]
   ++ lib.optionals stdenv.hostPlatform.isLinux [
     alsa-lib
   ];
 
+  # Patch out QtWebEngine and Qt resource installation/bundling.
   postPatch = ''
     # Disable Qt bundling logic in the source CMakeLists.
     if [ -f main/CMakeLists.txt ]; then
@@ -132,24 +131,36 @@ stdenv.mkDerivation (finalAttrs: {
     fi
   '';
 
+  # On macOS, move the .app into Applications/ and symlink the binary to bin/
   postInstall = lib.optionalString stdenv.hostPlatform.isDarwin ''
     mkdir -p "$out/Applications"
-    mv "$out/mscore.app" "$out/Applications/mscore-evolution.app"
+    mv "$out/mscore.app" "$out/Applications/mscore-evo.app"
     mkdir -p $out/bin
-    ln -s $out/Applications/mscore-evolution.app/Contents/MacOS/mscore $out/bin/mscore-evolution
+    ln -s $out/Applications/mscore-evo.app/Contents/MacOS/mscore $out/bin/mscore-evo
   '';
 
   # On Linux, let CMake + wrapQtAppsHook install/wrap "mscore", then rename it
-  # so it does not clash with the main musescore package.
+  # and adjust the .desktop file so it doesn't clash with the main musescore package.
   postFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
+    # 1) Rename binary
     if [ -x "$out/bin/mscore" ]; then
-      mv "$out/bin/mscore" "$out/bin/mscore-evolution"
+      mv "$out/bin/mscore" "$out/bin/mscore-evo"
+    fi
+
+    # 2) Fix desktop entry to point to mscore-evo and avoid ID clash
+    desktop="$out/share/applications/mscore.desktop"
+    if [ -f "$desktop" ]; then
+      substituteInPlace "$desktop" \
+        --replace "Exec=mscore" "Exec=mscore-evo" \
+        --replace "Name=MuseScore" "Name=MuseScore 3.7 (Evolution)"
+      mv "$desktop" "$out/share/applications/mscore-evo.desktop"
     fi
   '';
 
   # Don't run bundled upstreams tests, as they require a running X window system.
   doCheck = false;
 
+  # Also don't use upstream musescore tests since this is a different version/fork.
   # passthru.tests = nixosTests.musescore;
   passthru.tests = { };
 
@@ -158,7 +169,7 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/Jojo-Schmitz/MuseScore";
     license = lib.licenses.gpl2Only;
     maintainers = with lib.maintainers; [ ];
-    mainProgram = "mscore-evolution";
+    mainProgram = "mscore-evo";
     platforms = lib.platforms.unix;
   };
 })
