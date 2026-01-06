@@ -13,12 +13,12 @@
 
     /etc/nixos/hardware-configuration.nix # Using default hardware configuration at /etc/nixos
 
-    ./chrome-device.nix # Custom hardware configuration for Chromebook
+    ./chrome-device.nix # Custom hardware configuration for Chromebook (audio and keyboard) (still need to make custom audio script)
 
     # Modules
     ./modules/user.nix
     ./modules/cinnamon.nix
-    ./modules/audio.nix
+    ./modules/chrome-audio.nix
 
     # Packages
     ./modules/packages/base.nix
@@ -33,6 +33,9 @@
   hardware.facter.reportPath = ../../facter.json;
   # Generate facter config file with:
   # sudo nix run --option experimental-features "nix-command flakes" nixpkgs#nixos-facter -- -o facter.json
+
+  # Enable nix-command experimental feature
+  nix.settings.experimental-features = [ "nix-command flakes" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
