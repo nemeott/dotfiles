@@ -30,10 +30,17 @@ in
 
   environment.shellAliases = {
     nrs = "nixos-rebuild switch";
+    nrsu = "nixos-rebuild switch --upgrade";
+
     nrb = "nixos-rebuild boot";
+    nrbu = "nixos-rebuild boot --upgrade";
     nrbb = "nixos-rebuild boot && reboot";
+    nrbub = "nixos-rebuild boot --upgrade && reboot";
     nrbs = "nixos-rebuild boot && shutdown -h now";
+    nrbus = "nixos-rebuild boot --upgrade && shutdown -h now";
+    
     nrt = "nixos-rebuild test";
+    nrtu = "nixos-rebuild test --upgrade";
 
     nsp = "nix-shell -p";
   };

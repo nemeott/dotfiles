@@ -37,6 +37,9 @@
   # Enable nix-command experimental feature
   nix.settings.experimental-features = [ "nix-command flakes" ];
 
+  # Use Lix package manager instead of Nix
+  nix.package = pkgs.lixPackageSets.stable.lix;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
