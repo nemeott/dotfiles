@@ -66,6 +66,9 @@
   services.power-profiles-daemon.enable = false;
   services.tlp.enable = true;
 
+  # Enable thermald for thermal management (Intel CPUs)
+  services.thermald.enable = true;
+
   networking = {
     hostName = "icarus"; # Define your hostname (default is nixos)
     # wireless.enable = true;  # Enables wireless support via wpa_supplicant.

@@ -16,8 +16,6 @@
       # NOTE: if you experience a build failure with Zen, the first thing to check is to remove this line!
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    catppuccin.url = "github:catppuccin/nix/release-25.11";
   };
 
   outputs =
@@ -26,13 +24,12 @@
       nixpkgs,
       nixos-hardware,
       zen-browser,
-      catppuccin,
     }:
     {
       nixosConfigurations = {
         icarus = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit nixos-hardware zen-browser catppuccin; }; # What to pass in to configuration.nix
+          specialArgs = { inherit nixos-hardware zen-browser; }; # What to pass in to configuration.nix
           modules = [ ./hosts/icarus/configuration.nix ];
         };
       };
