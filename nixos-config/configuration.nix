@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, nixos-hardware ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -10,9 +10,8 @@
     # sudo nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
     # sudo nix-channel --update
     # <nixos-hardware/common/cpu/intel/tiger-lake> # Non-flakes
-    nixos-hardware.common.cpu.intel.tiger-lake # Flakes
 
-    /etc/nixos/hardware-configuration.nix # Using default hardware configuration at /etc/nixos
+    ./hosts/icarus/hardware-configuration.nix # Using default hardware configuration at /etc/nixos
 
     ./chrome-device.nix # Custom hardware configuration for Chromebook (audio and keyboard) (still need to make custom audio script)
 
@@ -36,7 +35,10 @@
   # sudo nix run --option experimental-features "nix-command flakes" nixpkgs#nixos-facter -- -o facter.json
 
   # Enable nix-command experimental feature
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Use Lix package manager instead of Nix
   nix.package = pkgs.lixPackageSets.stable.lix;
