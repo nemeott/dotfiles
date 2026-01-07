@@ -35,7 +35,7 @@
   # sudo nix run --option experimental-features "nix-command flakes" nixpkgs#nixos-facter -- -o facter.json
 
   # Enable nix-command experimental feature
-  nix.settings.experimental-features = [ "nix-command flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Use Lix package manager instead of Nix
   nix.package = pkgs.lixPackageSets.stable.lix;
@@ -75,17 +75,17 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  # Enable thunderbolt support
+  environment.systemPackages = [ pkgs.bolt ];
+  services.hardware.bolt.enable = true;
+  # Enroll device with: boltctl enroll DEVICE
+  # Temporarily add device with: boltctl authorize DEVICE
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   # Also need to do this to allow unfree packages for nix-shell
   # mkdir -p ~/.config/nixpkgs
   # echo '{ allowUnfree = true; }' > ~/.config/nixpkgs/config.nix
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

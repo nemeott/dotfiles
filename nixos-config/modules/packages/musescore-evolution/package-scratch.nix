@@ -152,25 +152,64 @@ stdenv.mkDerivation (finalAttrs: {
     if [ -f "$desktop" ]; then
       substituteInPlace "$desktop" \
         --replace "Exec=mscore" "Exec=mscore-evo" \
-        --replace "Name=MuseScore 3.7" "Name=MuseScore 3.7 (Evolution)"
+        --replace "Name=MuseScore 3.7" "Name=MuseScore 3.7 (Evolution)" \
+        --replace "Icon=mscore" "Icon=mscore-evo"
       mv "$desktop" "$out/share/applications/mscore-evo.desktop"
     fi
 
-    # 3) Rename installed icons so they don’t share the mscore icon name
+    # 3) Rename app icons (apps/)
     if [ -d "$out/share/icons/hicolor" ]; then
       for sizeDir in "$out"/share/icons/hicolor/*/apps; do
         [ -d "$sizeDir" ] || continue
-
-        if [ -f "$sizeDir/mscore.png" ]; then
-          mv "$sizeDir/mscore.png" "$sizeDir/mscore-evo.png"
-        fi
-        if [ -f "$sizeDir/mscore.svg" ]; then
-          mv "$sizeDir/mscore.svg" "$sizeDir/mscore-evo.svg"
-        fi
-        if [ -f "$sizeDir/mscore.xpm" ]; then
-          mv "$sizeDir/mscore.xpm" "$sizeDir/mscore-evo.xpm"
-        fi
+        for ext in png svg xpm; do
+          if [ -f "$sizeDir/mscore.$ext" ]; then
+            mv "$sizeDir/mscore.$ext" "$sizeDir/mscore-evo.$ext"
+          fi
+        done
       done
+    fi
+
+    # 3b) Rename mimetype icons (mimetypes/) to unique names
+    for icon in "$out"/share/icons/hicolor/*/mimetypes/application-x-musescore.* \
+                "$out"/share/icons/hicolor/*/mimetypes/application-x-musescore+xml.*; do
+      [ -e "$icon" ] || continue
+      dir="''${icon%/*}"; base="''${icon##*/}"; ext="''${base##*.}"
+      case "$base" in
+        application-x-musescore.*) mv "$icon" "$dir/application-x-musescore-evo.$ext" ;;
+        application-x-musescore+xml.*) mv "$icon" "$dir/application-x-musescore-evo+xml.$ext" ;;
+      esac
+    done
+
+    # 4) Rename MIME XML and point icons to the new names
+    if [ -f "$out/share/mime/packages/musescore.xml" ]; then
+      mv "$out/share/mime/packages/musescore.xml" "$out/share/mime/packages/musescore-evo.xml"
+      sed -i \
+        -e 's|<icon>application-x-musescore\(\+xml\)\?</icon>|<icon>application-x-musescore-evo\1</icon>|g' \
+        -e 's|<icon>musescore</icon>|<icon>mscore-evo</icon>|g' \
+        "$out/share/mime/packages/musescore-evo.xml"
+    fi
+
+    # 5) Rename man pages to match mscore-evo
+    for man in "$out/share/man/man1/mscore.1" "$out/share/man/man1/mscore.1.gz" "$out/share/man/man1/musescore.1" "$out/share/man/man1/musescore.1.gz"; do
+      [ -f "$man" ] || continue
+      base="$(basename "$man")"; dir="''${man%/*}"
+      case "$base" in
+        mscore.1) mv "$man" "$dir/mscore-evo.1" ;;
+        mscore.1.gz) mv "$man" "$dir/mscore-evo.1.gz" ;;
+        musescore.1) mv "$man" "$dir/musescore-evo.1" ;;
+        musescore.1.gz) mv "$man" "$dir/musescore-evo.1.gz" ;;
+      esac
+    done
+
+    # 6) Rename AppStream metadata and its IDs
+    meta="$out/share/metainfo/org.musescore.MuseScore.appdata.xml"
+    if [ -f "$meta" ]; then
+      new="$out/share/metainfo/org.musescore.MuseScoreEvolution.appdata.xml"
+      mv "$meta" "$new"
+      sed -i \
+        -e 's|<id>org\.musescore\.MuseScore</id>|<id>org.musescore.MuseScoreEvolution</id>|' \
+        -e 's|mscore\.desktop|mscore-evo.desktop|' \
+        "$new"
     fi
   '';
 
@@ -185,7 +224,7 @@ stdenv.mkDerivation (finalAttrs: {
     description = "Music notation and composition software";
     homepage = "https://github.com/Jojo-Schmitz/MuseScore";
     license = lib.licenses.gpl2Only;
-    maintainers = with lib.maintainers; [ ];
+    maintainers = with lib.maintainers; [ nemeott ];
     mainProgram = "mscore-evo";
     platforms = lib.platforms.unix;
   };

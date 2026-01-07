@@ -134,8 +134,25 @@ let
 in
 if stdenv.hostPlatform.isLinux then
   appimageTools.wrapType2 {
-    inherit pname version;
+    pname = "mscore-evo";
+    inherit version;
+
     src = "${appimage}/${pname}.AppImage";
+
+    # ! FIXME
+    extraInstallCommands = ''
+      mkdir -p $out/share/applications
+      cat > $out/share/applications/mscore-evo.desktop <<EOF
+        [Desktop Entry]
+        Type=Application
+        Name=MuseScore EvolutionCould not parse file "/nix/store/4vvwnglswq3gzkndzc9ykbigjl6vx38r-system-path/share/applications/mscore-evo.desktop": Key file contains line ?  EOF? which is not a key-value pair, group, or comment
+gtk-update-icon-cache: Cache file creat
+        Exec=mscore-evo %F
+        Icon=mscore-evo
+        Categories=AudioVideo;Audio;Midi;Sequencer;
+        Terminal=false
+        EOF
+    '';
 
     meta = metaCommon // {
       platforms = [
