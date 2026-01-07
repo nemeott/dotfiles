@@ -2,37 +2,43 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  nixos-hardware,
+  ...
+}:
 
 {
   imports = [
+    ./hardware-configuration.nix # Copied from /etc/nixos/hardware-configuration.nix
+
     # Add nixos-hardware modules for better hardware support
-    # sudo nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
-    # sudo nix-channel --update
-    # <nixos-hardware/common/cpu/intel/tiger-lake> # Non-flakes
+    "${nixos-hardware}/common/pc/laptop"
+    "${nixos-hardware}/common/cpu/intel/tiger-lake"
+    "${nixos-hardware}/common/gpu/intel/tiger-lake"
 
-    ./hosts/icarus/hardware-configuration.nix # Using default hardware configuration at /etc/nixos
-
-    ./chrome-device.nix # Custom hardware configuration for Chromebook (audio and keyboard) (still need to make custom audio script)
+    # Custom hardware configuration for Chromebook (audio and keyboard)
+    ./hardware/chrome-device.nix # Audio and keyboard fix from GitHub
+    ./hardware/chrome-audio.nix # Custom audio config to manually set audio profile
 
     # Modules
-    ./modules/user.nix
-    ./modules/cinnamon.nix
-    ./modules/chrome-audio.nix
+    ../../modules/user.nix
+    ../../modules/cinnamon.nix
 
     # Packages
-    ./modules/packages/base.nix
-    ./modules/packages/cli.nix
-    ./modules/packages/dev.nix
-    ./modules/packages/media.nix
-    ./modules/packages/productivity.nix
-    ./modules/packages/browsers.nix
+    ../../modules/packages/base.nix
+    ../../modules/packages/cli.nix
+    ../../modules/packages/dev.nix
+    ../../modules/packages/media.nix
+    ../../modules/packages/productivity.nix
+    ../../modules/packages/browsers.nix
   ];
 
   # Use facter for better hardware support
-  hardware.facter.reportPath = ../../facter.json;
+  hardware.facter.reportPath = ./facter.json;
   # Generate facter config file with:
-  # sudo nix run --option experimental-features "nix-command flakes" nixpkgs#nixos-facter -- -o facter.json
+  # sudo nix run nixpkgs#nixos-facter -- -o facter.json
 
   # Enable nix-command experimental feature
   nix.settings.experimental-features = [

@@ -1,2 +1,6 @@
+# Hardware info and configuration files
 facter.json
-**/hardware-configuration.nix
+hardware-configuration.nix
+
+# Nix results
+result
