@@ -1,8 +1,10 @@
 { pkgs, ... }:
 
 let
+  flake-path = "path:/home/nathan/dotfiles/nixos-config";
+
   nrdiff = pkgs.writeShellScriptBin "nrdiff" ''
-    nixos-rebuild build "$@" && nvd diff /run/current-system result
+    nixos-rebuild build --flake ${flake-path} "$@" && nvd diff /run/current-system result
   '';
 in
 {
@@ -30,19 +32,22 @@ in
   ];
 
   environment.shellAliases = {
-    nrs = "nixos-rebuild switch";
-    nrsu = "nixos-rebuild switch --upgrade";
+    nrt = "nixos-rebuild test --flake ${flake-path}";
+    nrtu = "nixos-rebuild test --flake ${flake-path} --upgrade";
 
-    nrb = "nixos-rebuild boot";
-    nrbu = "nixos-rebuild boot --upgrade";
-    nrbb = "nixos-rebuild boot && reboot";
-    nrbub = "nixos-rebuild boot --upgrade && reboot";
-    nrbs = "nixos-rebuild boot && shutdown -h now";
-    nrbus = "nixos-rebuild boot --upgrade && shutdown -h now";
-    
-    nrt = "nixos-rebuild test";
-    nrtu = "nixos-rebuild test --upgrade";
+    nrs = "nixos-rebuild switch --flake ${flake-path}";
+    nrsu = "nixos-rebuild switch --flake ${flake-path} --upgrade";
+
+    nrb = "nixos-rebuild boot --flake ${flake-path}";
+    nrbu = "nixos-rebuild boot --flake ${flake-path} --upgrade";
+    nrbb = "nixos-rebuild boot --flake ${flake-path} && reboot";
+    nrbub = "nixos-rebuild boot --flake ${flake-path} --upgrade && reboot";
+    nrbs = "nixos-rebuild boot --flake ${flake-path} && shutdown -h now";
+    nrbus = "nixos-rebuild boot --flake ${flake-path} --upgrade && shutdown -h now";
 
     nsp = "nix-shell -p";
+
+    # Get option from a flake
+    no = "nixos-option --flake ${flake-path}";
   };
 }

@@ -8,6 +8,7 @@
     # Basics
     wget
     curl
+    git
 
     # Hardware
     pciutils

@@ -189,16 +189,28 @@ stdenv.mkDerivation (finalAttrs: {
         "$out/share/mime/packages/musescore-evo.xml"
     fi
 
-    # 5) Rename man pages to match mscore-evo
-    for man in "$out/share/man/man1/mscore.1" "$out/share/man/man1/mscore.1.gz" "$out/share/man/man1/musescore.1" "$out/share/man/man1/musescore.1.gz"; do
-      [ -f "$man" ] || continue
-      base="$(basename "$man")"; dir="''${man%/*}"
-      case "$base" in
-        mscore.1) mv "$man" "$dir/mscore-evo.1" ;;
-        mscore.1.gz) mv "$man" "$dir/mscore-evo.1.gz" ;;
-        musescore.1) mv "$man" "$dir/musescore-evo.1" ;;
-        musescore.1.gz) mv "$man" "$dir/musescore-evo.1.gz" ;;
-      esac
+    # 5) Rename man pages to match mscore-evo and remove legacy symlinks
+    manDir="$out/share/man/man1"
+
+    # Remove all old musescore/mscore symlinks first (gzip may have created them)
+    find "$manDir" -type l \
+      \( -name 'mscore.1*' -o -name 'musescore.1*' \) \
+      -exec rm -f {} +
+
+    # Rename real files
+    for man in "$manDir"/mscore.1* "$manDir"/musescore.1*; do
+      [ -e "$man" ] || continue
+      [ -L "$man" ] && continue
+      base="$(basename "$man")"
+      mv "$man" "$manDir/${base/mscore/mscore-evo}"
+      mv "$manDir/${base/musescore/mscore-evo}" 2>/dev/null || true
+    done
+
+    # Recreate correct symlinks
+    for ext in 1 1.gz; do
+      if [ -e "$manDir/mscore-evo.$ext" ]; then
+        ln -sf "mscore-evo.$ext" "$manDir/musescore-evo.$ext"
+      fi
     done
 
     # 6) Rename AppStream metadata and its IDs

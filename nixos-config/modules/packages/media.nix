@@ -23,6 +23,6 @@ in
     # Music
     musescore
     muse-sounds-manager
-   # musescore-evolution # MuseScore 3.7 evolution (fork of musescore 3.6.2 with various fixes)
+    musescore-evolution # MuseScore 3.7 evolution (fork of musescore 3.6.2 with various fixes)
   ];
 }

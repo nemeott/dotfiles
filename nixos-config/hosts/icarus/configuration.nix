@@ -49,9 +49,18 @@
   # Use Lix package manager instead of Nix
   nix.package = pkgs.lixPackageSets.stable.lix;
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Bootloader
+  boot = {
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_18; # Use latest linux kernel
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+  };
+
+  # Use tlp for power management
+  services.power-profiles-daemon.enable = false;
+  services.tlp.enable = true;
 
   networking = {
     hostName = "icarus"; # Define your hostname (default is nixos)
@@ -81,8 +90,8 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # # Enable CUPS to print documents.
+  # services.printing.enable = true;
 
   # Enable thunderbolt support
   environment.systemPackages = [ pkgs.bolt ];
