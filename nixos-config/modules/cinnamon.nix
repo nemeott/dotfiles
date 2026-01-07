@@ -1,6 +1,13 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  catppuccin,
+  ...
+}:
 
 {
+  imports = [ catppuccin.nixosModules.catppuccin ];
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -21,6 +28,12 @@
     # Want to set this in dconf (org/cinnamon/desktop/peripherals/touchpad)
     touchpad.naturalScrolling = false; # ! Not working
     mouse.naturalScrolling = false; # org/gnome/desktop/peripherals/mouse
+  };
+  
+  catppuccin = {
+    enable = true;
+    flavor = "mocha";
+    accent = "mauve";
   };
 
   # dconf dump | cat

@@ -4,6 +4,7 @@
 
 {
   config,
+  lib,
   pkgs,
   nixos-hardware,
   ...
@@ -58,6 +59,9 @@
     };
   };
 
+  # Enable all firmware (including unfree) for better hardware support
+  hardware.enableAllFirmware = true;
+
   # Use tlp for power management
   services.power-profiles-daemon.enable = false;
   services.tlp.enable = true;
@@ -72,6 +76,7 @@
 
     # Enable networking
     networkmanager.enable = true;
+    dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
   };
 
   # Set time zone and select internationalisation properties

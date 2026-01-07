@@ -13,6 +13,7 @@ let
             clang-tools
             clang
             nixfmt # Format Nix files
+            cppcheck # C/C++ static analysis tool
           ]
         }
     '';

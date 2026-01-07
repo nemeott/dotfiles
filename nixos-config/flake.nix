@@ -7,6 +7,17 @@
 
     # Need to use special url to use hardware modules not implemented for flakes
     nixos-hardware.url = "github:NixOS/nixos-hardware?ref=master";
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+
+      # optional, but recommended if you closely follow NixOS unstable so it shares
+      # system libraries, and improves startup time
+      # NOTE: if you experience a build failure with Zen, the first thing to check is to remove this line!
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    catppuccin.url = "github:catppuccin/nix/release-25.11";
   };
 
   outputs =
@@ -14,12 +25,14 @@
       self,
       nixpkgs,
       nixos-hardware,
+      zen-browser,
+      catppuccin,
     }:
     {
       nixosConfigurations = {
         icarus = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit nixos-hardware; }; # Pass in nixos-hardware
+          specialArgs = { inherit nixos-hardware zen-browser catppuccin; }; # What to pass in to configuration.nix
           modules = [ ./hosts/icarus/configuration.nix ];
         };
       };
