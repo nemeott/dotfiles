@@ -90,6 +90,9 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  # Don't start Bluetooth on boot
+  hardware.bluetooth.powerOnBoot = false;
+
   # # Enable CUPS to print documents.
   # services.printing.enable = true;
 
