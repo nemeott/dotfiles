@@ -202,8 +202,8 @@ stdenv.mkDerivation (finalAttrs: {
       [ -e "$man" ] || continue
       [ -L "$man" ] && continue
       base="$(basename "$man")"
-      mv "$man" "$manDir/${base/mscore/mscore-evo}"
-      mv "$manDir/${base/musescore/mscore-evo}" 2>/dev/null || true
+      newname=$(echo "$base" | sed -e 's/^mscore/mscore-evo/' -e 's/^musescore/mscore-evo/')
+      mv "$man" "$manDir/$newname"
     done
 
     # Recreate correct symlinks
