@@ -22,6 +22,7 @@ in
     bash-completion # Needed by atuin
     xclip # Needed for aliases interacting with the clipboard
 
+    ncdu # Simple file usage TUI
     fastfetch
 
     nvd # NixOS version diff

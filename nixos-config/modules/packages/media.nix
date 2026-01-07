@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  musescore-evolution = pkgs.callPackage ./musescore-evolution/package.nix { };
+  musescore-evolution = pkgs.callPackage ./musescore-evolution/package-scratch.nix { };
 in
 {
   environment.systemPackages = with pkgs; [

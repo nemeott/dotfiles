@@ -1,175 +1,159 @@
 {
   stdenv,
   lib,
-  fetchFromGitHub,
-  fetchpatch,
-  cmake,
-  wrapGAppsHook3,
-  pkg-config,
-  ninja,
-  alsa-lib,
-  alsa-plugins,
-  freetype,
-  libjack2,
-  lame,
-  libogg,
-  libpulseaudio,
-  libsndfile,
-  libvorbis,
-  portaudio,
-  portmidi,
-  flac,
-  libopusenc,
-  libopus,
-  tinyxml-2,
-  kdePackages,
-  qt5, # Needed for musescore 3.X
-  nixosTests,
+  fetchurl,
+  unzip,
+  appimageTools,
+  undmg,
+  ...
 }:
 
-stdenv.mkDerivation (finalAttrs: {
+let
   pname = "musescore-evolution";
-  version = "3.7.0";
+  buildNumber = "260106044";
+  version = "3.7.0-evo.${buildNumber}";
 
-  # nix run nixpkgs#nix-prefetch-git -- https://github.com/Jojo-Schmitz/MuseScore.git 44b8c262e47864109e1a773a3bdb4e40b4759f9d
-  src = fetchFromGitHub {
-    owner = "Jojo-Schmitz";
-    repo = "MuseScore";
-    rev = "44b8c262e47864109e1a773a3bdb4e40b4759f9d";
-    sha256 = "sha256-pG5CfEvgff48l7OMPEqmYW0EVSROh55bc+K5VZMzCVA=";
+  baseUrl = "https://github.com/nemeott/MuseScore-Evolution-Builds/releases/download";
+
+  zipName = suffix: "Mu3.7_${buildNumber}_${suffix}.zip";
+
+  mkUrl = suffix: "${baseUrl}/v${version}/${zipName suffix}";
+
+  srcs = {
+    "x86_64-linux" = fetchurl {
+      url = mkUrl "Lin_x86_64_3.x";
+      sha256 = "sha256-strCfimgBdGNjTYM3A4fmopRhOACSZwCAEntnGdoRQU=";
+    };
+    "aarch64-linux" = fetchurl {
+      url = mkUrl "Lin_aarch64_3.x";
+      sha256 = "sha256-ovFpi/bdzSOJOc+6Cvhz9vVqAXFSIa7hyfIEv5/Qpjw=";
+    };
+    "armv7l-linux" = fetchurl {
+      url = mkUrl "Lin_armv7l_3.x";
+      sha256 = "sha256-uOmdP7ynm5keqDpiqqoLgqGyfg20z3VL77K+DnCCAh0=";
+    };
+    "x86_64-darwin" = fetchurl {
+      url = mkUrl "Mac_3.x_Intel";
+      sha256 = "sha256-lVaWr81RHn+H4lvV9088/2L+qem8Y2a2V/KPMmmRHAE=";
+    };
+    "aarch64-darwin" = fetchurl {
+      url = mkUrl "Mac_3.x_Apple";
+      sha256 = "sha256-GzgrUx/wDLoy4jv+jPRG0zKxxG5Jt1lSNXazsQajZK8=";
+    };
   };
 
-  # From top-level CMakeLists.txt:
-  # - DOWNLOAD_SOUNDFONT defaults ON and tries to fetch from the network.
-  # Can still download manually at Help > Manage Resources
-  # ! BUG: Having the Drumline soundfont installed causes MuseScore to load slowly on startup.
-  cmakeFlags = [
-    "-DDOWNLOAD_SOUNDFONT=OFF"
-  ];
+  zipSrc =
+    srcs.${stdenv.hostPlatform.system} or (throw "Unsupported platform: ${stdenv.hostPlatform.system}");
 
-  qtWrapperArgs = [
-    # MuseScore JACK backend loads libjack at runtime.
-    "--prefix ${lib.optionalString stdenv.hostPlatform.isDarwin "DY"}LD_LIBRARY_PATH : ${
-      lib.makeLibraryPath [ libjack2 ]
-    }"
-  ]
-  ++ lib.optionals (stdenv.hostPlatform.isLinux) [
-    "--set ALSA_PLUGIN_DIR ${alsa-plugins}/lib/alsa-lib"
-  ]
-  ++ lib.optionals (!stdenv.hostPlatform.isDarwin) [
-    # There are some issues with using the wayland backend, see:
-    # https://musescore.org/en/node/321936
-    "--set-default QT_QPA_PLATFORM xcb"
-  ];
-
-  preFixup = ''
-    qtWrapperArgs+=("''${gappsWrapperArgs[@]}")
-  '';
-
-  dontWrapGApps = true;
-
-  nativeBuildInputs = [
-    qt5.wrapQtAppsHook
-    cmake
-    qt5.qttools
-    pkg-config
-    ninja
-  ]
-  ++ lib.optionals stdenv.hostPlatform.isLinux [
-    # Since https://github.com/musescore/MuseScore/pull/13847/commits/685ac998
-    # GTK3 is needed for file dialogs. Fixes crash with No GSettings schemas error.
-    wrapGAppsHook3
-  ];
-
-  buildInputs = [
-    libjack2
-    freetype
-    lame
-    libogg
-    libpulseaudio
-    libsndfile
-    libvorbis
-    portaudio
-    portmidi
-    flac
-    libopusenc
-    libopus
-    tinyxml-2
-    qt5.qtbase
-    qt5.qtdeclarative
-    qt5.qtsvg
-    qt5.qtxmlpatterns
-    qt5.qtquickcontrols2
-    qt5.qtgraphicaleffects
-
-    # qt5.qtwebengine # Avoid depending on insecure QtWebEngine (and having to compile qt5.qtwebengine (huge))
-    # Because we don't use this, we need to patch the CMakeLists and install scripts to not try to bundle it.
-  ]
-  ++ lib.optionals stdenv.hostPlatform.isLinux [
-    alsa-lib
-  ];
-
-  # Patch out QtWebEngine and Qt resource installation/bundling.
-  postPatch = ''
-    # Disable Qt bundling logic in the source CMakeLists.
-    if [ -f main/CMakeLists.txt ]; then
-      sed -i '/QT_INSTALL_PREFIX/d' main/CMakeLists.txt
-      sed -i '/QtWebEngineProcess/d' main/CMakeLists.txt
-    fi
-  '';
-
-  # Patch the generated install script to drop Qt resource / QtWebEngine installs.
-  preInstall = ''
-    if [ -f main/cmake_install.cmake ]; then
-      sed -i '
-        /QtWebEngineProcess/d
-        /resources\"/d
-        /qtwebengine_locales/d
-        /qtwebengine/d
-        /QT_INSTALL_PREFIX/d
-      ' main/cmake_install.cmake
-    fi
-  '';
-
-  # On macOS, move the .app into Applications/ and symlink the binary to bin/
-  postInstall = lib.optionalString stdenv.hostPlatform.isDarwin ''
-    mkdir -p "$out/Applications"
-    mv "$out/mscore.app" "$out/Applications/mscore-evo.app"
-    mkdir -p $out/bin
-    ln -s $out/Applications/mscore-evo.app/Contents/MacOS/mscore $out/bin/mscore-evo
-  '';
-
-  # On Linux, let CMake + wrapQtAppsHook install/wrap "mscore", then rename it
-  # and adjust the .desktop file so it doesn't clash with the main musescore package.
-  postFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
-    # 1) Rename binary
-    if [ -x "$out/bin/mscore" ]; then
-      mv "$out/bin/mscore" "$out/bin/mscore-evo"
-    fi
-
-    # 2) Fix desktop entry to point to mscore-evo and avoid ID clash
-    desktop="$out/share/applications/mscore.desktop"
-    if [ -f "$desktop" ]; then
-      substituteInPlace "$desktop" \
-        --replace "Exec=mscore" "Exec=mscore-evo" \
-        --replace "Name=MuseScore" "Name=MuseScore 3.7 (Evolution)"
-      mv "$desktop" "$out/share/applications/mscore-evo.desktop"
-    fi
-  '';
-
-  # Don't run bundled upstreams tests, as they require a running X window system.
-  doCheck = false;
-
-  # Also don't use upstream musescore tests since this is a different version/fork.
-  # passthru.tests = nixosTests.musescore;
-  passthru.tests = { };
-
-  meta = {
+  metaCommon = {
     description = "Music notation and composition software";
     homepage = "https://github.com/Jojo-Schmitz/MuseScore";
     license = lib.licenses.gpl2Only;
-    maintainers = with lib.maintainers; [ ];
+    maintainers = with lib.maintainers; [ nemeott ];
     mainProgram = "mscore-evo";
-    platforms = lib.platforms.unix;
   };
-})
+
+  # Linux: extract AppImage and wrap it
+  appimage = stdenv.mkDerivation {
+    pname = "${pname}-appimage";
+    inherit version;
+
+    src = zipSrc;
+
+    # Unpack manually
+    dontUnpack = true;
+    nativeBuildInputs = [ unzip ];
+
+    installPhase = ''
+      mkdir -p "$out"
+      # Extract only the AppImage from the zip archive
+      unzip "$src" '*.AppImage'
+
+      # Normalize the AppImage name and move it to $out
+      appimage=$(find . -maxdepth 1 -type f -name '*.AppImage' | head -n 1)
+      if [ -z "$appimage" ]; then
+        echo "Error: No AppImage found in the zip archive" >&2
+        echo "Contents of current directory:" >&2
+        ls -R >&2
+        exit 1
+      fi
+      cp "$appimage" "$out/${pname}.AppImage"
+    '';
+  };
+
+  # macOS: unzip DMG and extract .app
+  dmgApp = stdenv.mkDerivation {
+    pname = pname;
+    inherit version;
+
+    src = zipSrc;
+
+    # Unpack manually
+    dontUnpack = true;
+    nativeBuildInputs = [
+      unzip
+      undmg
+    ];
+
+    installPhase = ''
+      mkdir -p "$out/Applications" "$out/bin"
+
+      unzip "$src"
+
+      dmg=$(find . -maxdepth 1 -type f -name '*.dmg' | head -n 1)
+      if [ -z "$dmg" ]; then
+        echo "Error: No DMG found in the zip archive" >&2
+        echo "Contents of current directory:" >&2
+        ls -R >&2
+        exit 1
+      fi
+
+      undmg "$dmg"
+
+      app=$(find . -maxdepth 1 -type d -name '*.app' | head -n 1)
+      if [ -z "$app" ]; then
+        echo "Error: No .app found in the DMG" >&2
+        echo "Contents of current directory:" >&2
+        ls -R >&2
+        exit 1
+      fi
+
+      cp -r "$app" "$out/Applications/"
+
+      bin=$(find "$out/Applications" -path '*Contents/MacOS/*' -type f | head -n 1)
+      if [ -z "$bin" ]; then
+        echo "Error: No executable found inside the .app" >&2
+        echo "Contents of .app:" >&2
+        ls -R "$out/Applications" >&2
+        exit 1
+      fi
+
+      ln -s "$bin" "$out/bin/mscore-evo"
+    '';
+  };
+in
+if stdenv.hostPlatform.isLinux then
+  appimageTools.wrapType2 {
+    inherit pname version;
+    src = "${appimage}/${pname}.AppImage";
+
+    meta = metaCommon // {
+      platforms = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "armv7l-linux"
+      ];
+    };
+  }
+else if stdenv.hostPlatform.isDarwin then
+  dmgApp
+  // {
+    meta = metaCommon // {
+      platforms = [
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+    };
+  }
+else
+  throw "Unsupported platform: ${stdenv.hostPlatform.system}"
