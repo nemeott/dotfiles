@@ -27,8 +27,8 @@ in
 
     # Modules
     ../../modules/user.nix
-    ../../modules/cinnamon.nix
-    # ../../modules/niri.nix
+    # ../../modules/cinnamon.nix
+    ../../modules/niri.nix
 
     # Packages
     ../../modules/packages/base.nix
@@ -69,9 +69,8 @@ in
   services.power-profiles-daemon.enable = false; # Disable for tlp
   services.tlp = {
     enable = true;
-    settings.DIRTY_WRITEBACK_CENTISECS_ON_AC = 1500; # 15 seconds
+    settings.DIRTY_WRITEBACK_CENTISECS_ON_AC = 3000; # 30 seconds
   };
-  
 
   # Enable thermald for thermal management (Intel CPUs)
   services.thermald.enable = true;
@@ -89,8 +88,8 @@ in
     dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
   };
 
-  # Enable local DNS cache for faster DNS resolution
-  services.dnscache.enable = true;
+  # # Enable local DNS cache for faster DNS resolution
+  # services.dnscache.enable = true;
 
   # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
   services.resolved = {
