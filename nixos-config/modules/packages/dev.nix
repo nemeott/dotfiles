@@ -32,6 +32,7 @@ in
 
   environment.systemPackages = with pkgs; [
     vscode-with-tools
+    zed-editor
 
     # lazygit (simple tui for git)
   ];
@@ -43,7 +44,4 @@ in
     fira-code
     nerd-fonts.fira-code
   ];
-
-  # Set default editor to VSCode (still need to set EDITOR, VISUAL, and SUDO_EDITOR in bashrc)
-  programs.vscode.defaultEditor = true;
 }

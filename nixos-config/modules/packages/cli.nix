@@ -28,6 +28,7 @@ in
     xclip # Needed for aliases interacting with the clipboard
 
     ncdu # Simple file usage TUI
+    powertop # Power utils
     fastfetch
 
     nvd # NixOS version diff

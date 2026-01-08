@@ -27,8 +27,8 @@ in
 
     # Modules
     ../../modules/user.nix
-    # ../../modules/cinnamon.nix
-    ../../modules/niri.nix
+    ../../modules/cinnamon.nix
+    # ../../modules/niri.nix
 
     # Packages
     ../../modules/packages/base.nix
@@ -39,19 +39,19 @@ in
     ../../modules/packages/browsers.nix
   ];
 
+  # Enable all firmware (including unfree) for better hardware support
+  hardware.enableAllFirmware = true;
+
   # Use facter for better hardware support
   hardware.facter.reportPath = ./facter.json;
   # Generate facter config file with:
   # sudo nix run nixpkgs#nixos-facter -- -o facter.json
 
-  # Enable nix-command experimental feature
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
   # Use Lix package manager instead of Nix
   nix.package = pkgs.lixPackageSets.stable.lix;
+
+  # Disable access time updates for better performance (not usually needed by modern programs)
+  fileSystems."/".options = [ "noatime" ];
 
   # Bootloader
   boot = {
@@ -60,17 +60,29 @@ in
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+
+    # Power-saving dirty writeback settings
+    kernel.sysctl = {
+      "vm.dirty_writeback_centisecs" = 5000;
+      "vm.dirty_expire_centisecs" = 5000;
+    };
+
+    # Manage power saving for Intel HDA audio
+    kernelParams = [
+      "snd_hda_intel.power_save=1"
+      "snd_hda_intel.power_save_controller=Y"
+
+      # Disable NMI watchdog for performance improvement
+      "nmi_watchdog=0"
+    ];
   };
 
-  # Enable all firmware (including unfree) for better hardware support
-  hardware.enableAllFirmware = true;
+  # Udev rule to set PCI power control to auto for better power management
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
+  '';
 
-  # Use tlp for power management
-  services.power-profiles-daemon.enable = false; # Disable for tlp
-  services.tlp = {
-    enable = true;
-    settings.DIRTY_WRITEBACK_CENTISECS_ON_AC = 3000; # 30 seconds
-  };
+  services.power-profiles-daemon.enable = true;
 
   # Enable thermald for thermal management (Intel CPUs)
   services.thermald.enable = true;
@@ -87,9 +99,6 @@ in
     networkmanager.enable = true;
     dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
   };
-
-  # # Enable local DNS cache for faster DNS resolution
-  # services.dnscache.enable = true;
 
   # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
   services.resolved = {
@@ -161,11 +170,12 @@ in
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  # Enable nix-command experimental feature
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
+  # First installation version
+  system.stateVersion = "25.11";
 }
