@@ -89,15 +89,23 @@ in
 
   networking = {
     hostName = "icarus"; # Define your hostname (default is nixos)
-    # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
     # Configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
     # Enable networking
-    networkmanager.enable = true;
     dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
+    networkmanager = {
+      enable = true;
+      wifi.backend = "iwd";
+    };
+    wireless.iwd = {
+      enable = true;
+      settings = {
+        Scan.DisablePeriodicScan = true; # Disable periodic scanning for better power management
+      }
+    };
   };
 
   # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
