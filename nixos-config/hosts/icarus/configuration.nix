@@ -9,7 +9,9 @@
   nixos-hardware,
   ...
 }:
-
+let
+  secrets = import ../../secrets.nix;
+in
 {
   imports = [
     ./hardware-configuration.nix # Copied from /etc/nixos/hardware-configuration.nix
@@ -26,6 +28,7 @@
     # Modules
     ../../modules/user.nix
     ../../modules/cinnamon.nix
+    # ../../modules/niri.nix
 
     # Packages
     ../../modules/packages/base.nix
@@ -63,8 +66,12 @@
   hardware.enableAllFirmware = true;
 
   # Use tlp for power management
-  services.power-profiles-daemon.enable = false;
-  services.tlp.enable = true;
+  services.power-profiles-daemon.enable = false; # Disable for tlp
+  services.tlp = {
+    enable = true;
+    settings.DIRTY_WRITEBACK_CENTISECS_ON_AC = 1500; # 15 seconds
+  };
+  
 
   # Enable thermald for thermal management (Intel CPUs)
   services.thermald.enable = true;
@@ -80,6 +87,32 @@
     # Enable networking
     networkmanager.enable = true;
     dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
+  };
+
+  # Enable local DNS cache for faster DNS resolution
+  services.dnscache.enable = true;
+
+  # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
+  services.resolved = {
+    enable = true;
+    extraConfig =
+      let
+        hostname =
+          let
+            hn = config.networking.hostName;
+          in
+          with lib;
+          strings.toUpper (substring 0 1 hn) + substring 1 (stringLength hn) hn;
+        next-dns-id = secrets."next-dns-id";
+      in
+      ''
+        [Resolve]
+        DNS=45.90.28.0#${hostname}-${next-dns-id}.dns.nextdns.io
+        DNS=2a07:a8c0::#${hostname}-${next-dns-id}.dns.nextdns.io
+        DNS=45.90.30.0#${hostname}-${next-dns-id}.dns.nextdns.io
+        DNS=2a07:a8c1::#${hostname}-${next-dns-id}.dns.nextdns.io
+        DNSOverTLS=yes
+      '';
   };
 
   # Set time zone and select internationalisation properties
@@ -104,17 +137,11 @@
   # # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable thunderbolt support
+  # Enable thunderbolt management with bolt
   environment.systemPackages = [ pkgs.bolt ];
   services.hardware.bolt.enable = true;
   # Enroll device with: boltctl enroll DEVICE
   # Temporarily add device with: boltctl authorize DEVICE
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  # Also need to do this to allow unfree packages for nix-shell
-  # mkdir -p ~/.config/nixpkgs
-  # echo '{ allowUnfree = true; }' > ~/.config/nixpkgs/config.nix
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

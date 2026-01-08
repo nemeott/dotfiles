@@ -6,13 +6,16 @@ let
   nrdiff = pkgs.writeShellScriptBin "nrdiff" ''
     nixos-rebuild build --flake ${flake-path} "$@" && nvd diff /run/current-system result
   '';
+  nrudiff = pkgs.writeShellScriptBin "nrdiff" ''
+    nixos-rebuild build --flake ${flake-path} --upgrade "$@" && nvd diff /run/current-system result
+  '';
 in
 {
   programs.bat.enable = true; # cat
   programs.zoxide.enable = true; # cd
 
   environment.systemPackages = with pkgs; [
-    # # atuin
+    atuin # shell history
     bat-extras.batman # man
     bat-extras.batpipe
     btop # top

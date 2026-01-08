@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 let
+  secrets = import ../../secrets.nix;
+
   # Wrapper for VSCode with extra tools
   vscode-with-tools = pkgs.symlinkJoin {
     name = "vscode-with-tools";
@@ -22,8 +24,10 @@ in
 {
   programs.git = {
     enable = true;
-    # user.name =
-    # user.email =
+    config.init = {
+      user.name = "nemeott";
+      user.email = secrets.git-email;
+    };
   };
 
   environment.systemPackages = with pkgs; [

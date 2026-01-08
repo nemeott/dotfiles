@@ -20,6 +20,7 @@
         Cryptomining = true;
         Fingerprinting = true;
       };
+      Category = "strict";
       DisableFeedbackCommands = true;
       DisablePocket = true;
       DisableFirefoxAccounts = true;
@@ -35,6 +36,7 @@
 
   environment.systemPackages = [
     (zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+      # https://mozilla.github.io/policy-templates/
       extraPolicies = {
         DisableAppUpdate = true;
         DisableTelemetry = true;
@@ -45,9 +47,8 @@
           Cryptomining = true;
           Fingerprinting = true;
         };
+        Category = "strict";
         DisableFeedbackCommands = true;
-
-        
 
         # SearchEngines = {
         #   Add = [

@@ -4,3 +4,6 @@ hardware-configuration.nix
 
 # Nix results
 result
+
+# Secrets
+secrets.nix
