@@ -173,10 +173,9 @@ in
   nix.settings.auto-optimise-store = true;
 
   # Settings to make builds faster
-  nix.daemonCPUSchedPolicy = "batch";
-  nix.daemonIOSchedClass = "best-effort";
-  nix.daemonResourceLimitsClass = "Adaptive";
-  nix.daemonIOSchedPriority = 4;
+  nix.daemonIOSchedClass = "best-effort"; # (default)
+  nix.daemonCPUSchedPolicy = "batch"; # Optimized for non-interactive tasks
+  nix.daemonIOSchedPriority = 2; # Higher priority for IO operations
 
   # Enable nix-command experimental feature
   nix.settings.experimental-features = [
