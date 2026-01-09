@@ -169,6 +169,15 @@ in
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # Hard link identical files in the Nix store to save disk space
+  nix.settings.auto-optimise-store = true;
+
+  # Settings to make builds faster
+  nix.daemonCPUSchedPolicy = "batch";
+  nix.daemonIOSchedClass = "best-effort";
+  nix.daemonResourceLimitsClass = "Adaptive";
+  nix.daemonIOSchedPriority = 4;
+
   # Enable nix-command experimental feature
   nix.settings.experimental-features = [
     "nix-command"
