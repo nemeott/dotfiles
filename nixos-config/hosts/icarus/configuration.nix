@@ -69,15 +69,16 @@ in
 
     # Manage power saving for Intel HDA audio
     kernelParams = [
-      "snd_hda_intel.power_save=1"
-      "snd_hda_intel.power_save_controller=Y"
-
       # Disable NMI watchdog for performance improvement
       "nmi_watchdog=0"
+
+      # Used with power-profiles-daemon
+      "snd_hda_intel.power_save=1"
+      "snd_hda_intel.power_save_controller=Y"
     ];
   };
 
-  # Udev rule to set PCI power control to auto for better power management
+  Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
   '';
@@ -86,6 +87,9 @@ in
 
   # Enable thermald for thermal management (Intel CPUs)
   services.thermald.enable = true;
+
+  # Enable system76-scheduler for better performance
+  services.system76-scheduler.enable = true;
 
   networking = {
     hostName = "icarus"; # Define your hostname (default is nixos)
@@ -96,7 +100,10 @@ in
 
     # Enable networking
     dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      wifi.powersave = true;
+    };
   };
 
   # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS

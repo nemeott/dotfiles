@@ -15,7 +15,8 @@
       # Use legacy ALSA profile probing
       load-module module-udev-detect ignore_dB=1 use_ucm=0
 
-      # # Force the fallback profile to avoid "None" profile on startup ! NOT WORKING; ADJUST MANUALLY
+      # Below options don't work so we use a systemd service below instead
+      # # Force the fallback profile to avoid "None" profile on startup
       # set-card-profile alsa_card.pci-0000_00_1f.3-platform-tgl_rt5682_def \
       #   output:stereo-fallback+input:stereo-fallback
 
@@ -25,7 +26,7 @@
     '';
   };
 
-  # Still need to switch audio sink manually with
+  # Switch audio sink manually with
   #   pacmd set-card-profile alsa_card.pci-0000_00_1f.3-platform-tgl_rt5682_def output:stereo-fallback+input:stereo-fallback
   
   # Create a systemd service to switch audio sink and mute on login
@@ -34,7 +35,7 @@
   #     journalctl --user -u set_audio_sink_tigerlake.service -b
   #     systemctl --user list-units | rg pulse
   systemd.user.services.set_audio_sink_tigerlake = {
-    description = "Switch to working audio sink (and mute)";
+    description = "Switch to working audio sink and mute on login";
 
     wantedBy = [ "default.target" ];
 
