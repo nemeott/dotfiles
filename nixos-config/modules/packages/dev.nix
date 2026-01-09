@@ -14,12 +14,28 @@ let
           lib.makeBinPath [
             clang-tools
             clang
-            nixfmt # Format Nix files
             cppcheck # C/C++ static analysis tool
+            nixfmt # Format Nix files
           ]
         }
     '';
   };
+
+  zed-editor-with-tools = pkgs.symlinkJoin {
+    name = "zed-editor-with-tools";
+    paths = [ pkgs.zed-editor ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = with pkgs; ''
+      wrapProgram $out/bin/zed \
+        --prefix PATH : ${
+          lib.makeBinPath [
+            # nil # Nix language server
+            nixd # Nix language server
+          ]
+        }
+    '';
+  };
+
 in
 {
   programs.git = {
@@ -32,7 +48,7 @@ in
 
   environment.systemPackages = with pkgs; [
     vscode-with-tools
-    zed-editor
+    zed-editor-with-tools
 
     # lazygit (simple tui for git)
   ];

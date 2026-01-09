@@ -65,6 +65,7 @@ in
     kernel.sysctl = {
       "vm.dirty_writeback_centisecs" = 5000;
       "vm.dirty_expire_centisecs" = 5000;
+      "vm.page-cluster" = 0; # Use with zramSwap
     };
 
     # Manage power saving for Intel HDA audio
@@ -78,17 +79,24 @@ in
     ];
   };
 
-  Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
+  zramSwap = {
+		enable = true;
+		algorithm = "zstd";
+		memoryPercent = 50;
+  };
+
+  # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
   '';
 
+  # Enable power-profiles-daemon for power management
   services.power-profiles-daemon.enable = true;
 
   # Enable thermald for thermal management (Intel CPUs)
   services.thermald.enable = true;
 
-  # Enable system76-scheduler for better performance
+  # Enable system76-scheduler for better IO scheduling
   services.system76-scheduler.enable = true;
 
   networking = {
