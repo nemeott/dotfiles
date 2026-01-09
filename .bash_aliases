@@ -3,7 +3,7 @@ alias sudo='sudo '
 
 # Set alias only if the command exists
 _alias_if() {
-    # _alias_if <alias_name> <required_command> [alias_value...]
+    # _alias_if <alias> <required_command> [alias_value...]
     local name="$1"
     local cmd="$2"
     shift 2 
@@ -18,14 +18,19 @@ _alias_if() {
 }
 
 # Replace default commands with enhanced versions
+# _alias_if <alias> <required_command> [alias_value...]
 _alias_if cat bat bat
 _alias_if man batman batman
+_alias_if top btop btop
 _alias_if ls eza eza
 _alias_if tree eza 'eza --tree'
 # _alias_if ls eza eza --group-directories-first
 _alias_if find fd fd
 _alias_if fzfp fzf 'fzf --preview "bat --color=always --style=numbers {}"' # Start fzf with bat preview
 _alias_if grep rg rg
+
+_alias_if ptop powertop powertop
+_alias_if ff fastfetch fastfetch
 
 # Clipboard utilities
 _alias_if cwd xclip 'pwd | xclip -selection clipboard' # Copy working directory to clipboard
