@@ -96,16 +96,7 @@ in
 
     # Enable networking
     dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
-    networkmanager = {
-      enable = true;
-      wifi.backend = "iwd";
-    };
-    wireless.iwd = {
-      enable = true;
-      settings = {
-        Scan.DisablePeriodicScan = true; # Disable periodic scanning for better power management
-      }
-    };
+    networkmanager.enable = true;
   };
 
   # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
