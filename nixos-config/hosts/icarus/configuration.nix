@@ -79,6 +79,7 @@ in
     ];
   };
 
+  # Enable zram swap for better performance on systems with limited RAM
   zramSwap = {
 		enable = true;
 		algorithm = "zstd";

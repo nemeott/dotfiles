@@ -26,10 +26,10 @@ let
     paths = [ pkgs.zed-editor ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = with pkgs; ''
-      wrapProgram $out/bin/zed \
+      wrapProgram $out/bin/zeditor \
         --prefix PATH : ${
           lib.makeBinPath [
-            # nil # Nix language server
+            nil # Nix language server
             nixd # Nix language server
           ]
         }
