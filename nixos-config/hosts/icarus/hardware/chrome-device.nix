@@ -1,10 +1,5 @@
 # https://github.com/dj1ch/nixos-chromebook
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+{ pkgs, ... }:
 
 let
   cb-ucm-conf =
@@ -149,9 +144,9 @@ in
 
   # system.replaceRuntimeDependencies = [
   system.replaceDependencies.replacements = [
-    ({
+    {
       original = pkgs.alsa-ucm-conf;
       replacement = cb-ucm-conf;
-    })
+    }
   ];
 }

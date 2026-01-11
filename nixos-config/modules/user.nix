@@ -12,7 +12,7 @@
       "audio" # Add user to audio group to allow sound control
     ];
     packages = with pkgs; [
-      
+
     ];
   };
 }

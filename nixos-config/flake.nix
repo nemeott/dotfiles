@@ -15,7 +15,6 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       nixos-hardware,
       zen-browser,
@@ -26,12 +25,12 @@
           system = "x86_64-linux";
           specialArgs = { inherit nixos-hardware zen-browser; }; # What to pass in to configuration.nix
           modules = [
-            ({
+            {
               nixpkgs.config.allowUnfree = true;
               # Also need to do this to allow unfree packages for nix-shell
               # mkdir -p ~/.config/nixpkgs
               # echo '{ allowUnfree = true; }' > ~/.config/nixpkgs/config.nix
-            })
+            }
             ./hosts/icarus/configuration.nix
           ];
         };
