@@ -80,35 +80,37 @@ if [ "$color_prompt" = yes ]; then
 	# Default prompt
     # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
-	# Timing code from https://stackoverflow.com/a/34812608
-    timer_now() {
-		date +%s%N
-	}
+	# # Timing code from https://stackoverflow.com/a/34812608
+ #    timer_now() {
+	# 	date +%s%N
+	# }
 
 	# Dynamic prompt function
 	set_prompt() {
-		local timer_show=""
-		if [[ -n "$timer_start" ]]; then
-		    local now=$(timer_now)
-		    local delta_us=$(( (now - timer_start) / 1000 ))
+	# 	local timer_show=""
+	# 	if [[ -n "$timer_start" ]]; then
+	# 	    local now=$(timer_now)
+	# 	    local delta_us=$(( (now - timer_start) / 1000 ))
 
-		    local us=$((delta_us % 1000))
-		    local ms=$(((delta_us / 1000) % 1000))
-		    local s=$(((delta_us / 1000000) % 60))
-		    local m=$(((delta_us / 60000000) % 60))
-		    local h=$((delta_us / 3600000000))
+	# 	    local us=$((delta_us % 1000))
+	# 	    local ms=$(((delta_us / 1000) % 1000))
+	# 	    local s=$(((delta_us / 1000000) % 60))
+	# 	    local m=$(((delta_us / 60000000) % 60))
+	# 	    local h=$((delta_us / 3600000000))
 
-		    if ((h > 0)); then timer_show=${h}h${m}m
-		    elif ((m > 0)); then timer_show=${m}m${s}s
-		    elif ((s >= 10)); then timer_show=${s}.$((ms / 100))s
-		    elif ((s > 0)); then timer_show=${s}.$(printf %03d $ms)s
-		    elif ((ms >= 100)); then timer_show=${ms}ms
-		    elif ((ms > 0)); then timer_show=${ms}.$((us / 100))ms
-		    else timer_show=${us}us
-		    fi
-		fi
+	# 	    if ((h > 0)); then timer_show=${h}h${m}m
+	# 	    elif ((m > 0)); then timer_show=${m}m${s}s
+	# 	    elif ((s >= 10)); then timer_show=${s}.$((ms / 100))s
+	# 	    elif ((s > 0)); then timer_show=${s}.$(printf %03d $ms)s
+	# 	    elif ((ms >= 100)); then timer_show=${ms}ms
+	# 	    elif ((ms > 0)); then timer_show=${ms}.$((us / 100))ms
+	# 	    else timer_show=${us}us
+	# 	    fi
+	# 	fi
 
-	    local last_exit=$__LAST_EXIT
+	#     local last_exit=$__LAST_EXIT
+
+	    local last_exit=$?
 
 		# # Regular text colors
 		# local BLACK='\[\e[0;30m\]'
@@ -161,11 +163,13 @@ if [ "$color_prompt" = yes ]; then
 	        symbol="$RED\$ $WHITE"
 	    fi
 
-	    PS1="($timer_show) $VENV$CHROOT$USER$HOST:$DIRECTORY$symbol"
+	    PS1="$VENV$CHROOT$USER$HOST:$DIRECTORY$symbol"
+	    # PS1="($timer_show) $VENV$CHROOT$USER$HOST:$DIRECTORY$symbol"
 	}
 
-	trap 'timer_start=$(timer_now)' DEBUG
-	PROMPT_COMMAND='__LAST_EXIT=$?; set_prompt'
+	# trap 'timer_start=$(timer_now)' DEBUG
+	# PROMPT_COMMAND='__LAST_EXIT=$?; set_prompt'
+	PROMPT_COMMAND='set_prompt'
 else
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
 fi
