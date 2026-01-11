@@ -6,7 +6,7 @@ let
   nrdiff = pkgs.writeShellScriptBin "nrdiff" ''
     nixos-rebuild build --flake ${flake-path} "$@" && nvd diff /run/current-system result
   '';
-  nrudiff = pkgs.writeShellScriptBin "nrdiff" ''
+  nrudiff = pkgs.writeShellScriptBin "nrudiff" ''
     nixos-rebuild build --flake ${flake-path} --upgrade "$@" && nvd diff /run/current-system result
   '';
 in
@@ -33,6 +33,7 @@ in
 
     nvd # NixOS version diff
     nrdiff # Custom diff command to rebuild and get the diff
+    nrudiff # Custom diff command to rebuild with upgrade and get the diff
   ];
 
   environment.shellAliases = {

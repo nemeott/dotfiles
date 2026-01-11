@@ -1,7 +1,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
 {
   config,
   lib,
@@ -81,9 +80,9 @@ in
 
   # Enable zram swap for better performance on systems with limited RAM
   zramSwap = {
-		enable = true;
-		algorithm = "zstd";
-		memoryPercent = 50;
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
   };
 
   # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
@@ -185,13 +184,13 @@ in
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # Hard link identical files in the Nix store to save disk space
-  nix.settings.auto-optimise-store = true;
-
   # Settings to make builds faster
   nix.daemonIOSchedClass = "best-effort"; # (default)
   nix.daemonCPUSchedPolicy = "batch"; # Optimized for non-interactive tasks
   nix.daemonIOSchedPriority = 2; # Higher priority for IO operations
+
+  # Hard link identical files in the Nix store to save disk space
+  nix.settings.auto-optimise-store = true; # nix-store --optimise
 
   # Enable nix-command experimental feature
   nix.settings.experimental-features = [

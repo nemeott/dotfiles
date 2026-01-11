@@ -2,7 +2,6 @@
   stdenv,
   lib,
   fetchFromGitHub,
-  fetchpatch,
   cmake,
   wrapGAppsHook3,
   pkg-config,
@@ -22,9 +21,7 @@
   libopusenc,
   libopus,
   tinyxml-2,
-  kdePackages,
   qt5, # Needed for musescore 3.X
-  nixosTests,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -41,8 +38,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   # From top-level CMakeLists.txt:
   # - DOWNLOAD_SOUNDFONT defaults ON and tries to fetch from the network.
-  # Can still download manually at Help > Manage Resources
-  # ! BUG: Having the Drumline soundfont installed causes MuseScore to load slowly on startup.
+  # Download manually at Help > Manage Resources
   cmakeFlags = [
     "-DDOWNLOAD_SOUNDFONT=OFF"
   ];
@@ -102,7 +98,7 @@ stdenv.mkDerivation (finalAttrs: {
     qt5.qtquickcontrols2
     qt5.qtgraphicaleffects
 
-    # qt5.qtwebengine # Avoid depending on insecure QtWebEngine (and having to compile qt5.qtwebengine (huge))
+    # qt5.qtwebengine # Avoid depending on insecure QtWebEngine (and having to compile it (huge))
     # Because we don't use this, we need to patch the CMakeLists and install scripts to not try to bundle it.
   ]
   ++ lib.optionals stdenv.hostPlatform.isLinux [
@@ -236,7 +232,7 @@ stdenv.mkDerivation (finalAttrs: {
     description = "Music notation and composition software";
     homepage = "https://github.com/Jojo-Schmitz/MuseScore";
     license = lib.licenses.gpl2Only;
-    maintainers = with lib.maintainers; [ ];
+    maintainers = with lib.maintainers; [ nemeott ];
     mainProgram = "mscore-evo";
     platforms = lib.platforms.unix;
   };
