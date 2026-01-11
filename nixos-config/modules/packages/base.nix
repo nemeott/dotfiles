@@ -2,6 +2,9 @@
 
 {
   programs.bash.enable = true; # Installed by default, but just in case
+  home.file.".bashrc".source = ../../../.bashrc;
+  home.file.".bash_aliases".source = ../../../.bash_aliases;
+
   programs.nano.enable = true; # Installed by default, but just in case
 
   environment.systemPackages = with pkgs; [

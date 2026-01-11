@@ -2,13 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
-  config,
   lib,
   pkgs,
   nixos-hardware,
+  username,
   ...
 }:
 let
+  hostname = "icarus";
+
   secrets = import ../../secrets.nix;
 in
 {
@@ -37,6 +39,8 @@ in
     ../../modules/packages/productivity.nix
     ../../modules/packages/browsers.nix
   ];
+
+  home-manager.users.${username} = import ./home.nix;
 
   # Enable all firmware (including unfree) for better hardware support
   hardware.enableAllFirmware = true;
@@ -100,7 +104,7 @@ in
   services.system76-scheduler.enable = true;
 
   networking = {
-    hostName = "icarus"; # Define your hostname (default is nixos)
+    hostName = hostname; # Define your hostname (default is nixos)
 
     # Configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
@@ -119,20 +123,15 @@ in
     enable = true;
     extraConfig =
       let
-        hostname =
-          let
-            hn = config.networking.hostName;
-          in
-          with lib;
-          strings.toUpper (substring 0 1 hn) + substring 1 (stringLength hn) hn;
+        host = lib.strings.toCamelCase hostname;
         next-dns-id = secrets."next-dns-id";
       in
       ''
         [Resolve]
-        DNS=45.90.28.0#${hostname}-${next-dns-id}.dns.nextdns.io
-        DNS=2a07:a8c0::#${hostname}-${next-dns-id}.dns.nextdns.io
-        DNS=45.90.30.0#${hostname}-${next-dns-id}.dns.nextdns.io
-        DNS=2a07:a8c1::#${hostname}-${next-dns-id}.dns.nextdns.io
+        DNS=45.90.28.0#${host}-${next-dns-id}.dns.nextdns.io
+        DNS=2a07:a8c0::#${host}-${next-dns-id}.dns.nextdns.io
+        DNS=45.90.30.0#${host}-${next-dns-id}.dns.nextdns.io
+        DNS=2a07:a8c1::#${host}-${next-dns-id}.dns.nextdns.io
         DNSOverTLS=yes
       '';
   };

@@ -8,6 +8,11 @@
     # Need to use special url to use hardware modules not implemented for flakes
     nixos-hardware.url = "github:NixOS/nixos-hardware?ref=master";
 
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     zen-browser.url = "github:youwen5/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -19,6 +24,7 @@
     {
       nixpkgs,
       nixos-hardware,
+      home-manager,
       zen-browser,
       noctalia,
     }:
@@ -26,7 +32,15 @@
       nixosConfigurations = {
         icarus = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit nixos-hardware zen-browser; }; # What to pass in to configuration.nix
+          specialArgs = {
+            inherit
+              nixos-hardware
+              home-manager
+              zen-browser
+              noctalia
+              ;
+            username = "nathan";
+          }; # What to pass in to configuration.nix
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
@@ -35,6 +49,14 @@
               # echo '{ allowUnfree = true; }' > ~/.config/nixpkgs/config.nix
             }
             ./hosts/icarus/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "backup";
+              };
+            }
           ];
         };
       };
