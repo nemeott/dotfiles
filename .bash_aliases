@@ -31,6 +31,8 @@ _alias_if grep rg 'rg'
 _alias_if ptop powertop 'powertop'
 _alias_if ff fastfetch 'fastfetch'
 
+_alias_if zed zeditor 'zeditor'
+
 # Clipboard utilities
 _alias_if cwd xclip 'pwd | xclip -selection clipboard' # Copy working directory to clipboard
 if command -v xclip >/dev/null 2>&1; then

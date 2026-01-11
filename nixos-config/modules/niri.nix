@@ -1,8 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, noctalia, ... }:
 
 {
-  services.gnome.gnome-keyring.enable = true;
-
   # Interface with X11 apps
   programs.xwayland.enable = true;
 
@@ -26,10 +24,16 @@
 
   # Enable terminal, launcher, and screen lock for Niri
   environment.systemPackages = with pkgs; [
+    noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+
     alacritty
     fuzzel
     swaylock
   ];
+  imports = [
+    noctalia.nixosModules.default
+  ];
+  services.noctalia-shell.enable = true;
 
   # Use sane scrolling config
   services.libinput = {

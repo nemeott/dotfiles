@@ -26,8 +26,8 @@ in
 
     # Modules
     ../../modules/user.nix
-    ../../modules/cinnamon.nix
-    # ../../modules/niri.nix
+    # ../../modules/cinnamon.nix
+    ../../modules/niri.nix
 
     # Packages
     ../../modules/packages/base.nix

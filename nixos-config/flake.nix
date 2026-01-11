@@ -10,6 +10,9 @@
 
     zen-browser.url = "github:youwen5/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+
+    noctalia.url = "github:noctalia-dev/noctalia-shell";
+    noctalia.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -17,6 +20,7 @@
       nixpkgs,
       nixos-hardware,
       zen-browser,
+      noctalia,
     }:
     {
       nixosConfigurations = {
