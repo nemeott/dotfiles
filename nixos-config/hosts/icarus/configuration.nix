@@ -40,7 +40,9 @@ in
     ../../modules/packages/browsers.nix
   ];
 
-  home-manager.users.${username} = import ./home.nix;
+  home-manager.users.${username} = import ./home.nix {
+    inherit username;
+  };
 
   # Enable all firmware (including unfree) for better hardware support
   hardware.enableAllFirmware = true;
