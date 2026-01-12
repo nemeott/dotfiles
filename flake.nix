@@ -49,7 +49,7 @@
               # mkdir -p ~/.config/nixpkgs
               # echo '{ allowUnfree = true; }' > ~/.config/nixpkgs/config.nix
             }
-            ./hosts/icarus/configuration.nix
+            ./nixos-config/hosts/icarus/configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager = {

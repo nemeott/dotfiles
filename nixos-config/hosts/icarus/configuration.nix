@@ -98,6 +98,7 @@ in
 
   # Enable power-profiles-daemon for power management
   services.power-profiles-daemon.enable = true;
+  services.upower.enable = true; # Let Noctalia-shell detect battery status
 
   # Enable thermald for thermal management (Intel CPUs)
   services.thermald.enable = true;
@@ -117,6 +118,10 @@ in
     networkmanager = {
       enable = true;
       wifi.powersave = true;
+    };
+    wireless = {
+      enable = true; # Allow connections to WPA/WPA2 networks
+      scanOnLowSignal = false;
     };
   };
 
@@ -138,6 +143,16 @@ in
       '';
   };
 
+  # Enable removable media management
+  services.udisks2.enable = true;
+
+  # Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false; # Don't power on Bluetooth by default
+  };
+  services.blueman.enable = true;
+
   # Set time zone and select internationalisation properties
   time.timeZone = "America/New_York";
 
@@ -153,9 +168,6 @@ in
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
-
-  # Don't start Bluetooth on boot
-  hardware.bluetooth.powerOnBoot = false;
 
   # # Enable CUPS to print documents.
   # services.printing.enable = true;

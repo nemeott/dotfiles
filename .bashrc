@@ -73,7 +73,7 @@ export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
 
 # Enable color if supported
 case "$TERM" in
-	*-256color) color_prompt=yes ;;
+	*-256color|alacritty) color_prompt=yes ;;
 esac
 
 if [ "$color_prompt" = yes ]; then
@@ -147,9 +147,10 @@ if [ "$color_prompt" = yes ]; then
 		if [[ -n "$VIRTUAL_ENV_PROMPT" ]]; then
 		    VENV="($VIRTUAL_ENV_PROMPT) "
 		fi
-	    local USER="$BGREEN\u$WHITE"
-		local HOST="$BCYAN@\h$WHITE"
-		local DIRECTORY="$BYELLOW\w$WHITE"
+	    local USER="$BGREEN\u"
+		local AT="$BMAGENTA@"
+		local HOST="$BCYAN\h$WHITE"
+		local DIRECTORY="$BYELLOW\w"
 
 		# Red # for root
 		# Red $ on failed command
@@ -163,7 +164,7 @@ if [ "$color_prompt" = yes ]; then
 	        symbol="$RED\$ $WHITE"
 	    fi
 
-	    PS1="$VENV$CHROOT$USER$HOST:$DIRECTORY$symbol"
+	    PS1="$VENV$CHROOT$USER$AT$HOST:$DIRECTORY$symbol"
 	    # PS1="($timer_show) $VENV$CHROOT$USER$HOST:$DIRECTORY$symbol"
 	}
 

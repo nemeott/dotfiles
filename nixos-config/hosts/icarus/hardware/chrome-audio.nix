@@ -28,7 +28,7 @@
 
   # Switch audio sink manually with
   #   pacmd set-card-profile alsa_card.pci-0000_00_1f.3-platform-tgl_rt5682_def output:stereo-fallback+input:stereo-fallback
-  
+
   # Create a systemd service to switch audio sink and mute on login
   #   Check service status with:
   #     systemctl --user status set_audio_sink_tigerlake.service
@@ -64,7 +64,7 @@
     serviceConfig = {
       Type = "oneshot";
 
-      # Retry instead of sleeping in a loop
+      # Retry on failure
       Restart = "on-failure";
       RestartSec = "200ms";
     };
@@ -84,6 +84,14 @@
     '';
   };
 
+  # environment.systemPackages = with pkgs; [
+  #   sof-firmware
+  # ];
+
+  # boot.extraModprobeConfig = ''
+  #   options snd_hda_intel model=generic
+  # '';
+
   # # Use pipewire instead of pulseaudio
   # services.pulseaudio.enable = false;
   # services.pipewire = {
@@ -96,9 +104,51 @@
   #   # Session manager for pipewire
   #   wireplumber.enable = true;
   # };
-  # Need to run these commands somehow on startup
-  # wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
-  # wpctl set-volume @DEFAULT_AUDIO_SINK@ 0
+
+  # systemd.user.services.mute_audio_sink = {
+  #   description = "Set volume to 0 on startup";
+  #   wantedBy = [ "default.target" ];
+
+  #   path = [
+  #     pkgs.pipewire
+  #     pkgs.wireplumber
+  #     pkgs.bash
+  #   ];
+
+  #   after = [
+  #     "wireplumber.service"
+  #     "pipewire-pulse.service"
+  #   ];
+  #   wants = [
+  #     "wireplumber.service"
+  #     "pipewire-pulse.service"
+  #   ];
+
+  #   unitConfig = {
+  #     # Avoid hitting start-limit too quickly during boot/login
+  #     StartLimitIntervalSec = 30;
+  #     StartLimitBurst = 200;
+  #   };
+
+  #   serviceConfig = {
+  #     Type = "oneshot";
+
+  #     # Retry on failure
+  #     Restart = "on-failure";
+  #     RestartSec = "200ms";
+  #   };
+
+  #   # Mute the default sink on startup and set to 0 volume
+  #   script = ''
+  #     set -euo pipefail
+
+  #     wpctl set-volume @DEFAULT_AUDIO_SINK@ 0
+  #   '';
+  # };
+
+  # # Need to run these commands somehow on startup
+  # # wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
+  # # wpctl set-volume @DEFAULT_AUDIO_SINK@ 0
 
   # Enable realtime scheduling
   security.rtkit.enable = true;

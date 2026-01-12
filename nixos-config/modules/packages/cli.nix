@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 let
-  flake-path = "path:/home/nathan/dotfiles/nixos-config";
+  flake-path = "path:/home/${username}/dotfiles";
 
   nrdiff = pkgs.writeShellScriptBin "nrdiff" ''
     nixos-rebuild build --flake ${flake-path} "$@" && nvd diff /run/current-system result
