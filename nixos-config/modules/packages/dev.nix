@@ -46,10 +46,11 @@ in
     };
   };
 
-  environment.systemPackages = [
+  environment.systemPackages = with pkgs; [
     vscode-with-tools
     zed-editor-with-tools
 
+    libgcc
     # lazygit (simple tui for git)
   ];
 
