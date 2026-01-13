@@ -1,9 +1,4 @@
-{
-  pkgs,
-  noctalia,
-  username,
-  ...
-}:
+{ pkgs, noctalia, ... }:
 
 {
   # Interface with X11 apps
@@ -28,16 +23,51 @@
   programs.niri.enable = true;
   services.iio-niri.enable = true; # Allow screen rotation with Niri
 
-  services.libinput.enable = true;
-  services.xserver.exportConfiguration = true;
+  # services.libinput.enable = true;
+  # services.xserver.exportConfiguration = true;
 
   # Enable terminal, launcher, and screen lock for Niri
   environment.systemPackages = with pkgs; [
     xwayland-satellite # X11 compatibility for Wayland
     noctalia.packages.${stdenv.hostPlatform.system}.default # Bar
 
+    brightnessctl
+    # Custom brightness control scripts (0, 1, 5, 10, ...)
+    (writeShellApplication {
+      name = "brightness_down";
+      runtimeInputs = [ brightnessctl ];
+      text = ''
+        	      p=$(brightnessctl -m | cut -d, -f4 | sed 's/%//')
+                if [ "$p" -le 1 ]; then
+                    brightnessctl --class=backlight set 0%
+                elif [ "$p" -le 5 ]; then
+                    brightnessctl --class=backlight set 1%
+                else
+                    brightnessctl --class=backlight set 5%-
+                fi
+      '';
+    })
+    (writeShellApplication {
+      name = "brightness_up";
+      runtimeInputs = [ brightnessctl ];
+      text = ''
+        			p=$(brightnessctl -m | cut -d, -f4 | sed 's/%//')
+        			if [ "$p" -eq 0 ]; then
+        		  brightnessctl --class=backlight set 1%
+        			elif [ "$p" -eq 1 ]; then
+        		  brightnessctl --class=backlight set 5%
+        			else
+        		  brightnessctl --class=backlight set +5%
+        			fi
+      '';
+    })
+
     alacritty
     fuzzel
     swaylock
+
+    # Media
+    nemo-with-extensions # File manager
+    pix # Image viewer
   ];
 }
