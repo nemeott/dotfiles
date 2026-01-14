@@ -73,7 +73,7 @@ export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
 
 # Enable color if supported
 case "$TERM" in
-	*-256color|alacritty) color_prompt=yes ;;
+	*-256color|alacritty|foot) color_prompt=yes ;;
 esac
 
 if [ "$color_prompt" = yes ]; then

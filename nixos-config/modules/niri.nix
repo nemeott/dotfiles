@@ -1,4 +1,9 @@
-{ pkgs, noctalia, ... }:
+{
+  pkgs,
+  catppuccin,
+  noctalia,
+  ...
+}:
 
 {
   # Interface with X11 apps
@@ -22,6 +27,11 @@
   # Tiling window manager
   programs.niri.enable = true;
   services.iio-niri.enable = true; # Allow screen rotation with Niri
+
+  programs.foot.enable = true; # Terminal emulator
+
+  catppuccin.enable = true;
+  catppuccin.tty.enable = false; # Save my eyes on boot
 
   # services.libinput.enable = true;
   # services.xserver.exportConfiguration = true;
@@ -62,7 +72,10 @@
       '';
     })
 
-    alacritty
+    # egl-wayland
+    bibata-cursors
+
+    # alacritty
     fuzzel
     swaylock
 

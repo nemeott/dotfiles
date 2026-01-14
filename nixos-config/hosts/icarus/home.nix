@@ -4,6 +4,8 @@ let
   dotfilesPath = ../../..;
 in
 {
+  catppuccin.enable = true;
+
   home = {
     username = username;
     homeDirectory = "/home/${username}";
