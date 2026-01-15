@@ -26,11 +26,42 @@
         SponsoredTopSites = false;
         SponsoredStories = false;
       };
+      Preferences = {
+        "apz.overscroll.enabled".Value = false; # Disable overscroll bounce
+      };
     };
   };
 
   environment.systemPackages = [
     (zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+      profiles.Personal.search.engines = {
+        nixPackages = {
+          name = "Nix Packages";
+          urls = "https://search.nixos.org/packages?query={searchTerms}";
+          icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+          definedAliases = [ "@np" ];
+        };
+        nixosOptions = {
+          name = "NixOS Options";
+          urls = "https://search.nixos.org/options?query={searchTerms}";
+          icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+          definedAliases = [ "@no" ];
+        };
+        nixosWiki = {
+          name = "NixOS Wiki";
+          urls = "https://wiki.nixos.org/w/index.php?search={searchTerms}";
+          icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+          definedAliases = [ "@nw" ];
+        };
+        # Search NixOS functions
+        noogle = {
+          name = "noogle";
+          urls = "https://noogle.dev/q?term={searchTerms}";
+          icon = "https://noogle.dev/favicon.ico";
+          definedAliases = [ "@ng" ];
+        };
+      };
+
       # https://mozilla.github.io/policy-templates/
       extraPolicies = {
         DisableAppUpdate = true;
@@ -44,6 +75,9 @@
         };
         Category = "strict";
         DisableFeedbackCommands = true;
+        Preferences = {
+          "apz.overscroll.enabled".Value = false; # Disable overscroll bounce
+        };
 
         # SearchEngines = {
         #   Add = [

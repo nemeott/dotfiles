@@ -170,6 +170,13 @@ in
   };
   services.blueman.enable = true;
 
+  # rfkill please don't kill my bluetooth
+  # Disable rfkill until I can find a better solutions (systemd services didn't work)
+
+  # TODO: DO THIS SOMEHOW
+  # rfkill unblock bluetooth
+  # sudo makes it permanant?
+
   # Set time zone and select internationalisation properties
   time.timeZone = "America/New_York";
 

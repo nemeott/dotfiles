@@ -6,6 +6,9 @@
 }:
 
 {
+  # Name the generation
+  system.nixos.tags = [ "Niri" ];
+
   # Interface with X11 apps
   programs.xwayland.enable = true;
 
@@ -72,8 +75,9 @@
       '';
     })
 
-    # egl-wayland
     bibata-cursors
+    papirus-icon-theme
+    adwaita-icon-theme
 
     # alacritty
     fuzzel
@@ -83,4 +87,8 @@
     nemo-with-extensions # File manager
     pix # Image viewer
   ];
+
+  # environment.variables = {
+  #   XDG_ICON_THEME = "Papirus";
+  # };
 }

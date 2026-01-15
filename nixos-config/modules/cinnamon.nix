@@ -1,6 +1,9 @@
 { ... }:
 
 {
+  # Name the generation
+  system.nixos.tags = [ "Cinnamon" ];
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
