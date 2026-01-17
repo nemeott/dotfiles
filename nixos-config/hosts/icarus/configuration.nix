@@ -9,11 +9,7 @@
   catppuccin,
   ...
 }:
-let
-  hostname = "icarus";
 
-  secrets = import ../../secrets.nix;
-in
 {
   imports = [
     ./hardware-configuration.nix # Copied from /etc/nixos/hardware-configuration.nix
@@ -26,11 +22,13 @@ in
     # Custom hardware configuration for Chromebook (audio and keyboard)
     ./hardware/chrome-device.nix # Audio and keyboard fix from GitHub
     ./hardware/chrome-audio.nix # Custom audio config to manually set audio profile
+    ./hardware/chrome-bluetooth.nix # Bluetooth fix to work around rfkill issue and noctalia toggle bug
 
     # Modules
     ../../modules/user.nix
     # ../../modules/cinnamon.nix
     ../../modules/niri.nix
+    ../../modules/networking.nix
 
     # Packages
     ../../modules/packages/base.nix
@@ -73,11 +71,12 @@ in
       efi.canTouchEfiVariables = true;
     };
 
-    # Power-saving dirty writeback settings
     kernel.sysctl = {
+      # Power-saving dirty writeback settings (less disk writes)
       "vm.dirty_writeback_centisecs" = 5000;
       "vm.dirty_expire_centisecs" = 5000;
       "vm.page-cluster" = 0; # Use with zramSwap
+      "vm.swappiness" = 10; # Use normal swap less often
     };
 
     # Manage power saving for Intel HDA audio
@@ -95,7 +94,7 @@ in
   zramSwap = {
     enable = true;
     algorithm = "zstd";
-    memoryPercent = 50;
+    memoryPercent = 30;
   };
 
   # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
@@ -113,53 +112,6 @@ in
   # Enable system76-scheduler for better IO scheduling
   services.system76-scheduler.enable = true;
 
-  networking = {
-    hostName = hostname; # Define your hostname (default is nixos)
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    # Enable networking
-    dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
-    networkmanager = {
-      enable = true;
-      dns = "systemd-resolved";
-      wifi.powersave = true;
-    };
-    wireless = {
-      enable = true; # Allow connections to WPA/WPA2 networks
-      scanOnLowSignal = false;
-    };
-  };
-
-  # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
-  services.resolved = {
-    enable = true;
-    extraConfig =
-      let
-        host = lib.strings.toCamelCase hostname;
-        next-dns-id = secrets."next-dns-id";
-      in
-      ''
-        [Resolve]
-        DNS=45.90.28.0#${host}-${next-dns-id}.dns.nextdns.io
-        DNS=45.90.30.0#${host}-${next-dns-id}.dns.nextdns.io
-        DNS=2a07:a8c0::#${host}-${next-dns-id}.dns.nextdns.io
-        DNS=2a07:a8c1::#${host}-${next-dns-id}.dns.nextdns.io
-
-        # Enable DNS for msu.edu to access MSU sites on MSU WiFi
-        Domains=~msu.edu
-        DNS=35.8.0.7
-        DNS=35.8.0.8
-        DNS=35.8.0.9
-
-        # DNSOverTLS=opportunistic # Use DNS over TLS if available
-        DNSOverTLS=yes
-        Cache=yes
-      '';
-  };
-
   # Enable removable media management
   services.udisks2.enable = true;
 
@@ -169,28 +121,6 @@ in
     powerOnBoot = false; # Don't power on Bluetooth by default
   };
   services.blueman.enable = true;
-
-  # rfkill please don't kill my bluetooth
-  systemd.services.systemd-rfkill = {
-    postStart = ''
-      ${pkgs.util-linux}/bin/rfkill unblock bluetooth
-    '';
-  };
-
-  # Systemd script of hopes and prayers (hacky but works, increase sleep time if it doesn't)
-  # Turn off bluetooth after Noctalia fully starts (fixes Noctalia bluetooth toggle not working)
-  systemd.user.services.noctalia-bluetooth-fix = {
-    description = "Power off Bluetooth after Noctalia fully starts";
-
-    wantedBy = [ "default.target" ];
-    after = [ "niri.service" ];
-
-    # Let quickshell initialize, then turn off bluetooth
-    script = ''
-      sleep 5 # Pray noctalia shell is fully started after this
-      ${pkgs.bluez}/bin/bluetoothctl power off
-    '';
-  };
 
   # Set time zone and select internationalisation properties
   time.timeZone = "America/New_York";
@@ -211,11 +141,11 @@ in
   # # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable thunderbolt management with bolt
-  environment.systemPackages = [ pkgs.bolt ];
-  services.hardware.bolt.enable = true;
-  # Enroll device with: boltctl enroll DEVICE
-  # Temporarily add device with: boltctl authorize DEVICE
+  # # Enable thunderbolt management with bolt
+  # environment.systemPackages = [ pkgs.bolt ];
+  # services.hardware.bolt.enable = true;
+  # # Enroll device with: boltctl enroll DEVICE
+  # # Temporarily add device with: boltctl authorize DEVICE
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -241,9 +171,6 @@ in
   nix.daemonCPUSchedPolicy = "batch"; # Optimized for non-interactive tasks
   nix.daemonIOSchedPriority = 2; # Higher priority for IO operations
 
-  # Hard link identical files in the Nix store to save disk space
-  nix.settings.auto-optimise-store = true; # nix-store --optimise
-
   # Enable nix-command experimental feature
   nix.settings.experimental-features = [
     "nix-command"
@@ -253,3 +180,8 @@ in
   # First installation version
   system.stateVersion = "25.11";
 }
+
+# Useful commands:
+
+# Hard link identical files in the Nix store to save disk space
+# nix-store --optimise

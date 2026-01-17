@@ -16,21 +16,14 @@
 
   services.greetd = {
     enable = true;
-    # settings.default_session = {
-    #   command = "niri --config /home/${username}/.config/niri/config.kdl";
-    #   user = "${username}";
-    # };
     settings = {
       default_session.command = "${pkgs.tuigreet}/bin/tuigreet -t --time-format '%F %H:%M:%S' --remember --remember-user-session --asterisks --asterisks-char '◆' --window-padding 2";
     };
   };
-  # programs.regreet.enable = true;
 
   # Tiling window manager
   programs.niri.enable = true;
   services.iio-niri.enable = true; # Allow screen rotation with Niri
-
-  programs.foot.enable = true; # Terminal emulator
 
   catppuccin.enable = true;
   catppuccin.tty.enable = false; # Save my eyes on boot
@@ -77,10 +70,6 @@
     bibata-cursors
     papirus-icon-theme
     adwaita-icon-theme
-
-    # alacritty
-    fuzzel
-    swaylock
 
     # Media
     nemo-with-extensions # File manager
