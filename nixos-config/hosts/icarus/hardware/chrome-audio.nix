@@ -1,3 +1,9 @@
+# This script configures audio for a Chromebook with Intel Tiger Lake.
+# Uses PulseAudio instead of PipeWire due to better compatibility.
+# Creates a systemd user service to set the correct audio profile and mute on login.
+
+# Have to raise volume above 0 (default) AND unmute to hear sound after boot (prevent accidents).
+
 { pkgs, ... }:
 
 {
@@ -45,12 +51,8 @@
       pkgs.bash
     ];
 
-    # Best-effort ordering; PulseAudio may be socket-activated depending on setup
+    # Make sure pulseaudio is running
     after = [
-      "pulseaudio.service"
-      "pulseaudio.socket"
-    ];
-    wants = [
       "pulseaudio.service"
       "pulseaudio.socket"
     ];

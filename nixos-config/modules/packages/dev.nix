@@ -47,6 +47,8 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    gh
+
     vscode-with-tools
     zed-editor-with-tools
 
