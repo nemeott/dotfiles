@@ -26,13 +26,6 @@ in
     };
   };
 
-  # environment.etc."systemd/dns-delegate.d/msu.dns-delegate".text = ''
-  #   [Delegate]
-  #   Domains=~msu.edu
-  #   DNS=35.8.0.7 35.8.0.8 35.8.0.9
-  #   DefaultRoute=yes
-  # '';
-
   # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
   services.resolved = {
     enable = true;
@@ -47,17 +40,12 @@ in
         DNS=45.90.30.0#${host}-${next-dns-id}.dns.nextdns.io
         DNS=2a07:a8c0::#${host}-${next-dns-id}.dns.nextdns.io
         DNS=2a07:a8c1::#${host}-${next-dns-id}.dns.nextdns.io
-        # DNS=35.8.0.7
-        # DNS=35.8.0.8
-        # DNS=35.8.0.9
 
-        # # Enable DNS for msu.edu to access MSU sites on MSU WiFi
+        # Use this DNS config for all domains
         Domains=~.
 
-        # DNSOverTLS=opportunistic # Use DNS over TLS if available
-        DNSOverTLS=yes
-        # DNSSEC=yes
-        # DNSSEC=allow-downgrade # If errors, use this
+        DNSOverTLS=yes # Use opportunistic if issues
+        DNSSEC=yes # Use allow-downgrade if issues
         Cache=yes
       '';
   };
