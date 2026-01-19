@@ -29,50 +29,23 @@ in
   # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
   services.resolved = {
     enable = true;
-    extraConfig =
+    settings.Resolve =
       let
         host = lib.strings.toCamelCase hostname;
         next-dns-id = secrets."next-dns-id";
       in
-      ''
-        [Resolve]
-        DNS=45.90.28.0#${host}-${next-dns-id}.dns.nextdns.io
-        DNS=45.90.30.0#${host}-${next-dns-id}.dns.nextdns.io
-        DNS=2a07:a8c0::#${host}-${next-dns-id}.dns.nextdns.io
-        DNS=2a07:a8c1::#${host}-${next-dns-id}.dns.nextdns.io
+      {
+        DNS = [
+          "45.90.28.0#${host}-${next-dns-id}.dns.nextdns.io"
+          "45.90.30.0#${host}-${next-dns-id}.dns.nextdns.io"
+          "2a07:a8c0::#${host}-${next-dns-id}.dns.nextdns.io"
+          "2a07:a8c1::#${host}-${next-dns-id}.dns.nextdns.io"
+        ];
+        Domains = "~.";
 
-        # Use this DNS config for all domains
-        Domains=~.
-
-        DNSOverTLS=yes # Use opportunistic if issues
-        DNSSEC=yes # Use allow-downgrade if issues
-        Cache=yes
-      '';
+        DNSOverTLS = "yes";
+        DNSSEC = "yes";
+        Cache = "yes";
+      };
   };
 }
-
-# # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
-# services.resolved = {
-#   enable = true;
-#   settings.Resolve =
-#     let
-#       host = lib.strings.toCamelCase hostname;
-#       next-dns-id = secrets."next-dns-id";
-#     in
-#     {
-#       DNS = [
-#         "45.90.28.0#${host}-${next-dns-id}.dns.nextdns.io"
-#         "45.90.30.0#${host}-${next-dns-id}.dns.nextdns.io"
-#         "2a07:a8c0::#${host}-${next-dns-id}.dns.nextdns.io"
-#         "2a07:a8c1::#${host}-${next-dns-id}.dns.nextdns.io"
-#       ];
-#       Domains = "~msu.edu";
-#       DNS = [
-#         "DNS=35.8.0.7"
-#         "DNS=35.8.0.8"
-#         "DNS=35.8.0.9"
-#       ];
-#       DNSOverTLS = "yes";
-#       Cache = "yes";
-#     };
-# };
