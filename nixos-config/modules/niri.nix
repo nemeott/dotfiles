@@ -28,7 +28,7 @@
   catppuccin.enable = true;
   catppuccin.tty.enable = false; # Save my eyes on boot
 
-  # services.libinput.enable = true;
+  # services.libinput.enable = true; # TODO: Is this needed?
   # services.xserver.exportConfiguration = true;
 
   # Enable terminal, launcher, and screen lock for Niri

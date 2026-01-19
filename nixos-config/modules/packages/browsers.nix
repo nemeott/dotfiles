@@ -34,6 +34,7 @@
 
   environment.systemPackages = [
     (zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+      # FIX: NOT WORKING
       profiles.Personal.search.engines = {
         nixPackages = {
           name = "Nix Packages";
@@ -75,8 +76,11 @@
         };
         Category = "strict";
         DisableFeedbackCommands = true;
+
+        # FIX: NOT WORKING
         Preferences = {
           "apz.overscroll.enabled".Value = false; # Disable overscroll bounce
+          "toolkit.legacyUserProfileCustomizations.stylesheets".Value = true; # Let noctalia apply theme to Zen
         };
 
         # SearchEngines = {

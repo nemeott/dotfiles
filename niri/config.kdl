@@ -407,6 +407,15 @@ binds {
     XF86MonBrightnessUp allow-when-locked=true { spawn "brightness_up"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightness_down"; }
 
+    XF86KbdBrightnessUp allow-when-locked=true { spawn-sh "brightnessctl --device='*kbd_backlight' set +10"; }
+    XF86KbdBrightnessDown allow-when-locked=true { spawn-sh "brightnessctl --device='*kbd_backlight' set 10-"; }
+
+    // Lock key on chromebook
+    XF86ScreenSaver { spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; } // Bring up noctalia-shell session menu
+
+    // Power off button on chromebook
+    // XF86PowerOff
+
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
@@ -549,10 +558,14 @@ binds {
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
 
-    // Consume one window from the right to the bottom of the focused column.
-    Mod+Comma  { consume-window-into-column; }
-    // Expel the bottom window from the focused column to the right.
-    Mod+Period { expel-window-from-column; }
+    // // Consume one window from the right to the bottom of the focused column.
+    // Mod+Comma  { consume-window-into-column; }
+    // // Expel the bottom window from the focused column to the right.
+    // Mod+Period { expel-window-from-column; }
+
+    // Noctalia settings
+    Mod+Comma { spawn "noctalia-shell" "ipc" "call" "settings" "toggle"; }
+    Mod+Period { spawn "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
 
     Mod+R { switch-preset-column-width; }
     // Cycling through the presets in reverse order is also possible.
@@ -587,8 +600,13 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     // Move the focused window between the floating and the tiling layout.
-    Mod+V       { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    // Mod+V       { toggle-window-floating; }
+    // Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+L       { toggle-window-floating; }
+    Mod+Shift+L { switch-focus-between-floating-and-tiling; }
+
+    Mod+V { spawn "noctalia-shell" "ipc" "call" "launcher" "clipboard"; }
+    Mod+A { spawn "noctalia-shell" "ipc" "call" "calendar" "toggle"; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
