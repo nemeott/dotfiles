@@ -90,11 +90,14 @@
     ];
   };
 
+  # Faster restarts (no waiting for long processes)
+  systemd.user.extraConfig = "DefaultTimeoutStopSec=10";
+
   # Enable zram swap for better performance on systems with limited RAM
   zramSwap = {
     enable = true;
     algorithm = "zstd";
-    memoryPercent = 30;
+    memoryPercent = 40;
   };
 
   # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)

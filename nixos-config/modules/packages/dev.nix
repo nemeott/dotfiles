@@ -48,13 +48,18 @@ in
 
   environment.systemPackages = with pkgs; [
     gh
+    dig # DNS testing tool
 
     vscode-with-tools
     zed-editor-with-tools
 
     libgcc
     # lazygit (simple tui for git)
+
+    xauth # For X11 ssh forwarding (school)
   ];
+  # Set the xauth location for ssh correctly (nixos uses unusual file system)
+  programs.ssh.setXAuthLocation = true;
 
   # Fonts
   fonts.packages = with pkgs; [
