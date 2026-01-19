@@ -96,7 +96,7 @@
   zramSwap = {
     enable = true;
     algorithm = "zstd";
-    memoryPercent = 40;
+    memoryPercent = 50;
   };
 
   # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
