@@ -1,5 +1,6 @@
 { ... }:
 {
+  # Enabled here for automatic Catppuccin integration
   programs = {
     # shell history
     atuin = {

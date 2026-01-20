@@ -1,6 +1,7 @@
 { ... }:
 
 {
+  # Enabled here for automatic Catppuccin integration
   programs = {
     # Terminal emulator
     foot = {

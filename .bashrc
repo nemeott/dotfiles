@@ -127,7 +127,7 @@ if [ "$color_prompt" = yes ]; then
 		# local BRED='\[\e[1;31m\]'
 		local BGREEN='\[\e[1;32m\]'
 		local BYELLOW='\[\e[1;33m\]'
-		# local BBLUE='\[\e[1;34m\]'
+		local BBLUE='\[\e[1;34m\]'
 		local BMAGENTA='\[\e[1;35m\]'
 		local BCYAN='\[\e[1;36m\]'
 		# local BWHITE='\[\e[1;37m\]'
@@ -143,6 +143,10 @@ if [ "$color_prompt" = yes ]; then
 		# local BGWHITE='\[\e[47m\]'
 
 	    local CHROOT='${debian_chroot:+'"$BMAGENTA"'($debian_chroot) '"$WHITE"'}'
+		local NIX=""
+		if [[ -n "$IN_NIX_SHELL" ]]; then
+		    NIX="$BBLUE(nix-shell)$WHITE "
+		fi
 		local VENV=""
 		if [[ -n "$VIRTUAL_ENV_PROMPT" ]]; then
 		    VENV="($VIRTUAL_ENV_PROMPT) "
@@ -164,7 +168,7 @@ if [ "$color_prompt" = yes ]; then
 	        symbol="$RED\$ $WHITE"
 	    fi
 
-	    PS1="$VENV$CHROOT$USER$AT$HOST:$DIRECTORY$symbol"
+	    PS1="$CHROOT$NIX$VENV$USER$AT$HOST:$DIRECTORY$symbol"
 	    # PS1="($timer_show) $VENV$CHROOT$USER$HOST:$DIRECTORY$symbol"
 	}
 

@@ -54,8 +54,10 @@ in
     zed-editor-with-tools
 
     libgcc
-    # lazygit (simple tui for git)
+    python3
+    python313Packages.numpy
 
+    # lazygit (simple tui for git)
     xauth # For X11 ssh forwarding (school)
   ];
   # Set the xauth location for ssh correctly (nixos uses unusual file system)

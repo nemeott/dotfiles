@@ -75,7 +75,7 @@
       "vm.dirty_writeback_centisecs" = 5000;
       "vm.dirty_expire_centisecs" = 5000;
       "vm.page-cluster" = 0; # Use with zramSwap
-      "vm.swappiness" = 10; # Use normal swap less often
+      # "vm.swappiness" = 10; # Use normal swap less often
     };
 
     # Manage power saving for Intel HDA audio
@@ -188,3 +188,6 @@
 
 # Hard link identical files in the Nix store to save disk space
 # nix-store --optimise
+
+#
+# nix-collect-garbage (nix-store --gc)
