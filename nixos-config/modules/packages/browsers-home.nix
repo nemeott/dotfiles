@@ -46,6 +46,9 @@
         "zen.view.window.scheme" = 0; # Dark mode
         "layout.css.prefers-color-scheme.content-override" = 0; # Dark website appearance
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true; # Let noctalia apply theme to Zen
+        "extensions.autoDisableScopes" = 0; # Automatically install configured extensions
+        "extensions.update.autoUpdateDefault" = false;
+        "extensions.update.enabled" = false;
       };
 
       # Find all shortcuts with: jq -c '.shortcuts[] | {id, key, keycode, action}' ~/.zen/default/zen-keyboard-shortcuts.json
@@ -175,15 +178,18 @@
           };
         };
 
-      extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
-        ublock-origin
-        privacy-badger
-				sponsorblock
-				istilldontcareaboutcookies
-				shortkeys # TODO: Auto apply shortcuts (duplicate tab: ctrl + d)
-				darkreader # TODO: Auto apply Catppuccin settings
-				material-icons-for-github
-      ];
+      extensions = {
+        force = true;
+        packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
+          ublock-origin
+          privacy-badger
+          sponsorblock
+          istilldontcareaboutcookies
+          shortkeys # TODO: Auto apply shortcuts (duplicate tab: ctrl + d)
+          darkreader # TODO: Auto apply Catppuccin settings
+          material-icons-for-github
+        ];
+      };
     };
   };
 }
