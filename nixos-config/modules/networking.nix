@@ -41,7 +41,10 @@ in
           "2a07:a8c0::#${host}-${next-dns-id}.dns.nextdns.io"
           "2a07:a8c1::#${host}-${next-dns-id}.dns.nextdns.io"
         ];
-        Domains = "~.";
+        Domains = [
+          "~."
+          "~msu.edu"
+        ];
 
         DNSOverTLS = "yes";
         DNSSEC = "yes";
