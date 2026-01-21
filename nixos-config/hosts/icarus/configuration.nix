@@ -1,22 +1,16 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  pkgs,
-  nixos-hardware,
-  username,
-  catppuccin,
-  ...
-}:
+{ inputs, pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix # Copied from /etc/nixos/hardware-configuration.nix
 
     # Add nixos-hardware modules for better hardware support
-    "${nixos-hardware}/common/pc/laptop"
-    "${nixos-hardware}/common/cpu/intel/tiger-lake"
-    "${nixos-hardware}/common/gpu/intel/tiger-lake"
+    "${inputs.nixos-hardware}/common/pc/laptop"
+    "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
+    "${inputs.nixos-hardware}/common/gpu/intel/tiger-lake"
 
     # Custom hardware configuration for Chromebook (audio and keyboard)
     ./hardware/chrome-device.nix # Audio and keyboard fix from GitHub
@@ -37,16 +31,6 @@
     ../../modules/packages/productivity.nix
     ../../modules/packages/browsers.nix
   ];
-
-  home-manager = {
-    extraSpecialArgs = { inherit username; };
-    users.${username} = {
-      imports = [
-        ./home.nix
-        catppuccin.homeModules.catppuccin
-      ];
-    };
-  };
 
   # Enable all firmware (including unfree) for better hardware support
   hardware.enableAllFirmware = true;

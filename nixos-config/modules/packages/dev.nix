@@ -53,7 +53,7 @@ in
     vscode-with-tools
     zed-editor-with-tools
 
-    libgcc
+    gcc
     python3
     python313Packages.numpy
 

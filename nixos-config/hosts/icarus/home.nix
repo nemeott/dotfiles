@@ -1,12 +1,15 @@
-{ username, ... }:
+{ inputs, username, ... }:
 
 let
   dotfilesPath = ../../..;
 in
-{
+{	
   imports = [
+    inputs.catppuccin.homeModules.catppuccin
+    
     ../../modules/packages/cli-home.nix
     ../../modules/niri-home.nix
+    ../../modules/packages/browsers-home.nix
   ];
 
   catppuccin.enable = true;

@@ -20,6 +20,28 @@
         "type": "github"
       }
     },
+    "firefox-addons": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "pkgs/firefox-addons",
+        "lastModified": 1768881817,
+        "narHash": "sha256-yEG418W8a7C/bcmRI5Lgd03XbBc8K2yV0kp1WUHTYbA=",
+        "owner": "rycee",
+        "repo": "nur-expressions",
+        "rev": "bbd2046d41083954fd28c31cb4f2d3510c9e2b1e",
+        "type": "gitlab"
+      },
+      "original": {
+        "dir": "pkgs/firefox-addons",
+        "owner": "rycee",
+        "repo": "nur-expressions",
+        "type": "gitlab"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -95,6 +117,7 @@
     "root": {
       "inputs": {
         "catppuccin": "catppuccin",
+        "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
@@ -104,20 +127,23 @@
     },
     "zen-browser": {
       "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1767618227,
-        "narHash": "sha256-9+XVF47E9NCVs249SSsDtr7YdG/23/lCJmWAjQvOfqI=",
-        "owner": "youwen5",
+        "lastModified": 1768919538,
+        "narHash": "sha256-w10iy/aqd5LtD78NDWWG+eKGzkb+cGhAAo7PVciLbWE=",
+        "owner": "0xc000022070",
         "repo": "zen-browser-flake",
-        "rev": "1586e49b3908b058e221f11d843eb46392dba17b",
+        "rev": "37149a5b77e8fd2b5332e8cec9edf39ca5b8e8bc",
         "type": "github"
       },
       "original": {
-        "owner": "youwen5",
+        "owner": "0xc000022070",
         "repo": "zen-browser-flake",
         "type": "github"
       }

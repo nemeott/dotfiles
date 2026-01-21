@@ -1,10 +1,8 @@
-{
-  pkgs,
-  noctalia,
-  ...
-}:
+{ inputs, pkgs, ... }:
 
 {
+  imports = [ inputs.catppuccin.nixosModules.catppuccin ];
+
   # Name the generation
   system.nixos.tags = [ "Niri" ];
 
@@ -34,7 +32,7 @@
   # Enable terminal, launcher, and screen lock for Niri
   environment.systemPackages = with pkgs; [
     xwayland-satellite # X11 compatibility for Wayland
-    noctalia.packages.${stdenv.hostPlatform.system}.default # Bar
+    inputs.noctalia.packages.${stdenv.hostPlatform.system}.default # Bar
 
     brightnessctl
     # Custom brightness control scripts (0, 1, 5, 10, ...)

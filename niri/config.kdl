@@ -1,3 +1,5 @@
+// TODO: Organize and remove unneeded elements
+
 // This config is in the KDL format: https://kdl.dev
 // "/-" comments out the following node.
 // Check the wiki for a full description of the configuration:
@@ -22,6 +24,10 @@ input {
             // from org.freedesktop.locale1. You can control these using
             // localectl set-x11-keymap.
         }
+
+        // // Make repeating keys faster (useful for arrow keys)
+        // repeat-delay 200
+        // repeat-rate 35
 
         // Enable numlock on startup, omitting this setting disables it.
         // numlock
@@ -606,7 +612,9 @@ binds {
     Mod+Shift+L { switch-focus-between-floating-and-tiling; }
 
     Mod+V { spawn "noctalia-shell" "ipc" "call" "launcher" "clipboard"; }
+    Mod+E { spawn "noctalia-shell" "ipc" "call" "launcher" "emoji"; }
     Mod+A { spawn "noctalia-shell" "ipc" "call" "calendar" "toggle"; }
+    Mod+N { spawn "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
