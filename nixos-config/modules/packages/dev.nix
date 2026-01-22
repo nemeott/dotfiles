@@ -23,7 +23,7 @@ let
 
   zed-editor-with-tools = pkgs.symlinkJoin {
     name = "zed-editor-with-tools";
-    paths = [ pkgs.zed-editor ];
+    paths = [ pkgs.zed-editor.fhs ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = with pkgs; ''
       wrapProgram $out/bin/zeditor \

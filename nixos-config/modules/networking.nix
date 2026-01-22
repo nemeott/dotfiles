@@ -20,10 +20,11 @@ in
       dns = "systemd-resolved";
       wifi.powersave = true;
     };
-    wireless = {
-      enable = true; # Allow connections to WPA/WPA2 networks
-      scanOnLowSignal = false;
-    };
+    # TODO: Keep?
+    # wireless = {
+    #   enable = true; # Allow connections to WPA/WPA2 networks
+    #   scanOnLowSignal = false;
+    # };
   };
 
   # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS

@@ -35,7 +35,7 @@
       ];
       timeouts = [
         {
-          timeout = 60;
+          timeout = 180; # 3 minutes
           command = lock;
         }
       ];
