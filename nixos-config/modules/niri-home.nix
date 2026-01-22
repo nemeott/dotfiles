@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, pkgs, ... }:
 
 {
   # Enabled here for automatic Catppuccin integration
@@ -16,4 +16,28 @@
     fuzzel.enable = true; # Application launcher
     swaylock.enable = true; # Screen locker
   };
+
+  services.swayidle =
+    let
+      lock = "${lib.getExe' pkgs.swaylock "swaylock"} --daemonize";
+    in
+    {
+      enable = true;
+      events = [
+        {
+          event = "lock";
+          command = lock;
+        }
+        {
+          event = "before-sleep";
+          command = lock;
+        }
+      ];
+      timeouts = [
+        {
+          timeout = 60;
+          command = lock;
+        }
+      ];
+    };
 }

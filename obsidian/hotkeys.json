@@ -40,22 +40,6 @@
     }
   ],
   "markdown:toggle-preview": [],
-  "app:toggle-left-sidebar": [
-    {
-      "modifiers": [
-        "Alt"
-      ],
-      "key": "-"
-    }
-  ],
-  "app:toggle-right-sidebar": [
-    {
-      "modifiers": [
-        "Alt"
-      ],
-      "key": "="
-    }
-  ],
   "editor:toggle-checklist-status": [],
   "editor:toggle-numbered-list": [
     {
@@ -85,14 +69,6 @@
     {
       "modifiers": [
         "Alt"
-      ],
-      "key": "T"
-    }
-  ],
-  "insert-template": [
-    {
-      "modifiers": [
-        "Meta"
       ],
       "key": "T"
     }
@@ -174,15 +150,6 @@
         "Mod"
       ],
       "key": "U"
-    }
-  ],
-  "obsidian-editor-shortcuts:transformToTitlecase": [
-    {
-      "modifiers": [
-        "Alt",
-        "Mod"
-      ],
-      "key": "T"
     }
   ],
   "obsidian-latex-suite:latex-suite-box-equation": [
@@ -329,6 +296,41 @@
         "Shift"
       ],
       "key": "P"
+    }
+  ],
+  "app:toggle-left-sidebar": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "["
+    }
+  ],
+  "app:toggle-right-sidebar": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "]"
+    }
+  ],
+  "obsidian-editor-shortcuts:transformToTitlecase": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "T"
+    }
+  ],
+  "insert-template": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod",
+        "Shift"
+      ],
+      "key": "T"
     }
   ]
 }

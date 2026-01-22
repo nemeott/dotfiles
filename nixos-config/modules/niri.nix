@@ -19,6 +19,9 @@
     };
   };
 
+  # Use swaylock for authentication
+  security.pam.services.swaylock = { };
+
   # Tiling window manager
   programs.niri.enable = true;
   services.iio-niri.enable = true; # Allow screen rotation with Niri

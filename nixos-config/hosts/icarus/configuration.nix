@@ -74,7 +74,10 @@
   };
 
   # Faster restarts (no waiting for long processes)
-  systemd.user.extraConfig = "DefaultTimeoutStopSec=10";
+  systemd.user.extraConfig = ''
+    DefaultTimeoutStopSec=10
+    DefaultTimeoutStartSec=10
+  '';
 
   # Enable zram swap for better performance on systems with limited RAM
   zramSwap = {

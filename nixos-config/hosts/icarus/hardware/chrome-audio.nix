@@ -68,7 +68,7 @@
 
       # Retry on failure
       Restart = "on-failure";
-      RestartSec = "200ms";
+      RestartSec = "1s";
     };
 
     script = ''

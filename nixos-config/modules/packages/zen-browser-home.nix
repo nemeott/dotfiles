@@ -167,6 +167,12 @@
               icon = nixSnowflakeIcon;
               definedAliases = [ "@nw" ];
             };
+            noogle = {
+              name = "Noogle";
+              urls = [ { template = "https://noogle.dev/q?term={searchTerms}"; } ];
+              icon = "https://noogle.dev/favicon.ico";
+              definedAliases = [ "@noo" ];
+            };
 
             # Search policy templates (for browser config info)
             policy-templates = {

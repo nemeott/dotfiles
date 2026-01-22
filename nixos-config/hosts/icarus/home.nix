@@ -25,3 +25,7 @@ in
     # file.".config/niri/config.kdl".source = "${dotfilesPath}/config.kdl";
   };
 }
+
+# Duplicate down ctrl alt down
+# Obsidian ctrl . instead of alt enter
+# Fix mod T obsidian
