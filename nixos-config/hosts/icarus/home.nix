@@ -9,7 +9,7 @@ in
     
     ../../modules/packages/cli-home.nix
     ../../modules/niri-home.nix
-    ../../modules/packages/browsers-home.nix
+    ../../modules/packages/zen-browser-home.nix
   ];
 
   catppuccin.enable = true;
@@ -26,6 +26,4 @@ in
   };
 }
 
-# Duplicate down ctrl alt down
-# Obsidian ctrl . instead of alt enter
-# Fix mod T obsidian
+# Obsidian ctrl . instead of alt enter or zed alt enter
