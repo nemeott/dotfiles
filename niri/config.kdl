@@ -201,7 +201,7 @@ layout {
         // If you enable the border, you probably want to disable the focus ring.
         // off
 
-        width 1.5
+        width 1.2
         active-color "#ffc87f"
         inactive-color "#505050"
 
@@ -346,7 +346,7 @@ animations {
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
 window-rule {
-    geometry-corner-radius 6
+    geometry-corner-radius 4
     clip-to-geometry true
 }
 
@@ -615,11 +615,16 @@ binds {
     Mod+E { spawn "noctalia-shell" "ipc" "call" "launcher" "emoji"; }
     Mod+A { spawn "noctalia-shell" "ipc" "call" "calendar" "toggle"; }
     Mod+N { spawn "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
+    Mod+W { spawn "noctalia-shell" "ipc" "call" "network" "togglePanel"; }
+    Mod+P { spawn "noctalia-shell" "ipc" "call" "media" "playPause"; }
+    Mod+S { spawn "noctalia-shell" "ipc" "call" "systemMonitor" "toggle"; }
+    Mod+B { spawn "noctalia-shell" "ipc" "call" "bluetooth" "togglePanel"; }
+    
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
     // rather than stacked on top of each other.
-    Mod+W { toggle-column-tabbed-display; }
+    // Mod+W { toggle-column-tabbed-display; }
 
     // Actions to switch layouts.
     // Note: if you uncomment these, make sure you do NOT have

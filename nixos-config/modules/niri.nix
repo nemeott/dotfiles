@@ -36,6 +36,7 @@
   environment.systemPackages = with pkgs; [
     xwayland-satellite # X11 compatibility for Wayland
     inputs.noctalia.packages.${stdenv.hostPlatform.system}.default # Bar
+    cliphist
 
     brightnessctl
     # Custom brightness control scripts (0, 1, 5, 10, ...)

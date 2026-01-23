@@ -277,6 +277,15 @@ else
     _warn_missing ~/.bash-preexec.sh $'atuin initialization\nInstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
 fi
 
+
+# Direnv integration
+if command -v direnv >/dev/null 2>&1; then
+	eval "$(direnv hook bash)"
+else
+	_warn_missing direnv "direnv initialization"
+fi
+
+
 unset -f _warn_missing
 
 # Set Zed as default editor
