@@ -71,7 +71,7 @@
       "snd_hda_intel.power_save=1"
       "snd_hda_intel.power_save_controller=Y"
       
-      "rcu_nocbs=0-15" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
+      "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
     ];
   };
 

@@ -14,7 +14,11 @@
       };
     };
     fuzzel.enable = true; # Application launcher
-    swaylock.enable = true; # Screen locker
+    # Screen locker
+    swaylock = {
+      enable = true;
+      settings.color = lib.mkDefault "000000"; # Pure black for battery saving (override Catppuccin)
+    };
   };
 
   services.swayidle =
