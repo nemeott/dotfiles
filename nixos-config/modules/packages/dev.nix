@@ -61,8 +61,10 @@ in
 
     # Languages/compilers
     gcc
-    python3
+    python313
+    python313Packages.pip
     python313Packages.numpy
+    uv
 
     xauth # For X11 ssh forwarding (school)
   ];

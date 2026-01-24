@@ -149,8 +149,18 @@ if [ "$color_prompt" = yes ]; then
 		fi
 		local VENV=""
 		if [[ -n "$VIRTUAL_ENV_PROMPT" ]]; then
-		    VENV="($VIRTUAL_ENV_PROMPT) "
+		    # Strip whitespace
+		    local v="${VIRTUAL_ENV_PROMPT//[[:space:]]/}"
+		
+		    # Add parentheses if missing
+		    if [[ "$v" != \(*\) ]]; then
+		        v="($v)"
+		    fi
+		
+			# Formatted like "(venv_name) "
+		    VENV="$BMAGENTA$v "
 		fi
+
 	    local USER="$BGREEN\u"
 		local AT="$BMAGENTA@"
 		local HOST="$BCYAN\h$WHITE"
