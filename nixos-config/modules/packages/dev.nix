@@ -50,7 +50,6 @@ in
 
   environment.systemPackages = with pkgs; [
     # CLI Tools
-    gh
     dig # DNS testing tool
     vhs # Terminal recording tool
     # lazygit (simple tui for git)

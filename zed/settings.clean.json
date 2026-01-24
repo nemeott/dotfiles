@@ -7,23 +7,55 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+	"format_on_save": "off",
+	"remove_trailing_whitespace_on_save": false,
+	"languages": {
+		"C++": {
+			"inlay_hints": {
+				"enabled": true,
+			},
+		},
+		"C": {
+			"show_edit_predictions": false,
+		},
+		"Nix": {
+			"tab_size": 2,
+		},
+		"Python": {
+			"hard_tabs": false,
+			"language_servers": ["!basedpyright", "ty", "..."],
+		},
+	},
 	"lsp": {
 		"ruff": {
 			"initialization_options": {
 				"settings": {
 					"lineLength": 120,
 					"lint": {
-						"select": ["D"], // Enable all pydocstyle rules
-						"ignore": ["D100"],
-						"pydocstyle": {
-							"convention": "google", // Strict doc conventions
-						},
+						"select": ["ALL"],
+						"ignore": [
+							"T201", // Allow print statements
+							"S101", // Allow asserts
+							"EXE002", // Don't need shebangs for Python
+							"FIX002", // Allow TODOs
+							"TD002", // TODOs don't need author
+							"TD003", // Or issue link
+							"PLR0913", // Allow more parameters in functions
+							"FBT001", // Allow booleans in functions
+							"FBT002", // Allow booleans in functions
+							"ERA001", // Allow commented out code
+						],
 					},
+					// 	"select": ["D"], // Enable all pydocstyle rules
+					// 	"ignore": ["D100"],
+					// 	"pydocstyle": {
+					// 		"convention": "google", // Strict doc conventions
+					// 	},
+					// },
 				},
 			},
 		},
 	},
-	"remove_trailing_whitespace_on_save": false,
 	"agent_buffer_font_size": 12.0,
 	"extend_comment_on_newline": false,
 	"vertical_scroll_margin": 4.0,
@@ -118,22 +150,8 @@
 		"custom": 1.45,
 	},
 	"icon_theme": "Material Icon Theme",
-	"format_on_save": "off",
-	"languages": {
-		"C++": {
-			"inlay_hints": {
-				"enabled": true,
-			},
-		},
-		"C": {
-			"show_edit_predictions": false,
-		},
-		"Nix": {
-			"tab_size": 2,
-		},
-	},
 	"git": {
-		"hunk_style": "staged_hollow",
+		"enable_diff": true,
 		"inline_blame": {
 			"enabled": false,
 		},
@@ -176,7 +194,7 @@
 	"multi_cursor_modifier": "cmd_or_ctrl",
 	"autosave": "on_focus_change",
 	"buffer_font_fallbacks": ["FiraCode Nerd Font"],
-	"buffer_font_family": "Monaspace Neon NF",
+	"buffer_font_family": "Monaspace Neon Frozen",
 	"ui_font_size": 13.0,
 	"buffer_font_size": 10.0,
 	"theme": "Catppuccin Mocha",
