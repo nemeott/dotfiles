@@ -1,0 +1,210 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+    "files.autoSave": "onFocusChange",
+    "git.enableSmartCommit": true,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": false,
+        "scminput": false,
+        "css": true,
+        "javascript": true,
+        "shellscript": true,
+        "cpp": true,
+        "python": true,
+        "c": false,
+        "cuda-cpp": false
+    },
+    "explorer.confirmDragAndDrop": false,
+    "makefile.configureOnOpen": true,
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "codesnap.showWindowControls": false,
+    "redhat.telemetry.enabled": false,
+    "cmake.showOptionsMovedNotification": false,
+    "editor.guides.bracketPairs": "active",
+    "javascript.inlayHints.parameterNames.enabled": "all",
+    "python.analysis.inlayHints.functionReturnTypes": true,
+    "python.analysis.inlayHints.pytestParameters": true,
+    "python.analysis.inlayHints.variableTypes": true,
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
+    ],
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": true,
+    "workbench.editor.empty.hint": "hidden",
+    "c-cpp-flylint.flexelint.enable": false,
+    "c-cpp-flylint.lizard.enable": false,
+    "c-cpp-flylint.flawfinder.enable": false,
+    "c-cpp-flylint.cppcheck.standard": [
+        "c++17"
+    ],
+    "c-cpp-flylint.standard": [
+        "c17",
+        "c++17"
+    ],
+    "python-cprofile.cprofileOutputFileName": "output.prof",
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "workbench.editor.splitInGroupLayout": "vertical",
+    "debugpy.showPythonInlineValues": true,
+    "debugpy.debugJustMyCode": false,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "diffEditor.maxComputationTime": 0,
+    "workbench.layoutControl.enabled": false,
+    "chat.commandCenter.enabled": false,
+    "window.menuBarVisibility": "compact",
+    "zenMode.hideActivityBar": false,
+    "zenMode.hideLineNumbers": false,
+    "zenMode.hideStatusBar": false,
+    "zenMode.centerLayout": false,
+    "editor.fontLigatures": true,
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.fontFamily": "'Monaspace Neon Frozen', 'FiraCode Nerd Font', 'Droid Sans Mono', monospace",
+    "github.copilot.selectedCompletionModel": "",
+    "python.analysis.typeCheckingMode": "standard",
+    "editor.unicodeHighlight.includeComments": true,
+    "numberedBookmarks.gutterIconFillColor": "#89b4fa",
+    "numberedBookmarks.navigateThroughAllFiles": "replace",
+    "github.copilot.nextEditSuggestions.fixes": true,
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.enableMultiLinePasteWarning": "never",
+    "errorLens.enabledDiagnosticLevels": [
+        "error",
+        "warning",
+        "info"
+    ],
+    "autopep8.args": [
+        "--max-line-length=120",
+        "--ignore=E261,E731"
+    ],
+    "errorLens.enabled": true,
+    "errorLens.messageBackgroundMode": "message",
+    "python.analysis.autoFormatStrings": true,
+    "python.analysis.inlayHints.callArgumentNames": "partial",
+    "indentRainbow.indicatorStyle": "light",
+    "indentRainbow.lightIndicatorStyleLineWidth": 2,
+    "window.commandCenter": false,
+    "editor.foldingHighlight": false,
+    "rust-analyzer.hover.actions.implementations.enable": false,
+    "rust-analyzer.lens.implementations.enable": false,
+    "zenMode.silentNotifications": false,
+    "chat.agent.enabled": false,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "telemetry.editStats.enabled": false,
+    "telemetry.feedback.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "files.watcherExclude": {
+        "**/.venv/**": true,
+        "**/venv/**": true
+    },
+    "files.exclude": {
+        "**/.venv": true,
+        "**/venv": true
+    },
+    "lldb.suppressUpdateNotifications": true,
+    "C_Cpp.formatting": "vcFormat",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.block": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.function": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.lambda": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.namespace": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.type": "sameLine",
+    "C_Cpp.vcFormat.newLine.closeBraceSameLine.emptyFunction": true,
+    "C_Cpp.vcFormat.newLine.closeBraceSameLine.emptyType": true,
+    "evenBetterToml.formatter.compactArrays": false,
+    "C_Cpp.vcFormat.wrap.preserveBlocks": "never",
+    "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
+    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
+    "prettier.printWidth": 120,
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true,
+    "C_Cpp.vcFormat.indent.preprocessor": "none",
+    "python.pyrefly.displayTypeErrors": "force-on",
+    "vsintellicode.python.completionsEnabled": false,
+    "editor.autoIndentOnPaste": true,
+    "terminal.integrated.stickyScroll.enabled": false,
+    "rust-analyzer.check.command": "clippy",
+    "editor.allowVariableFonts": false,
+    "tabout.charactersToTabOutFrom": [
+        {
+            "open": "[",
+            "close": "]"
+        },
+        {
+            "open": "{",
+            "close": "}"
+        },
+        {
+            "open": "(",
+            "close": ")"
+        },
+        {
+            "open": "'",
+            "close": "'"
+        },
+        {
+            "open": "\"",
+            "close": "\""
+        },
+        {
+            "open": ":",
+            "close": ":"
+        },
+        {
+            "open": "=",
+            "close": "="
+        },
+        {
+            "open": ">",
+            "close": ">"
+        },
+        {
+            "open": "<",
+            "close": "<"
+        },
+        {
+            "open": ".",
+            "close": "."
+        },
+        {
+            "open": "`",
+            "close": "`"
+        },
+        {
+            "open": ";",
+            "close": ";"
+        }
+    ],
+    "taboutx.enableTaboutBackward": true,
+    "terminal.integrated.fontLigatures.enabled": true,
+    "ty.experimental.rename": true,
+    "ty.experimental.autoImport": true,
+    "python.languageServer": "None",
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.editor.enablePreview": false,
+    "terminal.integrated.minimumContrastRatio": 1,
+    "liveshare.increasedGuestLimit": false,
+    "C_Cpp.vcFormat.indent.caseLabels": true,
+    "c-cpp-flylint.clang.pedantic": true,
+    "c-cpp-flylint.cppcheck.verbose": true,
+    "c-cpp-flylint.clang.enable": false,
+    "clangd.fallbackFlags": [
+        "-std=c++17"
+    ],
+    "c-cpp-flylint.enable": false,
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
+    "C_Cpp.errorSquiggles": "disabled",
+    "clangd.detectExtensionConflicts": false,
+    "editor.inlayHints.enabled": "on",
+    "editor.parameterHints.enabled": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "git.autofetch": true,
+    "window.zoomPerWindow": false,
+    "window.zoomLevel": -1,
+}

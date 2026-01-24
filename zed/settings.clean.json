@@ -1,0 +1,181 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+	"remove_trailing_whitespace_on_save": false,
+	"agent_buffer_font_size": 12.0,
+	"extend_comment_on_newline": false,
+	"vertical_scroll_margin": 4.0,
+	"file_finder": {
+		"file_icons": true,
+	},
+	"toolbar": {
+		// // Hide toolbar
+		// "breadcrumbs": false,
+		// "quick_actions": false,
+		"agent_review": true,
+	},
+	"disable_ai": false,
+	"when_closing_with_no_tabs": "platform_default",
+	"collaboration_panel": {
+		"button": false,
+	},
+	"debugger": {
+		"dock": "bottom",
+	},
+	"git_panel": {
+		"tree_view": true,
+		"default_width": 240.0,
+		"sort_by_path": false,
+		"collapse_untracked_diff": false,
+		"status_style": "label_color",
+	},
+	"outline_panel": {
+		"button": true,
+	},
+	"project_panel": {
+		"hide_gitignore": false,
+		"sort_mode": "directories_first",
+		"hide_hidden": false,
+		"hide_root": true,
+		"starts_open": true,
+		"indent_size": 12.0,
+		"git_status": true,
+		"folder_icons": true,
+		"entry_spacing": "standard",
+	},
+	"window_decorations": "client",
+	"centered_layout": {
+		"right_padding": 0.2,
+	},
+	"tab_bar": {
+		"show_nav_history_buttons": false,
+		"show_tab_bar_buttons": true,
+	},
+	"tabs": {
+		"show_diagnostics": "all",
+		"file_icons": true,
+		"git_status": true,
+	},
+	"title_bar": {
+		"show_user_picture": true,
+		"show_onboarding_banner": true,
+		"show_menus": false,
+		"show_project_items": true,
+		"show_branch_name": true,
+		"show_branch_icon": false,
+		"show_sign_in": true,
+	},
+	"search": {
+		"button": true,
+	},
+	"diagnostics": {
+		"button": true,
+		"inline": {
+			"enabled": true,
+		},
+	},
+	"sticky_scroll": {
+		"enabled": true,
+	},
+	"indent_guides": {
+		"coloring": "indent_aware",
+		"background_coloring": "disabled",
+	},
+	"always_treat_brackets_as_autoclosed": true,
+	"colorize_brackets": true,
+	"minimap": {
+		"current_line_highlight": "all",
+		"thumb_border": "left_open",
+		"thumb": "always",
+		"show": "always",
+	},
+	"scroll_beyond_last_line": "vertical_scroll_margin",
+	"agent_ui_font_size": 12.0,
+	"hard_tabs": true,
+	"buffer_line_height": {
+		"custom": 1.45,
+	},
+	"icon_theme": "Material Icon Theme",
+	"format_on_save": "off",
+	"languages": {
+		"C++": {
+			"inlay_hints": {
+				"enabled": true,
+			},
+		},
+		"C": {
+			"show_edit_predictions": false,
+		},
+		"Nix": {
+			"tab_size": 2,
+		},
+	},
+	"git": {
+		"hunk_style": "staged_hollow",
+		"inline_blame": {
+			"enabled": false,
+		},
+	},
+	"features": {
+		"edit_prediction_provider": "copilot",
+	},
+	"ui_font_family": ".SystemUIFont",
+	"auto_update": false,
+	"terminal": {
+		"copy_on_select": true,
+		"font_size": 12.0,
+		"button": true,
+		"cursor_shape": "bar",
+	},
+	"telemetry": {
+		"diagnostics": false,
+		"metrics": false,
+	},
+	"base_keymap": "VSCode",
+	"agent": {
+		"default_profile": "write",
+		"default_width": 320.0,
+		"default_model": {
+			"provider": "copilot_chat",
+			"model": "grok-code-fast-1",
+		},
+		"dock": "right",
+		"use_modifier_to_send": false,
+		"enable_feedback": false,
+		"enabled": true,
+		"button": true,
+		"model_parameters": [],
+	},
+	"preview_tabs": {
+		"enabled": false,
+	},
+	"show_signature_help_after_edits": false,
+	"auto_signature_help": false,
+	"multi_cursor_modifier": "cmd_or_ctrl",
+	"autosave": "on_focus_change",
+	"buffer_font_fallbacks": ["FiraCode Nerd Font"],
+	"buffer_font_family": "Monaspace Neon NF",
+	"ui_font_size": 13.0,
+	"buffer_font_size": 10.0,
+	"theme": "Catppuccin Mocha",
+	"buffer_font_features": {
+		"calt": true, // Texture healing
+		"liga": true, // Dynamic spacing for certain repeating character patterns like ///
+		"ss01": true,
+		"ss02": true,
+		"ss03": true,
+		"ss04": true,
+		"ss05": true,
+		"ss06": true,
+		"ss07": true,
+		"ss08": true,
+		"ss09": true,
+		"ss10": true,
+	},
+}
