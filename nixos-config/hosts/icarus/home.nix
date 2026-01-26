@@ -27,7 +27,7 @@ in
 
       # Niri
       ".config/niri/config.kdl".source = "${dotfilesPath}/niri/config.kdl";
-      
+
       ".clang-format".source = "${dotfilesPath}/.clang-format";
     };
   };

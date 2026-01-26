@@ -48,7 +48,7 @@ input {
         // accel-profile "flat"
         accel-profile "adaptive"
         // scroll-method "two-finger"
-		scroll-factor 0.25
+		scroll-factor 0.40
         // disabled-on-external-mouse
     }
 

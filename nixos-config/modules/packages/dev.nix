@@ -21,23 +21,6 @@ let
     '';
   };
 
-  zed-editor-with-tools = pkgs.symlinkJoin {
-    name = "zed-editor-with-tools";
-    paths = [ pkgs.zed-editor.fhs ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = with pkgs; ''
-      wrapProgram $out/bin/zeditor \
-        --prefix PATH : ${
-          lib.makeBinPath [
-            nil # Nix language server
-            nixd # Nix language server
-            clang
-            clang-tools
-          ]
-        }
-    '';
-  };
-
 in
 {
   programs.git = {
@@ -56,10 +39,11 @@ in
 
     # Editors
     vscode-with-tools
-    zed-editor-with-tools
+    # zed-editor-with-tools
 
     # Languages/compilers
     gcc
+    mold # Fast linker
     python313
     python313Packages.pip
     python313Packages.numpy
@@ -72,8 +56,8 @@ in
 
   # Development environments (installs direnv and nix-direnv)
   programs.direnv = {
-		enable = true;
-		# silent = true;
+    enable = true;
+    # silent = true;
   };
 
   # Fonts

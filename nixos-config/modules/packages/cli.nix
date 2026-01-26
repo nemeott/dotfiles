@@ -31,6 +31,8 @@ in
     powertop # Power utils
     fastfetch
 
+    bitwise # Terminal-based bit manipulator and calculator
+
     nvd # NixOS version diff
     nrdiff # Custom diff command to rebuild and get the diff
     nrudiff # Custom diff command to rebuild with upgrade and get the diff
