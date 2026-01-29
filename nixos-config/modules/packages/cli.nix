@@ -15,6 +15,7 @@ in
   programs.zoxide.enable = true; # cd
 
   environment.systemPackages = with pkgs; [
+    # Better CLIs
     # atuin # shell history (cli-home.nix)
     bat-extras.batman # man
     bat-extras.batpipe
@@ -27,10 +28,13 @@ in
     bash-completion # Needed by atuin
     xclip # Needed for aliases interacting with the clipboard
 
+    # Fun
+    fastfetch
+    neo # Why not
+
+    # Tools
     gdu # Fast disk usage analyzer
     powertop # Power utils
-    fastfetch
-
     bitwise # Terminal-based bit manipulator and calculator
 
     nvd # NixOS version diff
