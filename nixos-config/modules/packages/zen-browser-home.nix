@@ -49,6 +49,7 @@
         "extensions.autoDisableScopes" = 0; # Automatically install configured extensions
         "extensions.update.autoUpdateDefault" = false;
         "extensions.update.enabled" = false;
+        "zen.tabs.select-recently-used-on-close" = false; # Don't jump to most recent tab on closing current tab
       };
 
       # Find all shortcuts with: jq -c '.shortcuts[] | {id, key, keycode, action}' ~/.zen/default/zen-keyboard-shortcuts.json
@@ -81,7 +82,7 @@
       ];
       # Fails activation on schema changes to detect potential regressions
       # Find this in about:config or prefs.js of your profile
-      keyboardShortcutsVersion = 13;
+      keyboardShortcutsVersion = 14;
 
       # AKA Profiles
       containersForce = true; # Delete existing containers not in the config
@@ -104,7 +105,7 @@
       };
 
       spacesForce = true; # Delete existing spaces not in the config
-      # Generate random UUIDs with: uuidgen (doesn't matter what it is, just ensures unique spaces)
+      # Generate random UUIDs with `uuidgen` (doesn't matter what it is, just ensures unique spaces)
       spaces =
         let
           containers = config.programs.zen-browser.profiles.default.containers;
@@ -125,6 +126,13 @@
             icon = "❄️";
             container = containers.Personal.id;
             position = 3000;
+          };
+          # TODO: Figure out why this isn't being generated?
+          "Chess" = {
+            id = "26060d75-5402-4324-9fce-bf2691204545";
+            icon = "♟️";
+            container = containers.Personal.id;
+            position = 4000;
           };
         };
 
@@ -180,6 +188,13 @@
               urls = [ { template = "https://mozilla.github.io/policy-templates/#{searchTerms}"; } ];
               icon = "${pkgs.firefox}/share/icons/hicolor/128x128/apps/firefox.png";
               definedAliases = [ "@policy" ];
+            };
+
+            chess-programming-wiki = {
+              name = "Chess Programming Wiki";
+              urls = [ { template = "https://www.chessprogramming.org/index.php?search={searchTerms}"; } ];
+              icon = "♟️"; # TODO: Find working icon
+              definedAliases = [ "@cpw" ];
             };
           };
         };
