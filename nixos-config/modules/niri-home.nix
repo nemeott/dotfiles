@@ -23,7 +23,21 @@
 
   services.swayidle =
     let
-      lock = "${lib.getExe' pkgs.swaylock "swaylock"} --daemonize";
+      # Disable swaylock if brightness is 0 (allows turning the screen off to let something run without interruption)
+      conditional_lock = pkgs.writeShellApplication {
+        name = "conditional_lock";
+        runtimeInputs = [
+          pkgs.swaylock
+          pkgs.brightnessctl
+        ];
+        text = ''
+          brightness=$(brightnessctl -m | cut -d, -f4 | sed 's/%//')
+          if [ "$brightness" -gt 0 ]; then
+            swaylock --daemonize
+          fi
+        '';
+      };
+      lock = "${lib.getExe conditional_lock}";
     in
     {
       enable = true;
@@ -35,6 +49,10 @@
         {
           timeout = 180; # 3 minutes
           command = lock;
+        }
+        {
+          timeout = 1200; # 20 minutes
+          command = "systemctl suspend";
         }
       ];
     };

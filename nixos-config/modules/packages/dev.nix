@@ -39,7 +39,7 @@ in
 
     # Editors
     vscode-with-tools
-    # zed-editor-with-tools
+    # zed-editor-with-tools (in dev-home.nix)
 
     # Languages/compilers
     gcc

@@ -81,6 +81,13 @@
     DefaultTimeoutStartSec=10
   '';
 
+  # Hibernate after 60 minutes of suspend
+  systemd.sleep.extraConfig = ''
+    [Sleep]
+    SuspendThenHibernate=yes
+    HibernateDelaySec=3600
+  '';
+
   # Enable zram swap for better performance on systems with limited RAM
   zramSwap = {
     enable = true;
@@ -180,3 +187,4 @@
 
 #
 # nix-collect-garbage (nix-store --gc)
+# nix-collect-garbage --delete-older-than ${n}d
