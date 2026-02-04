@@ -12,6 +12,7 @@
         # Nix
         nil
         nixd
+        package-version-server # For showing package versions
 
         # Python
         ruff

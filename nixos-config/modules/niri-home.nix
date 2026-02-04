@@ -29,15 +29,41 @@
         runtimeInputs = [
           pkgs.swaylock
           pkgs.brightnessctl
+          pkgs.coreutils
         ];
         text = ''
+          # Read brightness percent and strip the % sign
           brightness=$(brightnessctl -m | cut -d, -f4 | sed 's/%//')
+
+          # Don't start if 0 brightness
           if [ "$brightness" -gt 0 ]; then
-            swaylock --daemonize
+            exec swaylock
           fi
         '';
       };
+
+      conditional_suspend = pkgs.writeShellApplication {
+        name = "conditional_suspend";
+        runtimeInputs = [
+          pkgs.brightnessctl
+          pkgs.systemd
+          pkgs.coreutils
+        ];
+        text = ''
+          # Read brightness percent and strip the % sign
+          brightness=$(brightnessctl -m | cut -d, -f4 | sed 's/%//')
+
+          # Don't start if 0 brightness
+          if [ "$brightness" -gt 0 ]; then
+            exec systemctl suspend
+          fi
+        '';
+      };
+
       lock = "${lib.getExe conditional_lock}";
+      suspend = lib.getExe conditional_suspend;
+
+      # lock = "${lib.getExe' pkgs.swaylock "swaylock"} --daemonize"; # Default
     in
     {
       enable = true;
@@ -52,7 +78,7 @@
         }
         {
           timeout = 1200; # 20 minutes
-          command = "systemctl suspend";
+          command = suspend;
         }
       ];
     };
