@@ -57,7 +57,7 @@ in
   # Development environments (installs direnv and nix-direnv)
   programs.direnv = {
     enable = true;
-    # silent = true;
+    silent = true;
   };
 
   # Fonts
