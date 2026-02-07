@@ -35,7 +35,7 @@ in
     # CLI Tools
     dig # DNS testing tool
     vhs # Terminal recording tool
-    # lazygit (simple tui for git)
+    lazygit # Simple tui for git
 
     # Editors
     vscode-with-tools

@@ -111,7 +111,9 @@
   services.system76-scheduler.enable = true;
 
   # Enable removable media management
-  services.udisks2.enable = true;
+  services.devmon.enable = true; # Automatic device mounting
+  services.gvfs.enable = true; # Userspace virtual filesystem
+  services.udisks2.enable = true; # Disk management
 
   # Bluetooth
   hardware.bluetooth = {
