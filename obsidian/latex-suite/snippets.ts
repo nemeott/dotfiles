@@ -356,9 +356,9 @@
   
   
   // Machine Learning
-  {trigger: "exp", replacement: "\\operatorname{exp}($0)", options: "mA", description: "e to the power of..."},
-  {trigger: "min", replacement: "\\operatorname{min}($0)", options: "mA", description: "Minimum"},
-  {trigger: "max", replacement: "\\operatorname{max}($0)", options: "mA", description: "Maximum"},
+  {trigger: "exp", replacement: "\\exp($0)", options: "mA", description: "e to the power of..."},
+  {trigger: "min", replacement: "\\min($0)", options: "mA", description: "Minimum"},
+  {trigger: "max", replacement: "\\max($0)", options: "mA", description: "Maximum"},
   
   
   // Environments and matrices/arrays

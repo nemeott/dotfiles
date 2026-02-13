@@ -302,3 +302,4 @@ unset -f _warn_missing
 export EDITOR="zeditor"
 export VISUAL="zeditor"
 export SUDO_EDITOR="zeditor --wait" # (sudoedit)
+export GIT_EDITOR="zeditor --wait"
