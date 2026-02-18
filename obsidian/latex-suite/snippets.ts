@@ -14,6 +14,7 @@
   {trigger: "cbp", replacement: "`{cpp} $0`", options: "tA", description: "Insert inline C++ codeblock"},
   {trigger: "cby", replacement: "`{py} $0`", options: "tA", description: "Insert inline Python codeblock"},
   {trigger: "cbs", replacement: "`{sql} $0`", options: "tA", description: "Insert inline SQL codeblock"},
+  {trigger: "cbm", replacement: "`{mips} $0`", options: "tA", description: "Insert inline MIPS codeblock"},
   
   
   // Auto convert numbers and single letters to inline math mode (active outside of math mode)

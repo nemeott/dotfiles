@@ -30,6 +30,7 @@
     ../../modules/packages/media.nix
     ../../modules/packages/productivity.nix
     ../../modules/packages/browsers.nix
+    ../../modules/packages/messaging.nix
   ];
 
   # Enable all firmware (including unfree) for better hardware support
