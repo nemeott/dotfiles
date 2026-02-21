@@ -296,6 +296,19 @@ else
 fi
 
 
+# Use yazi shell wrapper to enable changing cwd from yazi
+if command -v yazi >/dev/null 2>&1; then
+    function y() {
+    	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    	command yazi "$@" --cwd-file="$tmp"
+    	IFS= read -r -d '' cwd < "$tmp"
+    	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+    	rm -f -- "$tmp"
+    }
+else
+	_warn_missing yazi "yazi shell wrapper function"
+fi
+
 unset -f _warn_missing
 
 # Set Zed as default editor

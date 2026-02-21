@@ -19,5 +19,7 @@
     btop.enable = true; # top
     eza.enable = true; # ls
     fzf.enable = true; # fuzzy finder
+    
+    yazi.enable = true; # Terminal-based file explorer
   };
 }
