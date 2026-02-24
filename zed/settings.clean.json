@@ -156,9 +156,6 @@
 			"enabled": false,
 		},
 	},
-	"features": {
-		"edit_prediction_provider": "copilot",
-	},
 	"ui_font_family": ".SystemUIFont",
 	"auto_update": false,
 	"terminal": {
@@ -172,6 +169,9 @@
 		"metrics": false,
 	},
 	"base_keymap": "VSCode",
+	"edit_predictions": {
+		"provider": "copilot",
+	},
 	"agent": {
 		"default_profile": "write",
 		"default_width": 320.0,

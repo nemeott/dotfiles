@@ -50,6 +50,7 @@
         "extensions.update.autoUpdateDefault" = false;
         "extensions.update.enabled" = false;
         "zen.tabs.select-recently-used-on-close" = false; # Don't jump to most recent tab on closing current tab
+        "widget.gtk.rounded-bottom-corners.enabled" = false; # Disable rounded corners for better performance
       };
 
       # Find all shortcuts with: jq -c '.shortcuts[] | {id, key, keycode, action}' ~/.zen/default/zen-keyboard-shortcuts.json
@@ -82,7 +83,7 @@
       ];
       # Fails activation on schema changes to detect potential regressions
       # Find this in about:config or prefs.js of your profile
-      keyboardShortcutsVersion = 14;
+      keyboardShortcutsVersion = 16;
 
       # AKA Profiles
       containersForce = true; # Delete existing containers not in the config
