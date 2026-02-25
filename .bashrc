@@ -124,7 +124,7 @@ if [ "$color_prompt" = yes ]; then
 
 		# Bold text colors
 		# local BBLACK='\[\e[1;30m\]'
-		# local BRED='\[\e[1;31m\]'
+		local BRED='\[\e[1;31m\]'
 		local BGREEN='\[\e[1;32m\]'
 		local BYELLOW='\[\e[1;33m\]'
 		local BBLUE='\[\e[1;34m\]'
@@ -146,6 +146,10 @@ if [ "$color_prompt" = yes ]; then
 		local NIX=""
 		if [[ -n "$IN_NIX_SHELL" ]]; then
 		    NIX="$BBLUE(nix-shell)$WHITE "
+		fi
+		local CONDA=""
+		if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
+		    CONDA="$BRED($CONDA_DEFAULT_ENV) $WHITE"
 		fi
 		local VENV=""
 		if [[ -n "$VIRTUAL_ENV_PROMPT" ]]; then
@@ -178,7 +182,7 @@ if [ "$color_prompt" = yes ]; then
 	        symbol="$RED\$ $WHITE"
 	    fi
 
-	    PS1="$CHROOT$NIX$VENV$USER$AT$HOST:$DIRECTORY$symbol"
+	    PS1="$CHROOT$NIX$CONDA$VENV$USER$AT$HOST:$DIRECTORY$symbol"
 	    # PS1="($timer_show) $VENV$CHROOT$USER$HOST:$DIRECTORY$symbol"
 	}
 
