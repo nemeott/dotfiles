@@ -56,6 +56,7 @@ in
     nrbs = "nixos-rebuild boot --flake ${flake-path} && shutdown -h now";
     nrbus = "nixos-rebuild boot --flake ${flake-path} --upgrade && shutdown -h now";
 
+    ns = "nix-shell";
     nsp = "nix-shell -p";
 
     # Get option from a flake

@@ -60,10 +60,11 @@
         '';
       };
 
-      lock = "${lib.getExe conditional_lock}";
-      suspend = lib.getExe conditional_suspend;
+      # lock = "${lib.getExe conditional_lock}";
+      # suspend = lib.getExe conditional_suspend;
 
-      # lock = "${lib.getExe' pkgs.swaylock "swaylock"} --daemonize"; # Default
+      lock = "${lib.getExe' pkgs.swaylock "swaylock"} --daemonize"; # Default
+      suspend = "systemctl suspend"; # Default
     in
     {
       enable = true;

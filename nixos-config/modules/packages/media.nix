@@ -1,9 +1,9 @@
 { pkgs, ... }:
 
-let
-  musescore-evolution = pkgs.callPackage ./musescore-evolution/package-scratch.nix { };
+# let
+  # musescore-evolution = pkgs.callPackage ./musescore-evolution/package-scratch.nix { };
   # musescore-evolution = pkgs.callPackage ./musescore-evolution/package.nix { };
-in
+# in
 {
   environment.systemPackages = with pkgs; [
     # Media players

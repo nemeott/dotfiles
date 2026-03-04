@@ -16,6 +16,7 @@
 
   programs.zen-browser = {
     enable = true;
+   	suppressXdgMigrationWarning = true;
     policies = {
       DisableAppUpdate = true; # Flake default
       DontCheckDefaultBrowser = true;
@@ -51,6 +52,7 @@
         "extensions.update.enabled" = false;
         "zen.tabs.select-recently-used-on-close" = false; # Don't jump to most recent tab on closing current tab
         "widget.gtk.rounded-bottom-corners.enabled" = false; # Disable rounded corners for better performance
+        "general.smoothScroll" = false; # Better battery life
       };
 
       # Find all shortcuts with: jq -c '.shortcuts[] | {id, key, keycode, action}' ~/.zen/default/zen-keyboard-shortcuts.json
