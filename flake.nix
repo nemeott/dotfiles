@@ -20,6 +20,10 @@
 
     noctalia.url = "github:noctalia-dev/noctalia-shell";
     noctalia.inputs.nixpkgs.follows = "nixpkgs";
+    noctalia.inputs.noctalia-qs.follows = "noctalia-qs";
+
+    noctalia-qs.url = "github:noctalia-dev/noctalia-qs";
+    noctalia-qs.inputs.nixpkgs.follows = "nixpkgs";
 
     catppuccin.url = "github:catppuccin/nix";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
