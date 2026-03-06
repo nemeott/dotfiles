@@ -5,8 +5,6 @@
 
   programs = {
     gh.enable = true;
-    
-    devenv.enable = true;
 
     zed-editor = {
       enable = true;

@@ -51,6 +51,9 @@ in
     gnumake
 
     xauth # For X11 ssh forwarding (school)
+
+    # TODO: Add devenv
+    # devenv # Development environments with Nix
   ];
   # Set the xauth location for ssh correctly (nixos uses unusual file system)
   programs.ssh.setXAuthLocation = true;
