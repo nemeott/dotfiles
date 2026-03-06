@@ -83,11 +83,10 @@
   '';
 
   # Hibernate after 60 minutes of suspend
-  systemd.sleep.extraConfig = ''
-    [Sleep]
-    SuspendThenHibernate=yes
-    HibernateDelaySec=3600
-  '';
+  systemd.sleep.settings.Sleep = {
+    SuspendThenHibernate = true;
+    HibernateDelaySec = "1h";
+  };
 
   # Enable zram swap for better performance on systems with limited RAM
   zramSwap = {
