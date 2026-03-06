@@ -25,9 +25,17 @@ in
       ".bashrc".source = "${dotfilesPath}/.bashrc";
       ".bash_aliases".source = "${dotfilesPath}/.bash_aliases";
 
+      # Allow unfree packages for shells
+      ".config/nixpkgs/config.nix".source = "${dotfilesPath}/nixpkgs/config.nix";
+
+      # TODO: Keep secret
+      # # Give Nix an access token to avoid rate-limiting
+      # ".config/nix/nix.conf".source = "${dotfilesPath}/nix/nix.conf";
+
       # Niri
       ".config/niri/config.kdl".source = "${dotfilesPath}/niri/config.kdl";
 
+      # Clang format
       ".clang-format".source = "${dotfilesPath}/.clang-format";
     };
   };

@@ -30,6 +30,7 @@ _alias_if grep rg 'rg'
 
 _alias_if ptop powertop 'powertop'
 _alias_if ff fastfetch 'fastfetch'
+_alias_if lg lazygit 'lazygit'
 
 _alias_if zed zeditor 'zeditor'
 

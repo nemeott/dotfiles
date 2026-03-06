@@ -40,13 +40,7 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs username; };
           modules = [
-            {
-              nixpkgs.config.allowUnfree = true;
-              # TODO: Move this to home manager
-              # Also need to do this to allow unfree packages for nix-shell
-              # mkdir -p ~/.config/nixpkgs
-              # echo '{ allowUnfree = true; }' > ~/.config/nixpkgs/config.nix
-            }
+            { nixpkgs.config.allowUnfree = true; }
 
             ./nixos-config/hosts/icarus/configuration.nix
 
