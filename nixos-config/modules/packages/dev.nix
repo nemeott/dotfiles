@@ -31,11 +31,18 @@ in
     };
   };
 
+  programs.lazygit = {
+    enable = true;
+    settings = {
+    	# Make Lazygit faster on large repos
+      git.log.order = "default";
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     # CLI Tools
     dig # DNS testing tool
     vhs # Terminal recording tool
-    lazygit # Simple tui for git
 
     # Editors
     vscode-with-tools
