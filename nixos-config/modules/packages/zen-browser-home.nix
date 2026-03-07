@@ -16,7 +16,6 @@
 
   programs.zen-browser = {
     enable = true;
-   	suppressXdgMigrationWarning = true;
     policies = {
       DisableAppUpdate = true; # Flake default
       DontCheckDefaultBrowser = true;
