@@ -387,6 +387,9 @@ binds {
     Mod+T hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    
+    Mod+Z hotkey-overlay-title="Zed" { spawn "zeditor"; }
+    Mod+Shift+Z hotkey-overlay-title="Zen Browser" { spawn "zen-beta"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
