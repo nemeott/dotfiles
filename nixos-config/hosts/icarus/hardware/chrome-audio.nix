@@ -7,6 +7,10 @@
 { pkgs, ... }:
 
 {
+  environment.systemPackages = [
+    pkgs.pavucontrol # Used to adjust pulseaudio settings (select "Stereo Output + Stereo Input" profile)
+  ];
+
   # Use pulseaudio instead of pipewire
   services.pipewire.enable = false;
   services.pulseaudio = {
