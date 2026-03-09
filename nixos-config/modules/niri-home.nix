@@ -30,6 +30,7 @@
           pkgs.swaylock
           pkgs.brightnessctl
           pkgs.coreutils
+          pkgs.gnused
         ];
         text = ''
           # Read brightness percent and strip the % sign
@@ -37,39 +38,20 @@
 
           # Don't start if 0 brightness
           if [ "$brightness" -gt 0 ]; then
-            exec swaylock
+            # exec swaylock
+            ${pkgs.swaylock}/bin/swaylock --daemonize
           fi
         '';
       };
 
-      conditional_suspend = pkgs.writeShellApplication {
-        name = "conditional_suspend";
-        runtimeInputs = [
-          pkgs.brightnessctl
-          pkgs.systemd
-          pkgs.coreutils
-        ];
-        text = ''
-          # Read brightness percent and strip the % sign
-          brightness=$(brightnessctl -m | cut -d, -f4 | sed 's/%//')
-
-          # Don't start if 0 brightness
-          if [ "$brightness" -gt 0 ]; then
-            exec systemctl suspend
-          fi
-        '';
-      };
-
-      # lock = "${lib.getExe conditional_lock}";
-      # suspend = lib.getExe conditional_suspend;
-
-      lock = "${pkgs.swaylock}/bin/swaylock --daemonize"; # Default
-      suspend = "systemctl suspend"; # Default
+      # lock = "${pkgs.swaylock}/bin/swaylock --daemonize"; # Default
+      lock = "${lib.getExe conditional_lock}";
+      suspend = "systemctl suspend";
 
       display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
     in
     {
-      enable = true;      
+      enable = true;
       events = {
         before-sleep = (display "off") + "; " + lock;
         after-resume = display "on";
@@ -82,9 +64,9 @@
           command = lock;
         }
         {
-        	timeout = 300; # 5 minutes
-					command = display "off";
-					resumeCommand = display "on";
+          timeout = 300; # 5 minutes
+          command = display "off";
+          resumeCommand = display "on";
         }
         {
           timeout = 1200; # 20 minutes
@@ -92,5 +74,4 @@
         }
       ];
     };
-    
 }
