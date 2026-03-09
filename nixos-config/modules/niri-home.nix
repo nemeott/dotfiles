@@ -63,14 +63,18 @@
       # lock = "${lib.getExe conditional_lock}";
       # suspend = lib.getExe conditional_suspend;
 
-      lock = "${lib.getExe' pkgs.swaylock "swaylock"} --daemonize"; # Default
+      lock = "${pkgs.swaylock}/bin/swaylock --daemonize"; # Default
       suspend = "systemctl suspend"; # Default
+
+      display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
     in
     {
-      enable = true;
+      enable = true;      
       events = {
-        lock = lock;
-        before-sleep = lock;
+        before-sleep = (display "off") + "; " + lock;
+        after-resume = display "on";
+        lock = (display "off") + "; " + lock;
+        unlock = display "on";
       };
       timeouts = [
         {
@@ -78,9 +82,15 @@
           command = lock;
         }
         {
+        	timeout = 300; # 5 minutes
+					command = display "off";
+					resumeCommand = display "on";
+        }
+        {
           timeout = 1200; # 20 minutes
           command = suspend;
         }
       ];
     };
+    
 }
