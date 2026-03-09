@@ -61,5 +61,13 @@ in
 
     # Get option from a flake
     no = "nixos-option --flake ${flake-path}";
+
+    # TODO: Remove when Zed copilot process duplication is fixed
+    # List all copilot language server instances
+    colist = "ps aux | grep '[c]opilot-language-server'";
+    # Kill all but the most recent instance of the copilot language server
+    coclean = "pgrep -f copilot-language-server | sort -n | head -n -1 | xargs -r kill";
+    # Kill all copilot language server processes
+    conuke = "pkill -f copilot-language-server";
   };
 }

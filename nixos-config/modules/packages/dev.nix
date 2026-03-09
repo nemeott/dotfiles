@@ -34,7 +34,7 @@ in
   programs.lazygit = {
     enable = true;
     settings = {
-    	# Make Lazygit faster on large repos
+      # Make Lazygit faster on large repos
       git.log.order = "default";
     };
   };
@@ -46,7 +46,6 @@ in
 
     # Editors
     vscode-with-tools
-    # zed-editor-with-tools (in dev-home.nix)
 
     # Languages/compilers
     gcc
@@ -74,7 +73,5 @@ in
   fonts.packages = with pkgs; [
     monaspace
     nerd-fonts.monaspace
-    fira-code
-    nerd-fonts.fira-code
   ];
 }
