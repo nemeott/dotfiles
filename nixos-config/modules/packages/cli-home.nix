@@ -23,13 +23,25 @@
     yazi = {
       enable = true; # Terminal-based file explorer
       plugins = with pkgs; {
-        git = yaziPlugins.git;
-        diff = yaziPlugins.diff;
-        chmod = yaziPlugins.chmod;
-        rsync = yaziPlugins.rsync;
-        compress = yaziPlugins.compress;
-        toggle-pane = yaziPlugins.toggle-pane;
-        # zoom = yaziPlugins.zoom;
+        inherit (yaziPlugins)
+          git
+          diff
+          chmod
+          rsync
+          compress
+          toggle-pane
+          lazygit
+          ;
+        zoom = yaziPlugins.mkYaziPlugin {
+          pname = "zoom.yazi";
+          version = "2026-03-08";
+          src = fetchFromGitHub {
+            owner = "yazi-rs";
+            repo = "plugins";
+            rev = "196281844b8cbcac658a59013e4805300c2d6126";
+            hash = "sha256-pAkBlodci4Yf+CTjhGuNtgLOTMNquty7xP0/HSeoLzE=";
+          };
+        };
       };
       initLua = ''
               -- https://github.com/yazi-rs/plugins/tree/main/git.yazi
@@ -167,17 +179,26 @@
             on = "T";
             run = "plugin toggle-pane max-preview";
           }
-          # # Zoom plugin
-          # {
-          #   on = "+";
-          #   run = "plugin zoom 1";
-          #   desc = "Zoom in hovered file";
-          # }
-          # {
-          #   on = "-";
-          #   run = "plugin zoom -1";
-          #   desc = "Zoom out hovered file";
-          # }
+          # FIXME: Zoom plugin
+          {
+            on = "+";
+            run = "plugin zoom 1";
+            desc = "Zoom in hovered file";
+          }
+          {
+            on = "-";
+            run = "plugin zoom -1";
+            desc = "Zoom out hovered file";
+          }
+          # LazyGit plugin
+          {
+            on = [
+              "l"
+              "g"
+            ];
+            run = "plugin lazygit";
+            desc = "Open LazyGit in current directory";
+          }
         ];
       };
       settings = {
