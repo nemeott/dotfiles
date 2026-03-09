@@ -262,7 +262,7 @@ fi
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash --cmd cd)"
 else
-    _warn_missing zoxide "zoxide initialization"
+    _warn_missing zoxide "zoxide initialization\nInstall through package manager or with: curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh"
 fi
 
 # Enable batman (colored man pages)
@@ -280,15 +280,15 @@ else
 fi
 
 # Enable atuin for better bash history (atuin needs bash-preexec)
-if [[ -f ~/.bash-preexec.sh ]]; then
-    if command -v atuin >/dev/null 2>&1; then
+if command -v atuin >/dev/null 2>&1; then
+	if [[ -f ~/.bash-preexec.sh ]]; then
         source ~/.bash-preexec.sh
         eval "$(atuin init bash)"
     else
-        _warn_missing atuin "atuin initialization"
+	    _warn_missing ~/.bash-preexec.sh $'atuin initialization\nInstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
     fi
 else
-    _warn_missing ~/.bash-preexec.sh $'atuin initialization\nInstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
+    _warn_missing atuin "atuin initialization\nInstall through package manager or with: curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh"
 fi
 
 
