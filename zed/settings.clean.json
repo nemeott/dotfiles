@@ -7,6 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+	"diff_view_style": "unified",
 	"format_on_save": "off",
 	"remove_trailing_whitespace_on_save": false,
 	"languages": {
@@ -44,6 +45,7 @@
 							"FBT001", // Allow booleans in functions
 							"FBT002", // Allow booleans in functions
 							"ERA001", // Allow commented out code
+							"D401", // Disable imparative mood docstring check
 						],
 					},
 					// 	"select": ["D"], // Enable all pydocstyle rules
@@ -173,7 +175,19 @@
 		"provider": "copilot",
 	},
 	"agent": {
-		"default_profile": "write",
+		"favorite_models": [
+			{
+				"provider": "copilot_chat",
+				"model": "grok-code-fast-1",
+				"enable_thinking": false,
+			},
+			{
+				"provider": "copilot_chat",
+				"model": "gpt-5-mini",
+				"enable_thinking": false,
+			},
+		],
+		"default_profile": "ask",
 		"default_width": 320.0,
 		"default_model": {
 			"provider": "copilot_chat",
@@ -193,7 +207,6 @@
 	"auto_signature_help": false,
 	"multi_cursor_modifier": "cmd_or_ctrl",
 	"autosave": "on_focus_change",
-	"buffer_font_fallbacks": ["FiraCode Nerd Font"],
 	"buffer_font_family": "Monaspace Neon Frozen",
 	"ui_font_size": 13.0,
 	"buffer_font_size": 10.0,

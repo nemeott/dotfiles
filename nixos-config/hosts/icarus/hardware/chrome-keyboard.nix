@@ -36,7 +36,7 @@
           # esc = "esc";
           # back = "back";
           # refresh = "refresh";
-          # zoom = "f11";
+          zoom = "f11";
           # scale = "scale";
           # sysrq = "sysrq"; # Screenshot key
           # brightnessdown = "brightnessdown";

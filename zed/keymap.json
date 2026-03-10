@@ -174,4 +174,33 @@
       "ctrl-alt-=": "pane::GoForward",
     },
   },
+  {
+    "bindings": {
+      "alt-d": "editor::ToggleDiagnostics"
+    }
+  },
+  {
+    "context": "(GitPanel > Editor)",
+    "bindings": {
+      "ctrl-space": "git::StageAll",
+    },
+  },
+  {
+    "context": "(GitPanel > Editor)",
+    "bindings": {
+      "ctrl-shift-space": "git::UnstageAll",
+    },
+  },
+  {
+    "context": "(GitPanel > Editor)",
+    "bindings": {
+      "ctrl-enter": "git::Commit",
+    },
+  },
+  {
+    "context": "(GitPanel > Editor)",
+    "bindings": {
+      "ctrl-shift-enter": "git::Amend",
+    },
+  },
 ]

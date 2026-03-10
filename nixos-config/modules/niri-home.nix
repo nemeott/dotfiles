@@ -68,7 +68,7 @@
         '';
       };
 
-      # display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
+      # display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors"; # Default
       display = status: "${lib.getExe conditional_display} ${status}";
     in
     {
@@ -81,7 +81,7 @@
       };
       timeouts = [
         {
-          timeout = 180; # 3 minutes
+          timeout = 600; # 10 minutes
           command = lock;
         }
         {
