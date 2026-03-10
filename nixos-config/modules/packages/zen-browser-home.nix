@@ -129,7 +129,6 @@
             container = containers.Personal.id;
             position = 3000;
           };
-          # TODO: Figure out why this isn't being generated?
           "Chess" = {
             id = "26060d75-5402-4324-9fce-bf2691204545";
             icon = "♟️";

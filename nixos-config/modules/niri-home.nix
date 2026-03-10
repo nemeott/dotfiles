@@ -38,7 +38,6 @@
 
           # Don't start if 0 brightness
           if [ "$brightness" -gt 0 ]; then
-            # exec swaylock
             ${pkgs.swaylock}/bin/swaylock --daemonize
           fi
         '';
@@ -48,7 +47,29 @@
       lock = "${lib.getExe conditional_lock}";
       suspend = "systemctl suspend";
 
-      display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
+      conditional_display = pkgs.writeShellApplication {
+        name = "conditional_lock";
+        runtimeInputs = [
+          pkgs.niri
+          pkgs.brightnessctl
+          pkgs.coreutils
+          pkgs.gnused
+        ];
+        text = ''
+          	status=$1 # First argument is "on" or "off"
+
+            # Read brightness percent and strip the % sign
+            brightness=$(brightnessctl -m | cut -d, -f4 | sed 's/%//')
+
+            # Don't start if 0 brightness
+            if [ "$brightness" -gt 0 ]; then
+              ${pkgs.niri}/bin/niri msg action power-"$status"-monitors
+            fi
+        '';
+      };
+
+      # display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
+      display = status: "${lib.getExe conditional_display} ${status}";
     in
     {
       enable = true;
