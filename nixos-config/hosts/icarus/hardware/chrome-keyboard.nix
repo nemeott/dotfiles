@@ -67,6 +67,11 @@
           brightnessdown = "kbdillumdown";
           brightnessup = "kbdillumup";
         };
+        # rightalt on Chromebook is altgr for some reason
+        altgr = {
+          up = "pageup";
+          down = "pagedown";
+        };
         controlalt = {
           backspace = "C-A-delete";
         };
