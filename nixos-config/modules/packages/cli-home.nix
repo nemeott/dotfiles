@@ -203,6 +203,8 @@
       };
       settings = {
         mgr = {
+          sort_by = "mtime";
+          sort_reverse = true; # Newest first
           linemode = "size_and_mtime";
           show_hidden = true;
         };
