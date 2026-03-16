@@ -182,6 +182,19 @@
               icon = "https://noogle.dev/favicon.ico";
               definedAliases = [ "@noo" ];
             };
+            
+            github = {
+              name = "GitHub";
+              urls = [ { template = "https://github.com/search?q={searchTerms}&type=repositories"; } ];
+              icon = "https://github.com/favicon.ico";
+              definedAliases = [ "@gh" ];
+            };
+            pypi = {
+              name = "PyPI";
+              urls = [ { template = "https://pypi.org/search/?q={searchTerms}"; } ];
+              icon = "https://pypi.org/favicon.ico";
+              definedAliases = [ "@py" ];
+            };
 
             # Search policy templates (for browser config info)
             policy-templates = {
@@ -194,7 +207,7 @@
             chess-programming-wiki = {
               name = "Chess Programming Wiki";
               urls = [ { template = "https://www.chessprogramming.org/index.php?search={searchTerms}"; } ];
-              icon = "♟️"; # TODO: Find working icon
+              icon = "https://www.chessprogramming.org/images/logo.png";
               definedAliases = [ "@cpw" ];
             };
           };
