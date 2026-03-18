@@ -338,8 +338,10 @@
   // Matrices and Vectors
   {trigger: "mag", replacement: "\\left|\\left| $0 \\right|\\right|$1", options: "mA", description: "Vector magnitude (auto-scaling bars)"},
   // {trigger: "mag", replacement: "\\big\\| $0 \\big\\| $1", options: "mA"},
+  {trigger: "mm([a-z])", replacement: "\\mathbf{[[0]]}", options: "rmA", priority: 2, description: "Bold matrix identifier"},
   {trigger: "m([A-Z])", replacement: "\\mathbf{[[0]]}", options: "rmA", description: "Bold matrix identifier"},
   {trigger: "\\to p", replacement: "\\top", options: "mA", description: "Looks like an T or upside down perp (Useful for transpose)"},
+  {trigger: "TT", replacement: "^{\\top}", options: "mA", description: "Looks like an T or upside down perp (Useful for transpose)"},
   {trigger: "\\\\mathbf{([A-Za-z])}T", replacement: "\\mathbf{[[0]]}^{\\top}", options: "rmA", description: "Matrix transpose"},
   {trigger: "det", replacement: "\\det($0)", options: "mA", description: "Matrix determinant"},
   {trigger: "ker", replacement: "\\ker($0)", options: "mA", description: "Matrix kernel"},
@@ -358,8 +360,8 @@
   
   // Machine Learning
   {trigger: "exp", replacement: "\\exp($0)", options: "mA", description: "e to the power of..."},
-  {trigger: "min", replacement: "\\min($0)", options: "mA", description: "Minimum"},
-  {trigger: "max", replacement: "\\max($0)", options: "mA", description: "Maximum"},
+  {trigger: "min", replacement: "\\min", options: "mA", description: "Minimum"},
+  {trigger: "max", replacement: "\\max", options: "mA", description: "Maximum"},
   
   
   // Environments and matrices/arrays
