@@ -391,6 +391,7 @@
   {trigger: "@B", replacement: "\\beta", options: "mA"},
   {trigger: "@c", replacement: "\\chi", options: "mA"},
   {trigger: "@C", replacement: "\\chi", options: "mA"},
+  {trigger: "gamm", replacement: "\\gamma", options: "mA"},
   {trigger: "@g", replacement: "\\gamma", options: "mA"},
   {trigger: "@G", replacement: "\\Gamma", options: "mA"},
   {trigger: "@d", replacement: "\\delta", options: "mA"},

@@ -52,6 +52,7 @@
         "zen.tabs.select-recently-used-on-close" = false; # Don't jump to most recent tab on closing current tab
         "widget.gtk.rounded-bottom-corners.enabled" = false; # Disable rounded corners for better performance
         "general.smoothScroll" = false; # Better battery life
+        "geo.provider.network.url" = "https://api.beacondb.net/v1/geolocate"; # Allow location services (doesn't work without provider)
       };
 
       # Find all shortcuts with: jq -c '.shortcuts[] | {id, key, keycode, action}' ~/.zen/default/zen-keyboard-shortcuts.json
@@ -182,7 +183,7 @@
               icon = "https://noogle.dev/favicon.ico";
               definedAliases = [ "@noo" ];
             };
-            
+
             github = {
               name = "GitHub";
               urls = [ { template = "https://github.com/search?q={searchTerms}&type=repositories"; } ];

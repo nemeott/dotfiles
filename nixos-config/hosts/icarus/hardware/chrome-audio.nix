@@ -24,16 +24,7 @@
     extraConfig = ''
       # Use legacy ALSA profile probing
       load-module module-udev-detect ignore_dB=1 use_ucm=0
-
-      # Below options don't work so we use a systemd service below instead
-      # # Force the fallback profile to avoid "None" profile on startup
-      # set-card-profile alsa_card.pci-0000_00_1f.3-platform-tgl_rt5682_def \
-      #   output:stereo-fallback+input:stereo-fallback
-
-      # # Mute the default sink on startup and set to 0 volume
-      # set-sink-mute @DEFAULT_SINK@ 1
-      # set-sink-volume @DEFAULT_SINK@ 0
-    '';
+		'';
   };
 
   # Switch audio sink manually with
@@ -48,12 +39,6 @@
     description = "Switch to working audio sink and mute on login";
 
     wantedBy = [ "default.target" ];
-
-    # Provide pactl/pacmd
-    path = [
-      pkgs.pulseaudio
-      pkgs.bash
-    ];
 
     # Make sure pulseaudio is running
     after = [
@@ -74,6 +59,12 @@
       Restart = "on-failure";
       RestartSec = "1s";
     };
+
+    # Provide pactl/pacmd
+    path = [
+      pkgs.pulseaudio
+      pkgs.bash
+    ];
 
     script = ''
       set -euo pipefail
