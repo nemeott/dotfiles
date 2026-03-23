@@ -159,6 +159,12 @@
               icon = nixSnowflakeIcon;
               definedAliases = [ "@np" ];
             };
+            nix-packages-github-prs = {
+              name = "Nixpkgs PRs";
+              urls = [ { template = "https://github.com/NixOS/nixpkgs/pulls?q=is%3Apr+is%3Aopen+{searchTerms}"; } ];
+              icon = "https://github.com/favicon.ico";
+              definedAliases = [ "@npp" ];
+            };
             nixos-options = {
               name = "NixOS Options";
               urls = [ { template = "https://search.nixos.org/options?channel=unstable&query={searchTerms}"; } ];
