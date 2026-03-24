@@ -382,14 +382,25 @@ binds {
     // Mod+Shift+Slash { spawn-sh "qs -c noctalia-shell ipc call plugin:keybind-cheatsheet toggle"; }
     Mod+Shift+Slash { spawn-sh "noctalia-shell ipc call plugin:keybind-cheatsheet toggle"; }
 
-    // Suggested binds for running programs: terminal, app launcher, screen locker.
-    // Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
+    // Open apps
     Mod+T hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-    
     Mod+Z hotkey-overlay-title="Zed" { spawn "zeditor"; }
     Mod+Shift+Z hotkey-overlay-title="Zen Browser" { spawn "zen-beta"; }
+    
+    // Noctalia settings
+    Mod+Comma { spawn "noctalia-shell" "ipc" "call" "settings" "toggle"; }
+    Mod+Period { spawn "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
+
+    // Noctalia shortcuts
+    Mod+V { spawn "noctalia-shell" "ipc" "call" "launcher" "clipboard"; }
+    Mod+E { spawn "noctalia-shell" "ipc" "call" "launcher" "emoji"; }
+    Mod+A { spawn "noctalia-shell" "ipc" "call" "calendar" "toggle"; }
+    Mod+N { spawn "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
+    Mod+W { spawn "noctalia-shell" "ipc" "call" "network" "togglePanel"; }
+    Mod+P { spawn "noctalia-shell" "ipc" "call" "media" "playPause"; }
+    Mod+S { spawn "noctalia-shell" "ipc" "call" "systemMonitor" "toggle"; }
+    Mod+B { spawn "noctalia-shell" "ipc" "call" "bluetooth" "togglePanel"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -411,16 +422,14 @@ binds {
 
     // Example media keys mapping using playerctl.
     // This will work with any MPRIS-enabled media player.
-    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
-    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
-    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
-    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+    XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioStop allow-when-locked=true { spawn-sh "playerctl stop"; }
+    XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
+    XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
 
     // Example brightness key mappings for brightnessctl. (Default is +-10%)
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
     // but you need to manually put each argument in separate "" quotes.
-    // XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
-    // XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
 
     // Uses custom script (increment by 5%, lowest is 1%, with option to press again to go to 0%)
     XF86MonBrightnessUp allow-when-locked=true { spawn "brightness_up"; }
@@ -429,9 +438,16 @@ binds {
     XF86KbdBrightnessUp allow-when-locked=true { spawn-sh "brightnessctl --device='*kbd_backlight' set +10"; }
     XF86KbdBrightnessDown allow-when-locked=true { spawn-sh "brightnessctl --device='*kbd_backlight' set 10-"; }
 
+    // Powers off the monitors. To turn them back on, do any input like
+    // moving the mouse or pressing any other key.
+    Mod+Shift+P { power-off-monitors; }
+    
     // Lock key on chromebook
     XF86ScreenSaver { spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; } // Bring up noctalia-shell session menu
-
+    
+    Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    
+    // Toggle screen rotation by stopping/starting iio-niri user systemd service through custom script
     Mod+Alt+R hotkey-overlay-title="Toggle iio-niri" { spawn "toggle_screen_rotation"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
@@ -441,69 +457,26 @@ binds {
 
     Mod+Q repeat=false { close-window; }
 
+    // Switch directionally
     Mod+Left  { focus-column-left; }
-    // Mod+Down  { focus-window-down; }
-    // Mod+Up    { focus-window-up; }
     Mod+Right { focus-column-right; }
+    Mod+Down  { focus-workspace-down; }
+    Mod+Up    { focus-workspace-up; }
 
+    // Move windows directionally
     Mod+Shift+Left  { move-column-left; }
-    // Mod+Shift+Down  { move-window-down; }
-    // Mod+Shift+Up    { move-window-up; }
     Mod+Shift+Right { move-column-right; }
+    Mod+Shift+Down  { move-column-to-workspace-down; }
+    Mod+Shift+Up    { move-column-to-workspace-up; }
 
-    // Alternative commands that move across workspaces when reaching
-    // the first or last window in a column.
-    // Mod+J     { focus-window-or-workspace-down; }
-    // Mod+K     { focus-window-or-workspace-up; }
-    // Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
-    // Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
-
+	// Move workspaces up/down
+    Mod+Ctrl+Down       { move-workspace-down; }
+    Mod+Ctrl+Up         { move-workspace-up; }
+    
     Mod+Home { focus-column-first; }
     Mod+End  { focus-column-last; }
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
-
-    // Mod+Shift+Left  { focus-monitor-left; }
-    // Mod+Shift+Down  { focus-monitor-down; }
-    // Mod+Shift+Up    { focus-monitor-up; }
-    // Mod+Shift+Right { focus-monitor-right; }
-
-    // Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
-    // Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
-    // Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
-    // Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
-
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }
-    // ...
-
-    // And you can also move a whole workspace to another monitor:
-    // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
-    // ...
-
-    // Mod+Page_Down      { focus-workspace-down; }
-    // Mod+Page_Up        { focus-workspace-up; }
-    // Mod+U              { focus-workspace-down; }
-    // Mod+I              { focus-workspace-up; }
-    Mod+Down           { focus-workspace-down; }
-    Mod+Up             { focus-workspace-up; }
-    // Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
-    // Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
-    // Mod+Ctrl+U         { move-column-to-workspace-down; }
-    // Mod+Ctrl+I         { move-column-to-workspace-up; }
-    Mod+Shift+Down     { move-column-to-workspace-down; }
-    Mod+Shift+Up       { move-column-to-workspace-up; }
-
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
-    // ...
-
-    // Mod+Shift+Page_Down { move-workspace-down; }
-    // Mod+Shift+Page_Up   { move-workspace-up; }
-    // Mod+Shift+U         { move-workspace-down; }
-    // Mod+Shift+I         { move-workspace-up; }
-    Mod+Ctrl+Down       { move-workspace-down; }
-    Mod+Ctrl+Up         { move-workspace-up; }
 
     // You can bind mouse wheel scroll ticks using the following syntax.
     // These binds will change direction based on the natural-scroll setting.
@@ -527,15 +500,6 @@ binds {
     Mod+Shift+WheelScrollUp        { focus-column-left; }
     Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
-
-    // Similarly, you can bind touchpad scroll "ticks".
-    // Touchpad scrolling is continuous, so for these binds it is split into
-    // discrete intervals.
-    // These binds are also affected by touchpad's natural-scroll, so these
-    // example binds are "inverted", since we have natural-scroll enabled for
-    // touchpads by default.
-    // Mod+TouchpadScrollDown { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02+"; }
-    // Mod+TouchpadScrollUp   { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02-"; }
 
     // You can refer to workspaces by index. However, keep in mind that
     // niri is a dynamic workspace system, so these commands are kind of
@@ -563,12 +527,15 @@ binds {
     Mod+Shift+7 { move-column-to-workspace 7; }
     Mod+Shift+8 { move-column-to-workspace 8; }
     Mod+Shift+9 { move-column-to-workspace 9; }
-
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Ctrl+1 { move-window-to-workspace 1; }
-
-    // Switches focus between the current and the previous workspace.
-    // Mod+Tab { focus-workspace-previous; }
+    Mod+Alt+1 { move-window-to-workspace 1; }
+    Mod+Alt+2 { move-window-to-workspace 2; }
+    Mod+Alt+3 { move-window-to-workspace 3; }
+    Mod+Alt+4 { move-window-to-workspace 4; }
+    Mod+Alt+5 { move-window-to-workspace 5; }
+    Mod+Alt+6 { move-window-to-workspace 6; }
+    Mod+Alt+7 { move-window-to-workspace 7; }
+    Mod+Alt+8 { move-window-to-workspace 8; }
+    Mod+Alt+9 { move-window-to-workspace 9; }
 
     // The following binds move the focused window in and out of a column.
     // If the window is alone, they will consume it into the nearby column to the side.
@@ -580,10 +547,6 @@ binds {
     // Mod+Comma  { consume-window-into-column; }
     // // Expel the bottom window from the focused column to the right.
     // Mod+Period { expel-window-from-column; }
-
-    // Noctalia settings
-    Mod+Comma { spawn "noctalia-shell" "ipc" "call" "settings" "toggle"; }
-    Mod+Period { spawn "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
 
     Mod+R { switch-preset-column-width; }
     // Cycling through the presets in reverse order is also possible.
@@ -618,33 +581,8 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     // Move the focused window between the floating and the tiling layout.
-    // Mod+V       { toggle-window-floating; }
-    // Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+L       { toggle-window-floating; }
     Mod+Shift+L { switch-focus-between-floating-and-tiling; }
-
-    Mod+V { spawn "noctalia-shell" "ipc" "call" "launcher" "clipboard"; }
-    Mod+E { spawn "noctalia-shell" "ipc" "call" "launcher" "emoji"; }
-    Mod+A { spawn "noctalia-shell" "ipc" "call" "calendar" "toggle"; }
-    Mod+N { spawn "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
-    Mod+W { spawn "noctalia-shell" "ipc" "call" "network" "togglePanel"; }
-    Mod+P { spawn "noctalia-shell" "ipc" "call" "media" "playPause"; }
-    Mod+S { spawn "noctalia-shell" "ipc" "call" "systemMonitor" "toggle"; }
-    Mod+B { spawn "noctalia-shell" "ipc" "call" "bluetooth" "togglePanel"; }
-    
-
-    // Toggle tabbed column display mode.
-    // Windows in this column will appear as vertical tabs,
-    // rather than stacked on top of each other.
-    // Mod+W { toggle-column-tabbed-display; }
-
-    // Actions to switch layouts.
-    // Note: if you uncomment these, make sure you do NOT have
-    // a matching layout switch hotkey configured in xkb options above.
-    // Having both at once on the same hotkey will break the switching,
-    // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
-    // Mod+Space       { switch-layout "next"; }
-    // Mod+Shift+Space { switch-layout "prev"; }
 
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
@@ -663,10 +601,6 @@ binds {
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
-
-    // Powers off the monitors. To turn them back on, do any input like
-    // moving the mouse or pressing any other key.
-    Mod+Shift+P { power-off-monitors; }
 }
 
 // Lock screen instantly on close with swaylock
