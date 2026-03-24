@@ -432,8 +432,7 @@ binds {
     // Lock key on chromebook
     XF86ScreenSaver { spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; } // Bring up noctalia-shell session menu
 
-    // Power off button on chromebook
-    // XF86PowerOff
+    Mod+Alt+R hotkey-overlay-title="Toggle iio-niri" { spawn "toggle_screen_rotation"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
@@ -659,7 +658,7 @@ binds {
     //
     // The allow-inhibiting=false property can be applied to other binds as well,
     // which ensures niri always processes them, even when an inhibitor is active.
-    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    // Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Mod+Shift+E { quit; }

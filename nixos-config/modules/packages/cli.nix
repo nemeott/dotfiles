@@ -35,6 +35,7 @@ in
     # Tools
     gdu # Fast disk usage analyzer
     powertop # Power utils
+    systemctl-tui # Terminal-based systemctl interface
     bitwise # Terminal-based bit manipulator and calculator
 
     nvd # NixOS version diff

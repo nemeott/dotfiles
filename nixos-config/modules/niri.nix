@@ -76,6 +76,19 @@
       '';
     })
 
+    # Toggle iio-niri screen rotation
+    (writeShellApplication {
+      name = "toggle_screen_rotation";
+      runtimeInputs = [ systemd ];
+      text = ''
+        if systemctl --user is-active --quiet iio-niri; then
+          systemctl --user stop iio-niri
+        else
+          systemctl --user start iio-niri
+        fi
+      '';
+    })
+
     bibata-cursors
     papirus-icon-theme
     adwaita-icon-theme
