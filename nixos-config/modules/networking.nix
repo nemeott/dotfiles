@@ -13,6 +13,8 @@ in
     # proxy.default = "http://user:password@proxy:port/";
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
+    # TODO: Disable DNS with keybind?
+
     # Enable networking
     dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
     networkmanager = {

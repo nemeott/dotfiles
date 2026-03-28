@@ -387,6 +387,8 @@ binds {
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Mod+Z hotkey-overlay-title="Zed" { spawn "zeditor"; }
     Mod+Shift+Z hotkey-overlay-title="Zen Browser" { spawn "zen-beta"; }
+    Mod+M hotkey-overlay-title="MuseScore 3.7 Evolution" { spawn "mscore-evo"; }
+    Mod+Shift+M hotkey-overlay-title="MuseScore 4" { spawn "mscore"; }
     
     // Noctalia settings
     Mod+Comma { spawn "noctalia-shell" "ipc" "call" "settings" "toggle"; }
@@ -401,11 +403,6 @@ binds {
     Mod+P { spawn "noctalia-shell" "ipc" "call" "media" "playPause"; }
     Mod+S { spawn "noctalia-shell" "ipc" "call" "systemMonitor" "toggle"; }
     Mod+B { spawn "noctalia-shell" "ipc" "call" "bluetooth" "togglePanel"; }
-
-    // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
-    // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
-    // For example, this is a standard bind to toggle the screen reader (orca).
-    // Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
@@ -463,11 +460,18 @@ binds {
     Mod+Down  { focus-workspace-down; }
     Mod+Up    { focus-workspace-up; }
 
-    // Move windows directionally
+    // Move columns directionally
     Mod+Shift+Left  { move-column-left; }
     Mod+Shift+Right { move-column-right; }
     Mod+Shift+Down  { move-column-to-workspace-down; }
     Mod+Shift+Up    { move-column-to-workspace-up; }
+    
+    // TODO: Implement
+    // // Move windows directionally
+    // Mod+Alt+Left  { move-window-left; }
+    // Mod+Alt+Right { move-window-right; }
+    // Mod+Alt+Down  { move-window-to-workspace-down; }
+    // Mod+Alt+Up    { move-window-to-workspace-up; }
 
 	// Move workspaces up/down
     Mod+Ctrl+Down       { move-workspace-down; }
