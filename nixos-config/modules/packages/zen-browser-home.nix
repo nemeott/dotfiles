@@ -38,21 +38,51 @@
     profiles.default = {
       # AKA Preferences (about:config)
       settings = {
-        "browser.aboutConfig.showWarning" = false;
-        "zen.view.welcome-screen.seen" = true;
-        "zen.welcome-screen.seen" = true;
-        "zen.workspaces.continue-where-left-off" = true;
-        "apz.overscroll.enabled" = false; # Stop the annoying bounce at scroll boundaries
-        "zen.view.window.scheme" = 0; # Dark mode
-        "layout.css.prefers-color-scheme.content-override" = 0; # Dark website appearance
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true; # Let noctalia apply theme to Zen
+        # Let Nix configure stuff
         "extensions.autoDisableScopes" = 0; # Automatically install configured extensions
         "extensions.update.autoUpdateDefault" = false;
         "extensions.update.enabled" = false;
+
+        # Hide already seen screens
+        "browser.aboutConfig.showWarning" = false;
+        "zen.view.welcome-screen.seen" = true;
+        "zen.welcome-screen.seen" = true;
+
+        # General
+        "zen.workspaces.continue-where-left-off" = true;
+        "apz.overscroll.enabled" = false; # Stop the annoying bounce at scroll boundaries
         "zen.tabs.select-recently-used-on-close" = false; # Don't jump to most recent tab on closing current tab
+
+        # Enable location
+        "geo.provider.network.url" = "https://api.beacondb.net/v1/geolocate"; # Allow location services (doesn't work without provider)
+
+        # Dark mode
+        "zen.view.window.scheme" = 0; # Dark mode
+        "layout.css.prefers-color-scheme.content-override" = 0; # Dark website appearance
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true; # Let noctalia apply theme to Zen
+
+        # Performance/battery
         "widget.gtk.rounded-bottom-corners.enabled" = false; # Disable rounded corners for better performance
         "general.smoothScroll" = false; # Better battery life
-        "geo.provider.network.url" = "https://api.beacondb.net/v1/geolocate"; # Allow location services (doesn't work without provider)
+
+        # Memory enhancements
+        "browser.tabs.unloadOnLowMemory" = true; # Unload tabs when system is low on memory (default is less than 200MB)
+        "browser.tabs.min_inactive_duration_before_unload" = 600000; # Unload tabs after 10 minutes (600k milliseconds) (default)
+        "dom.ipc.processCount" = 4; # Number of processes (default is 8) (lower amount reduces memory usage)
+        "browser.tabs.fadeOutUnloadedTabs" = true; # See automatically unloaded tabs
+
+        # Increase network speed
+        "network.http.max-connections" = 1500; # Max number of HTTP connections to have open at once (default is 900)
+        "network.http.max-persistent-connections-per-server" = 10; # Max number of keep-alive connections to a single server (default is 6)
+        "content.notify.interval" = 500000; # Increase to load page faster because of fewer periodic redraws (default is 120.000 ms)
+
+        # Fastfox network speed settings (https://raw.githubusercontent.com/yokoffing/Betterfox/master/Fastfox.js)
+        "network.dnsCacheEntries" = 2000; # Increase DNS cache entries (default is 800)
+        "network.dnsCacheExpiration" = 3600; # Cache DNS entries for 1 hour (default is 60 seconds)
+        "network.dnsCacheExpirationGracePeriod" = 240;
+        "network.ssl_tokens_cache_capacity" = 32768; # Increase SSL session cache capacity at cost of slightly more RAM since most websites are HTTPS nowdays (default is 2048)
+        
+        "browser.safebrowsing.downloads.remote.enabled" = false; # Disable Google Safe Browsing for downloads (files still checked locally)
       };
 
       # Find all shortcuts with: jq -c '.shortcuts[] | {id, key, keycode, action}' ~/.zen/default/zen-keyboard-shortcuts.json
@@ -161,7 +191,9 @@
             };
             nix-packages-github-prs = {
               name = "Nixpkgs PRs";
-              urls = [ { template = "https://github.com/NixOS/nixpkgs/pulls?q=is%3Apr+is%3Aopen+{searchTerms}"; } ];
+              urls = [
+                { template = "https://github.com/NixOS/nixpkgs/pulls?q=is%3Apr+is%3Aopen+{searchTerms}"; }
+              ];
               icon = "https://github.com/favicon.ico";
               definedAliases = [ "@npp" ];
             };
@@ -224,7 +256,6 @@
         force = true;
         packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
           ublock-origin
-          privacy-badger
           sponsorblock
           istilldontcareaboutcookies
           shortkeys # TODO: Auto apply shortcuts (duplicate tab: ctrl + d)
