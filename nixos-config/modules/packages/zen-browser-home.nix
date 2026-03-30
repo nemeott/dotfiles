@@ -69,6 +69,7 @@
         "browser.tabs.unloadOnLowMemory" = true; # Unload tabs when system is low on memory (default is less than 200MB)
         "browser.tabs.min_inactive_duration_before_unload" = 600000; # Unload tabs after 10 minutes (600k milliseconds) (default)
         "dom.ipc.processCount" = 4; # Number of processes (default is 8) (lower amount reduces memory usage)
+        "dom.ipc.processCount.webIsolated" = 2; # Number of processes for web-isolated content (default is 4) (lower amount reduces memory usage)
         "browser.tabs.fadeOutUnloadedTabs" = true; # See automatically unloaded tabs
 
         # Increase network speed

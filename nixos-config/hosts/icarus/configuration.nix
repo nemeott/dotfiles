@@ -13,7 +13,7 @@
     "${inputs.nixos-hardware}/common/gpu/intel/tiger-lake"
 
     # Custom hardware configuration for Chromebook (audio and keyboard)
-    ./hardware/chrome-device.nix # Audio and keyboard fix from GitHub
+    # ./hardware/chrome-device.nix # Audio fix from GitHub
     ./hardware/chrome-audio.nix # Custom audio config to manually set audio profile
     ./hardware/chrome-bluetooth.nix # Bluetooth fix to work around rfkill issue and noctalia toggle bug
     ./hardware/chrome-keyboard.nix # Custom keymap for Chromebook keyboard (with keyd)
