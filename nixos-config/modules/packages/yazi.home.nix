@@ -3,7 +3,10 @@
 {
   programs.yazi = {
     enable = true; # Terminal-based file explorer
-    extraPackages = with pkgs; [ trash-cli ]; # Used by recycle-bin plugin
+    extraPackages = with pkgs; [
+      trash-cli # Used by recycle-bin plugin
+      jdupes # Used by dupes plugin
+    ];
     plugins = with pkgs; {
       inherit (yaziPlugins)
         git
@@ -13,6 +16,7 @@
         recycle-bin
         rsync
         compress
+        dupes
         toggle-pane
         # mediainfo # TODO: mediainfo
         lazygit
@@ -30,42 +34,77 @@
       };
     };
     initLua = ''
-            -- https://github.com/yazi-rs/plugins/tree/main/git.yazi
-            th.git = th.git or {}
-            th.git = {
-           	added_sign = "A",
-           	modified_sign = "M",
-           	deleted_sign = "D",
-           	updated_sign = "U",
-           	untracked_sign = "?",
-           	ignored_sign = "i",
-           	clean_sign = " ",
-           	unknown_sign = " ",
-            }
-            
-            require("git"):setup {
-             	-- Order of status signs showing in the linemode
-             	order = 1500,
-            }
-            
-            require("recycle-bin"):setup()
-            
-            function Linemode:size_and_mtime()
-      			local time = math.floor(self._file.cha.mtime or 0)
-      			if time == 0 then
-      				time = ""
-      			elseif os.date("%Y", time) == os.date("%Y") then
-      				time = os.date("%b %d %H:%M", time)
-      			else
-      				time = os.date("%b %d  %Y", time)
-      			end
-      		         
-      			local size = self._file:size()
-      			return string.format("%s %s", size and ya.readable_size(size) or "-", time)
-          end
+          				-- Git plugin configuration
+                  -- https://github.com/yazi-rs/plugins/tree/main/git.yazi
+                  th.git = th.git or {}
+                  th.git = {
+                 	added_sign = "A",
+                 	modified_sign = "M",
+                 	deleted_sign = "D",
+                 	updated_sign = "U",
+                 	untracked_sign = "?",
+                 	ignored_sign = "i",
+                 	clean_sign = " ",
+                 	unknown_sign = " ",
+                  }
+                  
+                  require("git"):setup {
+                   	-- Order of status signs showing in the linemode
+                   	order = 1500,
+                  }
+                  
+          				-- Recycle bin plugin configuration
+                  require("recycle-bin"):setup()
+                  
+          				-- Dupes plugin configuration
+                  th.dupes = th.dupes or {}
+                  -- th.dupes.mark_style = ui.Style():fg("#FFFFFF")
+                  th.dupes.mark_style = ui.Style():fg("blue")
+                  th.dupes.mark_sign = "X"
+                  
+                  require("dupes"):setup {
+      							-- Global settings
+      							save_op = false,        -- Save results to file by default
+      							-- auto_confirm = true, -- Skip confirmation for apply (use with caution!)
+      							
+      							profiles = {
+      								-- Interactive mode: recursively scan and display duplicates
+      								interactive = {
+      									args = { "-r" },
+      								},
+      								-- Apply mode: recursively scan and DELETE duplicates
+      								apply = {
+      									args = { "-r", "-N", "-d" },
+      									save_op = true,  -- Save results before deletion
+      								},
+      								-- Custom profile example (uncomment to use)
+      								-- custom = {
+      								-- 	args = { "-r", "-s", },  -- Your custom jdupes flags
+      								-- },
+      							},
+                  }
+                  
+          				-- Size and time display configuration
+                  function Linemode:size_and_mtime()
+      	      			local time = math.floor(self._file.cha.mtime or 0)
+      	      			if time == 0 then
+      	      				time = ""
+      	      			elseif os.date("%Y", time) == os.date("%Y") then
+      	      				time = os.date("%b %d %H:%M", time)
+      	      			else
+      	      				time = os.date("%b %d  %Y", time)
+      	      			end
+      	      		         
+      	      			local size = self._file:size()
+      	      			return string.format("%s %s", size and ya.readable_size(size) or "-", time)
+      	          end
     '';
     keymap = {
       mgr.prepend_keymap = [
+        #
+        # General
+        #
+
         # Movement
         {
           on = "<S-Up>";
@@ -109,12 +148,17 @@
           desc = "Switch to previous tab";
         }
 
+        #
+        # Plugins
+        #
+
         # Diff plugin
         {
           on = "<C-d>";
           run = "plugin diff";
           desc = "Copy diff selected w/ hovered file";
         }
+
         # Chmod plugin
         {
           on = [
@@ -124,12 +168,14 @@
           run = "plugin chmod";
           desc = "Chmod selected files";
         }
+
         # Mount plugin
         {
           on = "M";
           run = "plugin mount";
           desc = "Open mount plugin menu";
         }
+
         # Recycle bin plugin
         {
           on = [
@@ -139,6 +185,7 @@
           run = "plugin recycle-bin";
           desc = "Open Recycle Bin menu";
         }
+
         # Rsync plugin
         {
           on = [
@@ -148,6 +195,7 @@
           run = "plugin rsync";
           desc = "Copy files using rsync";
         }
+
         # Compress plugin
         {
           on = [
@@ -194,6 +242,7 @@
           run = "plugin compress -phl";
           desc = "Archive selected files (password+header+level)";
         }
+
         # Toggle pane plugin
         {
           desc = "Minimize or restore the preview pane";
@@ -205,6 +254,7 @@
           on = "T";
           run = "plugin toggle-pane max-preview";
         }
+
         # FIXME: Zoom plugin
         {
           on = "+";
@@ -216,7 +266,40 @@
           run = "plugin zoom -1";
           desc = "Zoom out hovered file";
         }
-        # Media info plugin
+
+        # Dupes plugin
+        {
+          on = [
+            "j"
+            "i"
+          ];
+          run = "plugin dupes interactive";
+          desc = "Display duplicates";
+        }
+        {
+          on = [
+            "j"
+            "d"
+          ];
+          run = "plugin dupes dry";
+          desc = "Preview apply mode";
+        }
+        {
+          on = [
+            "j"
+            "a"
+          ];
+          run = "plugin dupes apply";
+          desc = "Permanently delete duplicates";
+        }
+        {
+          on = [
+            "j"
+            "o"
+          ];
+          run = "plugin dupes override";
+          desc = "Custom jdupes args";
+        }
 
         # LazyGit plugin
         {
