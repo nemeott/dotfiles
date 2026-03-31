@@ -11,18 +11,18 @@ let
   '';
 in
 {
-  # programs.bat.enable = true; # cat (cli-home.nix)
+  # programs.bat.enable = true; # cat (cli.home.nix)
   programs.zoxide.enable = true; # cd
 
   environment.systemPackages = with pkgs; [
     # Better CLIs
-    # atuin # shell history (cli-home.nix)
+    # atuin # shell history (cli.home.nix)
     bat-extras.batman # man
     bat-extras.batpipe
-    # btop # top (cli-home.nix)
-    # eza # ls (cli-home.nix)
+    # btop # top (cli.home.nix)
+    # eza # ls (cli.home.nix)
     fd # find
-    # fzf # fuzzy finder (cli-home.nix)
+    # fzf # fuzzy finder (cli.home.nix)
     ripgrep # grep
 
     bash-completion # Needed by atuin

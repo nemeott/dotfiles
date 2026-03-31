@@ -7,11 +7,11 @@ in
   imports = [
     inputs.catppuccin.homeModules.catppuccin
 
-    ../../modules/packages/cli-home.nix
-    ../../modules/packages/dev-home.nix
-    ../../modules/packages/yazi-home.nix
-    ../../modules/packages/zen-browser-home.nix
-    ../../modules/niri-home.nix
+    ../../modules/packages/cli.home.nix
+    ../../modules/packages/dev.home.nix
+    ../../modules/packages/yazi.home.nix
+    ../../modules/packages/zen-browser.home.nix
+    ../../modules/niri.home.nix
   ];
 
   catppuccin.enable = true;
