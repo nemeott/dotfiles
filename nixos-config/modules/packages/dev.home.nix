@@ -24,6 +24,10 @@
         cargo
         rustfmt
         clippy
+        
+        # Shell
+        shellcheck
+        shfmt
       ];
     };
   };
