@@ -1,5 +1,19 @@
 { inputs, pkgs, ... }:
 
+# Toggle iio-niri screen rotation
+let
+  toggle_screen_rotation = pkgs.writeShellApplication {
+    name = "toggle_screen_rotation";
+    runtimeInputs = [ pkgs.systemd ];
+    text = ''
+      		if systemctl --user is-active --quiet iio-niri; then
+      			systemctl --user stop iio-niri
+      		else
+      			systemctl --user start iio-niri
+      		fi
+      		'';
+  };
+in
 {
   imports = [ inputs.catppuccin.nixosModules.catppuccin ];
 
@@ -30,10 +44,6 @@
   catppuccin.enable = true;
   catppuccin.tty.enable = false; # Save my eyes on boot
 
-  services.libinput.enable = true; # TODO: Is this needed?
-  # services.xserver.exportConfiguration = true;
-
-  # Enable terminal, launcher, and screen lock for Niri
   environment.systemPackages = with pkgs; [
     xwayland-satellite # X11 compatibility for Wayland
     inputs.noctalia.packages.${stdenv.hostPlatform.system}.default # Bar
@@ -76,18 +86,7 @@
       '';
     })
 
-    # Toggle iio-niri screen rotation
-    (writeShellApplication {
-      name = "toggle_screen_rotation";
-      runtimeInputs = [ systemd ];
-      text = ''
-        if systemctl --user is-active --quiet iio-niri; then
-          systemctl --user stop iio-niri
-        else
-          systemctl --user start iio-niri
-        fi
-      '';
-    })
+    toggle_screen_rotation
 
     bibata-cursors
     papirus-icon-theme
@@ -97,6 +96,20 @@
     nemo-with-extensions # File manager
     pix # Image viewer
   ];
+
+  systemd.user.services.disable-rotation-on-startup = {
+    description = "Disable iio-niri screen rotation on startup";
+
+    wantedBy = [ "default.target" ];
+    after = [ "iio-niri.service" ];
+    serviceConfig.Type = "oneshot";
+
+    # Let quickshell initialize, then turn off rotation
+    script = ''
+      	sleep 5 # Grace period
+       ${toggle_screen_rotation}/bin/toggle_screen_rotation
+    '';
+  };
 
   # environment.variables = {
   #   XDG_ICON_THEME = "Papirus";

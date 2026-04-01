@@ -15,6 +15,7 @@
 
     wantedBy = [ "default.target" ];
     after = [ "niri.service" ];
+    serviceConfig.Type = "oneshot";
 
     # Let quickshell initialize, then turn off bluetooth
     script = ''

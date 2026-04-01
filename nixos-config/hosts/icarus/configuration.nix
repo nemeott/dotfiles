@@ -186,8 +186,7 @@
 # Useful commands:
 
 # Hard link identical files in the Nix store to save disk space
-# nix-store --optimise
+# nix store optimise
 
-#
 # nix-collect-garbage (nix-store --gc)
 # nix-collect-garbage --delete-older-than ${n}d
