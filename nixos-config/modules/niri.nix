@@ -107,7 +107,7 @@ in
     # Let quickshell initialize, then turn off rotation
     script = ''
       	sleep 5 # Grace period
-       ${toggle_screen_rotation}/bin/toggle_screen_rotation
+        ${toggle_screen_rotation}/bin/toggle_screen_rotation
     '';
   };
 
