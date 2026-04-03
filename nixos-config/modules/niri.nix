@@ -100,13 +100,15 @@ in
   systemd.user.services.disable-rotation-on-startup = {
     description = "Disable iio-niri screen rotation on startup";
 
-    wantedBy = [ "default.target" ];
-    after = [ "iio-niri.service" ];
+    wantedBy = [ "niri.service" ];
+    after = [
+      "niri.service"
+      "iio-niri.service"
+    ];
     serviceConfig.Type = "oneshot";
 
     # Let quickshell initialize, then turn off rotation
     script = ''
-      	sleep 5 # Grace period
         ${toggle_screen_rotation}/bin/toggle_screen_rotation
     '';
   };

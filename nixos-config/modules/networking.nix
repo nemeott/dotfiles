@@ -13,7 +13,7 @@ in
     # proxy.default = "http://user:password@proxy:port/";
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-    # TODO: Disable DNS with keybind?
+    # TODO: Disable DNS with keybind or script/service
 
     # Enable networking
     dhcpcd.enable = false; # Disable dhcpcd since we are using NetworkManager
@@ -22,13 +22,9 @@ in
       dns = "systemd-resolved";
       wifi.powersave = true;
     };
-    # TODO: Keep?
-    # wireless = {
-    #   enable = true; # Allow connections to WPA/WPA2 networks
-    #   scanOnLowSignal = false;
-    # };
   };
 
+  # TODO: Convert to systemd service to allow toggling DNS?
   # Set /etc/systemd/resolved.conf to use NextDNS with DNS over TLS
   services.resolved = {
     enable = true;
