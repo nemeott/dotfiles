@@ -60,22 +60,41 @@
       # Power-saving dirty writeback settings (less disk writes)
       "vm.dirty_writeback_centisecs" = 5000;
       "vm.dirty_expire_centisecs" = 5000;
-      "vm.page-cluster" = 0; # Use with zramSwap
-      "vm.swappiness" = 10; # Use normal swap less often
+
+      # Zram settings
+      # "vm.page-cluster" = 0; # Use with zramSwap
+      # "vm.swappiness" = 10; # Use normal swap less often
+
+      # Zswap settings
+      "vm.swappiness" = 30;
     };
 
-    # Manage power saving for Intel HDA audio
     kernelParams = [
+      # Zswap settings
+      "zswap.enabled=1" # enables zswap
+      "zswap.compressor=zstd" # compression algorithm
+      "zswap.zpool=zsmalloc"
+      "zswap.max_pool_percent=30" # maximum percentage of RAM that zswap is allowed to use
+      "zswap.accept_threshold_percent=90"
+      "zswap.shrinker_enabled=1" # whether to shrink the pool proactively on high memory pressure
+
       # Disable NMI watchdog for performance improvement
       "nmi_watchdog=0"
 
-      # Used with power-profiles-daemon
+      # Manage power saving for Intel HDA audio (sed with power-profiles-daemon)
       "snd_hda_intel.power_save=1"
       "snd_hda_intel.power_save_controller=Y"
 
       "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
     ];
   };
+
+  # # Enable zram swap for better performance on systems with limited RAM
+  # zramSwap = {
+  #   enable = true;
+  #   algorithm = "zstd";
+  #   memoryPercent = 50;
+  # };
 
   # Faster restarts (no waiting for long processes)
   systemd.user.extraConfig = ''
@@ -89,17 +108,29 @@
     HibernateDelaySec = "1h";
   };
 
-  # Enable zram swap for better performance on systems with limited RAM
-  zramSwap = {
-    enable = true;
-    algorithm = "zstd";
-    memoryPercent = 50;
-  };
-
-  # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
   services.udev.extraRules = ''
+    # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
     ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
+
+    # Use powersave on battery and performance when plugged-in
+    SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver"
+    SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance"
   '';
+
+  # Systemd service to set power profile on boot based on AC state (udev rules don't work on boot)
+  systemd.services.power-profile-on-boot = {
+    description = "Set power profile based on AC state";
+    wantedBy = [ "power-profiles-daemon.service" ];
+    after = [ "power-profiles-daemon.service" ];
+    script = ''
+      if [ "$(cat /sys/class/power_supply/AC/online)" = "1" ]; then
+        ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance
+      else
+        ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver
+      fi
+    '';
+    serviceConfig.Type = "oneshot";
+  };
 
   # Enable power-profiles-daemon for power management
   services.power-profiles-daemon.enable = true;
