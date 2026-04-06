@@ -43,6 +43,7 @@ in
     # CLI Tools
     dig # DNS testing tool
     vhs # Terminal recording tool
+    perf # Performance analysis tool
 
     # Editors
     vscode-with-tools
