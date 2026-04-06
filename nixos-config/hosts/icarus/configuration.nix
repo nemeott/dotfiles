@@ -132,6 +132,9 @@
     serviceConfig.Type = "oneshot";
   };
 
+  # Disable coredumps to save disk space and performance
+  systemd.coredump.enable = false;
+
   # Enable power-profiles-daemon for power management
   services.power-profiles-daemon.enable = true;
   services.upower.enable = true; # Let Noctalia-shell detect battery status
