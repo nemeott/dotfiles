@@ -10,6 +10,7 @@
       "networkmanager"
       "wheel"
       "audio" # Add user to audio group to allow sound control
+      "video" # Add user to video group to allow backlight control
     ];
     packages = [ ];
   };

@@ -223,7 +223,7 @@
               definedAliases = [ "@noo" ];
             };
 
-            github = {
+            github-repositories = {
               name = "GitHub";
               urls = [ { template = "https://github.com/search?q={searchTerms}&type=repositories"; } ];
               icon = "https://github.com/favicon.ico";
@@ -234,6 +234,14 @@
               urls = [ { template = "https://pypi.org/search/?q={searchTerms}"; } ];
               icon = "https://pypi.org/favicon.ico";
               definedAliases = [ "@py" ];
+            };
+            
+            # Useful Linux wiki
+            arch-wiki = {
+              name = "Arch Wiki";
+              urls = [ { template = "https://wiki.archlinux.org/index.php?search={searchTerms}"; } ];
+              icon = "https://wiki.archlinux.org/favicon.ico";
+              definedAliases = [ "@aw" ];
             };
 
             # Search policy templates (for browser config info)

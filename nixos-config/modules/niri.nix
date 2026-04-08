@@ -29,7 +29,7 @@ in
   services.greetd = {
     enable = true;
     settings = {
-      default_session.command = "${pkgs.tuigreet}/bin/tuigreet -t --time-format '%F %H:%M:%S' --remember --remember-user-session --asterisks --asterisks-char '◆' --window-padding 2";
+      default_session.command = "${pkgs.tuigreet}/bin/tuigreet -t --time-format '%F %H:%M:%S' --remember --remember-user-session --asterisks --asterisks-char '*' --window-padding 2";
     };
     useTextGreeter = true;
   };
@@ -59,6 +59,7 @@ in
         	      percent=$(brightnessctl -m | cut -d, -f4 | sed 's/%//')
                 if [ "$value" -le 1 ]; then
                     brightnessctl --class=backlight set 0%
+                    echo 1 | tee /sys/class/backlight/intel_backlight/bl_power
                 elif [ "$percent" -le 1 ]; then
                     brightnessctl --class=backlight set 1
                 elif [ "$percent" -le 5 ]; then
@@ -75,6 +76,7 @@ in
         	 			value=$(brightnessctl -m | cut -d, -f3 | sed 's/%//')
         	 			percent=$(brightnessctl -m | cut -d, -f4 | sed 's/%//')
         	 			if [ "$value" -eq 0 ]; then
+                    echo 0 | tee /sys/class/backlight/intel_backlight/bl_power
         	    		  brightnessctl --class=backlight set 1
         	 			elif [ "$value" -eq 1 ]; then
         	    		  brightnessctl --class=backlight set 1%
