@@ -9,6 +9,7 @@
     ];
     plugins = with pkgs; {
       inherit (yaziPlugins)
+        smart-paste
         git
         diff
         chmod
@@ -151,6 +152,13 @@
         #
         # Plugins
         #
+
+        # Smart paste plugin
+        {
+          on = "p";
+          run = "plugin smart-paste";
+          desc = "Paste into the hovered directory or CWD";
+        }
 
         # Diff plugin
         {
