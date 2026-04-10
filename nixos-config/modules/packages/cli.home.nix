@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   # Enabled here for automatic Catppuccin integration
@@ -23,5 +23,6 @@
     btop.enable = true; # top
     eza.enable = true; # ls
     fzf.enable = true; # fuzzy finder
+    delta.enable = true; # git diff (used with lazygit)
   };
 }

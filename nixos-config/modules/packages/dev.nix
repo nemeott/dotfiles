@@ -36,8 +36,10 @@ in
   programs.lazygit = {
     enable = true;
     settings = {
-      # Make Lazygit faster on large repos
-      git.log.order = "default";
+      git = {
+        log.order = "default"; # Make Lazygit faster on large repos
+        pagers = [ { pager = "delta --dark --syntax-theme 'Catppuccin Mocha' --paging=never"; } ]; # Use delta pager for diffs
+      };
     };
   };
 
