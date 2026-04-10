@@ -1,0 +1,18 @@
+{
+  "nix-shell": {
+    "prefix": "nix-shell",
+    "body": [
+      "{",
+      "\tpkgs ? import <nixpkgs> { },",
+      "}:",
+      "",
+      "pkgs.mkShell {",
+      "\tpackages = with pkgs; [",
+      "\t\t$0",
+      "\t];",
+      "}",
+      ""
+    ],
+    "description": "Inserts a basic nix-shell template"
+  }
+}

@@ -203,4 +203,105 @@
       "ctrl-shift-enter": "git::Amend",
     },
   },
+  {
+    "context": "AgentPanel",
+    "bindings": {
+      "ctrl-alt-n": "agent::RejectOnce"
+    }
+  },
+  {
+    "context": "AgentPanel",
+    "unbind": {
+      "ctrl-alt-z": "agent::RejectOnce"
+    }
+  },
+  {
+    "context": "AgentDiff",
+    "bindings": {
+      "ctrl-alt-n": "agent::Reject"
+    }
+  },
+  {
+    "context": "AgentDiff",
+    "unbind": {
+      "ctrl-alt-z": "agent::Reject"
+    }
+  },
+  {
+    "context": "Editor && editor_agent_diff",
+    "bindings": {
+      "ctrl-alt-n": "agent::Reject"
+    }
+  },
+  {
+    "context": "Editor && editor_agent_diff",
+    "unbind": {
+      "ctrl-alt-z": "agent::Reject"
+    }
+  },
+  {
+    "context": "Editor && editor_agent_diff",
+    "bindings": {
+      "alt-shift-n": "agent::RejectAll"
+    }
+  },
+  {
+    "context": "Editor && editor_agent_diff",
+    "unbind": {
+      "alt-shift-z": "agent::RejectAll"
+    }
+  },
+  {
+    "context": "AgentDiff",
+    "bindings": {
+      "alt-shift-n": "agent::RejectAll"
+    }
+  },
+  {
+    "context": "AgentDiff",
+    "unbind": {
+      "alt-shift-z": "agent::RejectAll"
+    }
+  },
+  {
+    "context": "AcpThread > Editor",
+    "bindings": {
+      "alt-shift-n": "agent::RejectAll"
+    }
+  },
+  {
+    "context": "AcpThread > Editor",
+    "unbind": {
+      "alt-shift-z": "agent::RejectAll"
+    }
+  },
+  {
+    "context": "AgentPanel",
+    "bindings": {
+      "ctrl-/": "agent::ToggleProfileSelector"
+    }
+  },
+  {
+    "context": "AgentPanel",
+    "unbind": {
+      "ctrl-i": "agent::ToggleProfileSelector"
+    }
+  },
+  {
+    "context": "AcpThread > Editor",
+    "bindings": {
+      "ctrl-/": "agent::ToggleProfileSelector"
+    }
+  },
+  {
+    "context": "AcpThread > Editor",
+    "unbind": {
+      "ctrl-i": "agent::ToggleProfileSelector"
+    }
+  },
+  {
+    "bindings": {
+      "alt-m": "editor::ToggleMinimap"
+    }
+  }
 ]
