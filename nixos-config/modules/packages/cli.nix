@@ -59,6 +59,9 @@ in
 
     ns = "nix-shell";
     nsp = "nix-shell -p";
+    
+    nb = "nix-build";
+    nba = "nix-build -A";
 
     # Get option from a flake
     no = "nixos-option --flake ${flake-path}";

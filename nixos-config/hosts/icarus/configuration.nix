@@ -29,6 +29,7 @@
     ../../modules/packages/cli.nix
     ../../modules/packages/dev.nix
     ../../modules/packages/media.nix
+    ../../modules/packages/fonts.nix
     ../../modules/packages/productivity.nix
     ../../modules/packages/browsers.nix
     ../../modules/packages/messaging.nix
@@ -135,9 +136,6 @@
     '';
     serviceConfig.Type = "oneshot";
   };
-
-  # Disable coredumps to save disk space and performance
-  systemd.coredump.enable = false;
 
   # Enable power-profiles-daemon for power management
   services.power-profiles-daemon.enable = true;
