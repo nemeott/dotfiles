@@ -15,8 +15,8 @@
         package-version-server # For showing package versions
 
         # Python
-        ruff
-        ty
+        ruff # Linter and formatter
+        zuban # Type checker and language server (more mature than ty or pyrefly)
 
         # Rust
         rustc

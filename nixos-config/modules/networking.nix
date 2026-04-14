@@ -1,3 +1,5 @@
+# https://nixos.wiki/wiki/Encrypted_DNS
+
 { lib, ... }:
 
 let
@@ -6,12 +8,14 @@ let
   secrets = import ../secrets.nix;
 in
 {
+  # Dedicated Chrome instance to log into captive portals without messing with DNS settings
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp0s20f3";
+  };
+
   networking = {
     hostName = hostname; # Define your hostname (default is nixos)
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
     # TODO: Disable DNS with keybind or script/service
 
@@ -45,9 +49,13 @@ in
           "~msu.edu"
         ];
 
-        DNSOverTLS = "yes";
-        DNSSEC = "yes";
+        DNSOverTLS = "yes"; # Switch to opportunistic if bad ISP and WiFi block DoT port
+        DNSSEC = "no"; # Can cause issues with certain sites
         Cache = "yes";
+
+        # DNS over HTTPS not yet supported by systemd-resolved
+        # Wait for https://github.com/systemd/systemd/pull/31537 and corresponding support in NixOS
+        # services.resolved.DNSOverHTTPS = "true";
       };
   };
 }
