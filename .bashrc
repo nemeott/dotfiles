@@ -62,8 +62,11 @@ HISTFILESIZE=20000
 HISTCONTROL="erasedups:ignoreboth"
 
 # Don't record some commands
-export HISTIGNORE="&:[ ]*:cd:ls:y:clear:bash:exit:history"
-
+export HISTIGNORE="&:[ ]*:cd:ls:y:clear:bash:exit:history:reboot:\
+    nrt:nrtu:nrs:nrsu:nrb:nrbu:nrbb:nrbub:nrbs:nrbus:ns:nsp:nb:nba:no:\
+    colist:coclean:conuke:\
+    btop:ptop:ff:sys:lg:y";
+c
 #
 # Prompt
 #
