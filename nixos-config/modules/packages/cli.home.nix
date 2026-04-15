@@ -17,24 +17,6 @@
           "^exit"
           "^history"
           "^reboot$"
-          "^nrt$"
-          "^nrtu$"
-          "^nrs$"
-          "^nrsu$"
-          "^nrb$"
-          "^nrbu$"
-          "^nrbb$"
-          "^nrbub$"
-          "^nrbs$"
-          "^nrbus$"
-          "^ns$"
-          "^nsp$"
-          "^nb$"
-          "^nba$"
-          "^no$"
-          "^colist$"
-          "^coclean$"
-          "^conuke$"
           "^btop$"
           "^ptop$"
           "^ff$"
@@ -48,6 +30,21 @@
     btop.enable = true; # top
     eza.enable = true; # ls
     fzf.enable = true; # fuzzy finder
-    delta.enable = true; # git diff (used with lazygit)
+
+    # git diff (used with lazygit)
+    delta = {
+      enable = true;
+      options = {
+        syntax-theme = "Catppuccin Mocha";
+        
+        keep-plus-minus-markers = true;
+        # plus-style = "syntax";
+        # minus-style = "syntax";
+        # plus-non-emph-style = "syntax";
+        # minus-non-emph-style = "syntax";
+        # plus-emph-style = "syntax";
+        # minus-emph-style = "syntax";
+      };
+    };
   };
 }

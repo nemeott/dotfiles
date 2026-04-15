@@ -51,7 +51,7 @@
 
   # Bootloader
   boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_18; # Use latest linux kernel
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_19; # TODO: Update to 7.0 when stable (7.1 comes out)
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -71,14 +71,6 @@
     };
 
     kernelParams = [
-      # Zswap settings
-      "zswap.enabled=1" # enables zswap
-      "zswap.compressor=zstd" # compression algorithm
-      "zswap.zpool=zsmalloc"
-      "zswap.max_pool_percent=30" # maximum percentage of RAM that zswap is allowed to use
-      "zswap.accept_threshold_percent=90"
-      "zswap.shrinker_enabled=1" # whether to shrink the pool proactively on high memory pressure
-
       # Disable NMI watchdog for performance improvement
       "nmi_watchdog=0"
 
@@ -88,6 +80,15 @@
 
       "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
     ];
+
+    zswap = {
+      enable = true;
+      compressor = "zstd"; # Compression algorithm (default is zstd; kernel default is lzo for speed and compression balance)
+      zpool = "zsmalloc"; # Default
+      maxPoolPercent = 30; # Maximum percentage of RAM zswap is allowed to use (25% default)
+      acceptThresholdPercent = 90; # Percentage at which zswap starts accepting pages after pool full (default 90%)
+      shrinkerEnabled = true; # Enable zswap shrinker to reclaim memory when under pressure (default true)
+    };
   };
 
   # # Enable zram swap for better performance on systems with limited RAM

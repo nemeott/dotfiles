@@ -17,8 +17,8 @@
         # Python
         ruff # Linter and formatter
         # ty # Type checker and language server
-        pyrefly # Type checker and language server (more accurate than ty)
-        zuban # Type checker and language server (more mature than ty or pyrefly)
+        pyrefly # Type checker and language server (more accurate than ty) (better features than zuban rn)
+        zuban # Type checker and language server (more accurate than ty or pyrefly)
 
         # Rust
         rustc
