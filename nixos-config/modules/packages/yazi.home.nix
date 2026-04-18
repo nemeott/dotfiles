@@ -148,6 +148,23 @@
           run = "tab_switch -1 --relative";
           desc = "Switch to previous tab";
         }
+        # Go to directory
+        {
+          on = [
+            "g"
+            "C"
+          ];
+          run = "cd ~/Coding";
+          desc = "Go ~/Coding";
+        }
+        {
+          on = [
+            "g"
+            "D"
+          ];
+          run = "cd ~/Documents";
+          desc = "Go ~/Documents";
+        }
 
         #
         # Plugins
