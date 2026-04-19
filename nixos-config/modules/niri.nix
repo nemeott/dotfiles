@@ -91,7 +91,7 @@ in
     toggle_screen_rotation
 
     bibata-cursors
-    papirus-icon-theme
+    papirus-icon-theme # TODO: Actually use these
     adwaita-icon-theme
 
     # Media

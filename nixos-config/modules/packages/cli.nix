@@ -9,6 +9,8 @@ let
   nrudiff = pkgs.writeShellScriptBin "nrudiff" ''
     nixos-rebuild build --flake ${flake-path} --upgrade "$@" && nvd diff /run/current-system result
   '';
+  
+  zswap-stats = pkgs.writeShellScriptBin "zswap" (builtins.readFile ../../../scripts/zswap.sh);
 in
 {
   # programs.bat.enable = true; # cat (cli.home.nix)
@@ -41,6 +43,8 @@ in
     nvd # NixOS version diff
     nrdiff # Custom diff command to rebuild and get the diff
     nrudiff # Custom diff command to rebuild with upgrade and get the diff
+    
+    zswap-stats # Custom shell script to display zswap stats
   ];
 
   environment.shellAliases = {
