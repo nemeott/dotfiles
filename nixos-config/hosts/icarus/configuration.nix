@@ -51,6 +51,7 @@
 
   # Bootloader
   boot = {
+    # Check for latest kernel versions here: https://www.kernel.org/
     kernelPackages = pkgs.linuxKernel.packages.linux_6_19; # TODO: Update to 7.0 when stable (7.1 comes out)
     loader = {
       systemd-boot.enable = true;
@@ -80,13 +81,18 @@
 
       "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
     ];
+    
+    # Useful Zram resource: https://notes.xeome.dev/notes/Zram
 
     zswap = {
       enable = true;
-      compressor = "zstd"; # Compression algorithm (default is zstd; kernel default is lzo for speed and compression balance)
+
+      # Useful compression algorithm resource: https://morotti.github.io/lzbench-web/
+      # lz4 much faster (especially decode) than lzo with slightly worse compression
+      compressor = "lz4"; # Compression algorithm (default is zstd; kernel default is lzo)
       zpool = "zsmalloc"; # Default
-      maxPoolPercent = 30; # Maximum percentage of RAM zswap is allowed to use (25% default)
-      acceptThresholdPercent = 90; # Percentage at which zswap starts accepting pages after pool full (default 90%)
+      maxPoolPercent = 40; # Maximum percentage of RAM zswap is allowed to use (25% default)
+      acceptThresholdPercent = 80; # Percentage at which zswap starts accepting pages after pool full (default 90%)
       shrinkerEnabled = true; # Enable zswap shrinker to reclaim memory when under pressure (default true)
     };
   };
