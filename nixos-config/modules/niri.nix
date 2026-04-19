@@ -38,7 +38,9 @@ in
   security.pam.services.swaylock = { };
 
   # Tiling window manager
+  nixpkgs.overlays = [ inputs.niri-flake.overlays.niri ]; # Use flake overlay (dramatically reduces idle CPU usage for some reason)
   programs.niri.enable = true;
+  programs.niri.package = pkgs.niri-unstable;
   services.iio-niri.enable = true; # Allow screen rotation with Niri
 
   catppuccin.enable = true;
@@ -111,7 +113,7 @@ in
 
     # Let quickshell initialize, then turn off rotation
     script = ''
-        ${toggle_screen_rotation}/bin/toggle_screen_rotation
+      ${toggle_screen_rotation}/bin/toggle_screen_rotation
     '';
   };
 

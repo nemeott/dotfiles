@@ -23,6 +23,8 @@
 
     catppuccin.url = "github:catppuccin/nix";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
+
+    niri-flake.url = "github:sodiboo/niri-flake";
   };
 
   outputs =
