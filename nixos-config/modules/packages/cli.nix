@@ -3,14 +3,27 @@
 let
   flake-path = "path:/home/${username}/dotfiles";
 
+  # Scripts to get the diff of the current system with a new build
   nrdiff = pkgs.writeShellScriptBin "nrdiff" ''
     nixos-rebuild build --flake ${flake-path} "$@" && nvd diff /run/current-system result
   '';
   nrudiff = pkgs.writeShellScriptBin "nrudiff" ''
     nixos-rebuild build --flake ${flake-path} --upgrade "$@" && nvd diff /run/current-system result
   '';
-  
+
+  # Custom script to display Zswap stats
   zswap-stats = pkgs.writeShellScriptBin "zswap" (builtins.readFile ../../../scripts/zswap.sh);
+
+  # Custom script to create a .envrc file with "use nix" for direnv
+  direnv-init = pkgs.writeShellScriptBin "direnv-init" ''
+    if [ -e .envrc ]; then
+      read -r -p "Overwrite .envrc? [y/N] " a
+      [ "$a" = y ] || exit 0
+    else
+      echo ".envrc created"
+    fi
+    echo "use nix" > .envrc
+  '';
 in
 {
   # programs.bat.enable = true; # cat (cli.home.nix)
@@ -43,8 +56,10 @@ in
     nvd # NixOS version diff
     nrdiff # Custom diff command to rebuild and get the diff
     nrudiff # Custom diff command to rebuild with upgrade and get the diff
-    
+
     zswap-stats # Custom shell script to display zswap stats
+
+    direnv-init # Custom shell script to create a .envrc file with "use nix" for direnv
   ];
 
   environment.shellAliases = {
@@ -63,7 +78,7 @@ in
 
     ns = "nix-shell";
     nsp = "nix-shell -p";
-    
+
     nb = "nix-build";
     nba = "nix-build -A";
 
