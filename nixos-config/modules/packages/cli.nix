@@ -30,6 +30,10 @@ in
   programs.zoxide.enable = true; # cd
 
   environment.systemPackages = with pkgs; [
+    #
+    # Packages
+    #
+
     # Better CLIs
     # atuin # shell history (cli.home.nix)
     bat-extras.batman # man
@@ -52,6 +56,10 @@ in
     powertop # Power utils
     systemctl-tui # Terminal-based systemctl interface
     bitwise # Terminal-based bit manipulator and calculator
+
+    #
+    # Aliases and scripts
+    #
 
     nvd # NixOS version diff
     nrdiff # Custom diff command to rebuild and get the diff
@@ -84,13 +92,5 @@ in
 
     # Get option from a flake
     no = "nixos-option --flake ${flake-path}";
-
-    # TODO: Remove when Zed copilot process duplication is fixed
-    # List all copilot language server instances
-    colist = "ps aux | grep '[c]opilot-language-server'";
-    # Kill all but the most recent instance of the copilot language server
-    coclean = "pgrep -f copilot-language-server | sort -n | head -n -1 | xargs -r kill";
-    # Kill all copilot language server processes
-    conuke = "pkill -f copilot-language-server";
   };
 }

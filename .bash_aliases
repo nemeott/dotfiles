@@ -1,5 +1,62 @@
+# Show a warning only in interactive shells
+_warn_missing() {
+    [[ $- == *i* ]] && printf 'Warning: %s not found; skipping %s\n' "$1" "$2" >&2
+}
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+# ls aliases
+if command -v eza >/dev/null 2>&1; then
+    alias l='eza -l --icons'
+    alias ll='eza -la --icons'
+    alias la='eza -a --icons'
+else
+    alias l='ls -l'
+    alias ll='ls -la'
+    alias la='ls -a'
+fi
+
 # Allow aliases to work with sudo
 alias sudo='sudo '
+
+# TODO: Remove when Zed copilot process duplication is fixed
+# List all copilot language server instances
+alias colist="ps aux | grep '[c]opilot-language-server'"
+# Kill all but the most recent instance of the copilot language server
+alias coclean="pgrep -f copilot-language-server | sort -n | head -n -1 | xargs -r kill"
+# Kill all copilot language server processes
+alias conuke="pkill -f copilot-language-server"
+
+# Create directory and enter it
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Kill process with fuzzy search
+fkill() {
+    if ! command -v fzf >/dev/null 2>&1; then
+        _warn_missing fzf "fkill"
+        return 1
+    fi
+
+    local pid
+    pid=$(ps -ef | sed 1d |
+        fzf --multi \
+            --header="Select processes to kill" \
+            --preview="echo PID: {2}; echo CMD: {8..}" \
+            --preview-window=up:3:wrap \
+            --bind "change:top" |
+        awk '{print $2}')
+    if [[ -n "$pid" ]]; then
+        echo "Killing $pid"
+        echo "$pid" | xargs kill -9
+    else
+        printf 'No process selected, aborting\n' >&2
+    fi
+}
 
 # Set alias only if the command exists
 _alias_if() {
@@ -12,8 +69,7 @@ _alias_if() {
     if command -v "$cmd" >/dev/null 2>&1; then
         alias "$name"="$*"
     else
-        # If in interactive shell, print a warning
-        [[ $- == *i* ]] && printf 'Warning: %s not found, skipping alias for %s\n' "$cmd" "$name" >&2
+        _warn_missing "$cmd" "alias for $name"
     fi
 }
 
@@ -34,6 +90,7 @@ _alias_if sys systemctl-tui 'systemctl-tui'
 _alias_if lg lazygit 'lazygit'
 
 _alias_if zed zeditor 'zeditor'
+_alias_if zen zen-beta 'zen-beta'
 
 # Clipboard utilities
 _alias_if cwd xclip 'pwd | xclip -selection clipboard' # Copy working directory to clipboard
@@ -42,7 +99,8 @@ if command -v xclip >/dev/null 2>&1; then
         readlink -f "$1" | xclip -selection clipboard
     }
 else
-    printf 'Warning: xclip not found, skipping cfp alias\n' >&2
+    _warn_missing xclip "cfp alias"
 fi
 
+unset -f _warn_missing
 unset -f _alias_if
