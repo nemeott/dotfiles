@@ -44,6 +44,40 @@
   # sudo nix run nixpkgs#nixos-facter -- -o facter.json
 
   # Use Lix package manager instead of Nix
+  # Override packages that use Nix to use Lix instead
+  nixpkgs.overlays = [
+    (final: prev: {
+      nix = final.lixPackageSets.stable.lix;
+
+      inherit (final.lixPackageSets.stable)
+        nixpkgs-review
+        nurl
+        nix-init
+        nix-update
+        nix-direnv
+        nil
+        # nixd
+        # nix-eval-jobs
+        nix-fast-build
+        colmena
+        ;
+
+      lixPackageSets = prev.lixPackageSets.override {
+        inherit (prev)
+          nixpkgs-review
+          nurl
+          nix-init
+          nix-update
+          nix-direnv
+          nil
+          # nixd
+          # nix-eval-jobs
+          nix-fast-build
+          colmena
+          ;
+      };
+    })
+  ];
   nix.package = pkgs.lixPackageSets.stable.lix;
 
   # Disable access time updates for better performance (not usually needed by modern programs)
@@ -81,7 +115,7 @@
 
       "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
     ];
-    
+
     # Useful Zram resource: https://notes.xeome.dev/notes/Zram
 
     zswap = {
