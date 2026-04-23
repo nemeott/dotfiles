@@ -47,9 +47,9 @@
   # Override packages that use Nix to use Lix instead
   nixpkgs.overlays = [
     (final: prev: {
-      nix = final.lixPackageSets.stable.lix;
+      nix = final.lixPackageSets.latest.lix;
 
-      inherit (final.lixPackageSets.stable)
+      inherit (final.lixPackageSets.latest)
         nixpkgs-review
         nurl
         nix-init
@@ -78,7 +78,7 @@
       };
     })
   ];
-  nix.package = pkgs.lixPackageSets.stable.lix;
+  nix.package = pkgs.lixPackageSets.latest.lix;
 
   # Disable access time updates for better performance (not usually needed by modern programs)
   fileSystems."/".options = [ "noatime" ];

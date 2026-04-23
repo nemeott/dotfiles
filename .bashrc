@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
-      *) return;;
+    *) return;;
 esac
 
 # check the window size after each command and, if necessary,
@@ -146,7 +146,11 @@ if [ "$color_prompt" = yes ]; then
    	    local CHROOT='${debian_chroot:+'"$BMAGENTA"'($debian_chroot) '"$WHITE"'}'
   		local NIX=""
   		if [[ -n "$IN_NIX_SHELL" ]]; then
-  		    NIX="$BBLUE(nix-shell)$WHITE "
+            if [[ -n "$NIX_SHELL_LEVEL" ]]; then
+                NIX="$BBLUE(nix-shell:$NIX_SHELL_LEVEL)$WHITE "
+            else
+      		    NIX="$BBLUE(nix-shell)$WHITE "
+            fi
   		fi
   		local CONDA=""
   		if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
