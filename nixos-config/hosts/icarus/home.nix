@@ -6,6 +6,7 @@ in
 {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
+    inputs.nix-index-database.homeModules.default
 
     ../../modules/packages/cli.home.nix
     ../../modules/packages/dev.home.nix

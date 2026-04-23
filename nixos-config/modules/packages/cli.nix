@@ -1,6 +1,13 @@
-{ pkgs, username, ... }:
+{
+  inputs,
+  pkgs,
+  username,
+  ...
+}:
 
 let
+  pkgs-surge = import inputs.nixpkgs-surge { system = pkgs.stdenv.hostPlatform.system; };
+
   flake-path = "path:/home/${username}/dotfiles";
 
   # Scripts to get the diff of the current system with a new build
@@ -34,7 +41,7 @@ in
     # Packages
     #
 
-    # Better CLIs
+    # Better coreutils
     # atuin # shell history (cli.home.nix)
     bat-extras.batman # man
     bat-extras.batpipe
@@ -60,6 +67,8 @@ in
     bitwise # Terminal-based bit manipulator and calculator
     tlrc # Simple man pages
     navi # Interactive cheatsheet tool (Get tldr man pages with: `navi repo add tao3k/navi-tldr-pages`)
+    nixmate # Useful semi-nix related multitool
+    pkgs-surge.surge-downloader # Fast TUI downlaod manager
 
     #
     # Aliases and scripts
@@ -77,6 +86,7 @@ in
   environment.shellAliases = {
     nrt = "nixos-rebuild test --flake ${flake-path}";
     nrtu = "nixos-rebuild test --flake ${flake-path} --upgrade";
+    nrtm = "nixos-rebuild test 2>&1 | nixmate"; # Pipe error output to nixmate
 
     nrs = "nixos-rebuild switch --flake ${flake-path}";
     nrsu = "nixos-rebuild switch --flake ${flake-path} --upgrade";
