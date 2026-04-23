@@ -28,20 +28,22 @@
     ../../modules/packages/base.nix
     ../../modules/packages/cli.nix
     ../../modules/packages/dev.nix
-    ../../modules/packages/media.nix
+    ../../modules/packages/firefox.nix
     ../../modules/packages/fonts.nix
+    ../../modules/packages/media.nix
+    # ../../modules/packages/messaging.nix # Not using Signal currently
     ../../modules/packages/productivity.nix
-    ../../modules/packages/browsers.nix
-    ../../modules/packages/messaging.nix
   ];
 
-  # Enable all firmware (including unfree) for better hardware support
-  hardware.enableAllFirmware = true;
+  hardware = {
+    # Enable all firmware (including unfree) for better hardware support
+    enableAllFirmware = true;
 
-  # Use facter for better hardware support
-  hardware.facter.reportPath = ./facter.json;
-  # Generate facter config file with:
-  # sudo nix run nixpkgs#nixos-facter -- -o facter.json
+    # Use facter for better hardware support
+    facter.reportPath = ./facter.json;
+    # Generate facter config file with:
+    # sudo nix run nixpkgs#nixos-facter -- -o facter.json
+  };
 
   # Use Lix package manager instead of Nix
   # Override packages that use Nix to use Lix instead
@@ -138,16 +140,18 @@
   #   memoryPercent = 50;
   # };
 
-  # Faster restarts (no waiting for long processes)
-  systemd.user.extraConfig = ''
-    DefaultTimeoutStopSec=10
-    DefaultTimeoutStartSec=10
-  '';
+  systemd = {
+    # Faster restarts (no waiting for long processes)
+    user.extraConfig = ''
+      DefaultTimeoutStopSec=10
+      DefaultTimeoutStartSec=10
+    '';
 
-  # Hibernate after 60 minutes of suspend
-  systemd.sleep.settings.Sleep = {
-    SuspendThenHibernate = true;
-    HibernateDelaySec = "1h";
+    # Hibernate after 60 minutes of suspend
+    sleep.settings.Sleep = {
+      SuspendThenHibernate = true;
+      HibernateDelaySec = "1h";
+    };
   };
 
   services.udev.extraRules = ''
@@ -178,20 +182,22 @@
     serviceConfig.Type = "oneshot";
   };
 
-  # Enable power-profiles-daemon for power management
-  services.power-profiles-daemon.enable = true;
-  services.upower.enable = true; # Let Noctalia-shell detect battery status
+  services = {
+    # Enable power-profiles-daemon for power management
+    power-profiles-daemon.enable = true;
+    upower.enable = true; # Let Noctalia-shell detect battery status
 
-  # Enable thermald for thermal management (Intel CPUs)
-  services.thermald.enable = true;
+    # Enable thermald for thermal management (Intel CPUs)
+    thermald.enable = true;
 
-  # Enable system76-scheduler for better IO scheduling
-  services.system76-scheduler.enable = true;
+    # Enable system76-scheduler for better IO scheduling
+    system76-scheduler.enable = true;
 
-  # Enable removable media management
-  services.devmon.enable = true; # Automatic device mounting
-  services.gvfs.enable = true; # Userspace virtual filesystem
-  services.udisks2.enable = true; # Disk management
+    # Enable removable media management
+    devmon.enable = true; # Automatic device mounting
+    gvfs.enable = true; # Userspace virtual filesystem
+    udisks2.enable = true; # Disk management
+  };
 
   # Bluetooth
   hardware.bluetooth = {
@@ -203,17 +209,19 @@
   # Set time zone and select internationalisation properties
   time.timeZone = "America/New_York";
 
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "en_US.UTF-8";
+      LC_IDENTIFICATION = "en_US.UTF-8";
+      LC_MEASUREMENT = "en_US.UTF-8";
+      LC_MONETARY = "en_US.UTF-8";
+      LC_NAME = "en_US.UTF-8";
+      LC_NUMERIC = "en_US.UTF-8";
+      LC_PAPER = "en_US.UTF-8";
+      LC_TELEPHONE = "en_US.UTF-8";
+      LC_TIME = "en_US.UTF-8";
+    };
   };
 
   # # Enable CUPS to print documents.
@@ -246,11 +254,13 @@
   # networking.firewall.enable = false;
 
   # Settings to make builds faster
-  nix.daemonIOSchedClass = "best-effort"; # (default)
-  nix.daemonCPUSchedPolicy = "batch"; # Optimized for non-interactive tasks
-  nix.daemonIOSchedPriority = 2; # Higher priority for IO operations
+  nix = {
+    daemonIOSchedClass = "best-effort"; # (default)
+    daemonCPUSchedPolicy = "batch"; # Optimized for non-interactive tasks
+    daemonIOSchedPriority = 2; # Higher priority for IO operations
+  };
 
-  # Enable nix-command experimental feature
+  # Enable flakes
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"

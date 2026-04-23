@@ -23,22 +23,24 @@ let
 
 in
 {
-  programs.git = {
-    enable = true;
-    config.init = {
-      user.name = "nemeott";
-      user.email = secrets.git-email;
+  programs = {
+    git = {
+      enable = true;
+      config.init = {
+        user.name = "nemeott";
+        user.email = secrets.git-email;
 
-      defaultBranch = "main";
+        defaultBranch = "main";
+      };
     };
-  };
 
-  programs.lazygit = {
-    enable = true;
-    settings = {
-      git = {
-        log.order = "default"; # Make Lazygit faster on large repos
-        pagers = [ { pager = "delta --dark --paging=never"; } ]; # Use delta pager for diffs
+    lazygit = {
+      enable = true;
+      settings = {
+        git = {
+          log.order = "default"; # Make Lazygit faster on large repos
+          pagers = [ { pager = "delta --dark --paging=never"; } ]; # Use delta pager for diffs
+        };
       };
     };
   };

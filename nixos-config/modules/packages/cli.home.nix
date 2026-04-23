@@ -1,4 +1,4 @@
-{ ... }:
+_:
 
 {
   # Enabled here for automatic Catppuccin integration

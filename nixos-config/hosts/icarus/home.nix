@@ -18,7 +18,7 @@ in
   catppuccin.enable = true;
 
   home = {
-    username = username;
+    inherit username;
     homeDirectory = "/home/${username}";
     stateVersion = "25.11";
 

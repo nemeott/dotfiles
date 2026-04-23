@@ -142,7 +142,7 @@
       # Generate random UUIDs with `uuidgen` (doesn't matter what it is, just ensures unique spaces)
       spaces =
         let
-          containers = config.programs.zen-browser.profiles.default.containers;
+          inherit (config.programs.zen-browser.profiles.default) containers;
         in
         {
           "Default" = {

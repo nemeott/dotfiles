@@ -19,6 +19,7 @@
         # Nix
         nil
         nixd
+        statix # Nix lints
         package-version-server # For showing package versions
 
         # Python

@@ -1,5 +1,5 @@
 # Extracted from chrome-device.nix
-{ ... }:
+_:
 
 {
   # Makes touchpad disable while typing work (probably?)

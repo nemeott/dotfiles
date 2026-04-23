@@ -6,7 +6,7 @@
 }:
 
 let
-  pkgs-surge = import inputs.nixpkgs-surge { system = pkgs.stdenv.hostPlatform.system; };
+  pkgs-surge = import inputs.nixpkgs-surge { inherit (pkgs.stdenv.hostPlatform) system; };
 
   flake-path = "path:/home/${username}/dotfiles";
 
