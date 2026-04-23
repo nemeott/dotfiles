@@ -165,6 +165,14 @@
           run = "cd ~/Documents";
           desc = "Go ~/Documents";
         }
+        {
+          on = [
+            "g"
+            "."
+          ];
+          run = "cd ~/dotfiles";
+          desc = "Go ~/dotfiles";
+        }
 
         #
         # Plugins

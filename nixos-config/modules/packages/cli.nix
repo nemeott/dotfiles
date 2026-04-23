@@ -49,6 +49,8 @@ in
 
     # Fun
     fastfetch
+    cpufetch
+    gpufetch
     neo # Why not
 
     # Tools
@@ -56,6 +58,8 @@ in
     powertop # Power utils
     systemctl-tui # Terminal-based systemctl interface
     bitwise # Terminal-based bit manipulator and calculator
+    tlrc # Simple man pages
+    navi # Interactive cheatsheet tool (Get tldr man pages with: `navi repo add tao3k/navi-tldr-pages`)
 
     #
     # Aliases and scripts

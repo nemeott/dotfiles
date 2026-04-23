@@ -22,6 +22,8 @@ fi
 # Allow aliases to work with sudo
 alias sudo='sudo '
 
+alias path='echo "$PATH" | tr ":" "\n"'
+
 # TODO: Remove when Zed copilot process duplication is fixed
 # List all copilot language server instances
 alias colist="ps aux | grep '[c]opilot-language-server'"
