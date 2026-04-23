@@ -12,9 +12,6 @@ _:
     AttrKeyboardIntegration=internal
   '';
 
-  # Add keyd group for permissions
-  users.groups.keyd = { };
-
   services.keyd = {
     enable = true;
     keyboards.internal = {
