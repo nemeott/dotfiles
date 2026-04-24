@@ -168,6 +168,22 @@
         {
           on = [
             "g"
+            "m"
+          ];
+          run = "cd ~/Documents/MuseScore3/Scores";
+          desc = "Go ~/Documents/MuseScore3/Scores";
+        }
+        {
+          on = [
+            "g"
+            "M"
+          ];
+          run = "cd ~/Documents/MuseScore4/Scores";
+          desc = "Go ~/Documents/MuseScore4/Scores";
+        }
+        {
+          on = [
+            "g"
             "."
           ];
           run = "cd ~/dotfiles";
@@ -180,6 +196,38 @@
           ];
           run = "cd ~/.local";
           desc = "Go ~/.local";
+        }
+        {
+          on = [
+            "g"
+            "P"
+          ];
+          run = "cd ~/Pictures";
+          desc = "Go ~/Pictures";
+        }
+        {
+          on = [
+            "g"
+            "S"
+          ];
+          run = "cd ~/Pictures/Screenshots";
+          desc = "Go ~/Pictures/Screenshots";
+        }
+        {
+          on = [
+            "g"
+            "V"
+          ];
+          run = "cd ~/Videos";
+          desc = "Go ~/Videos";
+        }
+        {
+          on = [
+            "g"
+            "O"
+          ];
+          run = "cd ~/Obsidian-Vaults";
+          desc = "Go ~/Obsidian-Vaults";
         }
 
         #

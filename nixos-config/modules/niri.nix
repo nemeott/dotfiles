@@ -48,6 +48,7 @@ in
     xwayland-satellite # X11 compatibility for Wayland
     inputs.noctalia.packages.${stdenv.hostPlatform.system}.default # Bar
     cliphist
+    wl-clipboard
 
     brightnessctl
     # Custom brightness control scripts (0%, 1, 1%, 5%, 10%, ...)
