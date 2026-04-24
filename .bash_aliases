@@ -60,6 +60,25 @@ fkill() {
     fi
 }
 
+# Publish current directory to GitHub using gh cli (supports optional --private flag)
+git-publish() {
+    if ! command -v gh >/dev/null 2>&1; then
+        _warn_missing gh "git-publish"
+        return 1
+    fi
+
+    local repo_name
+    repo_name=$(basename "$(git rev-parse --show-toplevel)")
+    local visibility="--public" # Default to public
+    if [[ "$1" == "--private" ]]; then
+        visibility="--private"
+        echo "Creating private repository"
+    else
+        echo "Creating public repository"
+    fi
+    gh repo create "$repo_name" $visibility --source=. --remote=origin
+}
+
 # Set alias only if the command exists
 _alias_if() {
     # _alias_if <alias> <required_command> [alias_value...]
