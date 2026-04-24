@@ -80,6 +80,25 @@ addpath() {
     esac
 }
 
+# Pretty print the type of a command, showing the function or alias definition with bat
+#
+# ptype <command>
+if _command_exists bat; then
+    ptype() {
+        local name="$1"
+
+        if declare -f "$name" >/dev/null; then
+            declare -f "$name" | bat --language=bash --style=plain
+        elif alias "$name" >/dev/null 2>&1; then
+            alias "$name" | bat --language=bash --style=plain
+        else
+            builtin type "$name"
+        fi
+    }
+else
+    _warn_missing bat "ptype function"
+fi
+
 # Clipboard utilities
 if _command_exists wl-copy; then
     alias cwd='pwd | wl-copy' # Copy working directory to clipboard
