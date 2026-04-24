@@ -88,7 +88,7 @@
   # Bootloader
   boot = {
     # Check for latest kernel versions here: https://www.kernel.org/
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_19; # TODO: Update to 7.0 when stable (7.1 comes out)
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_18; # TODO: Update to 7.0 when stable (7.1 comes out)
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;

@@ -4,26 +4,30 @@ _:
   # Name the generation
   system.nixos.tags = [ "Cinnamon" ];
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services = {
+    xserver = {
+      # Enable the X11 windowing system.
+      enable = true;
 
-  # Enable the Cinnamon Desktop Environment.
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.cinnamon.enable = true;
+      # Enable the Cinnamon Desktop Environment.
+      displayManager.lightdm.enable = true;
+      desktopManager.cinnamon.enable = true;
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
+      # Configure keymap in X11
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
+    };
 
-  # Use sane scrolling config
-  services.libinput = {
-    enable = true;
+    # Use sane scrolling config
+    libinput = {
+      enable = true;
 
-    # Want to set this in dconf (org/cinnamon/desktop/peripherals/touchpad)
-    touchpad.naturalScrolling = false; # ! Not working
-    mouse.naturalScrolling = false; # org/gnome/desktop/peripherals/mouse
+      # Want to set this in dconf (org/cinnamon/desktop/peripherals/touchpad)
+      touchpad.naturalScrolling = false; # ! Not working
+      mouse.naturalScrolling = false; # org/gnome/desktop/peripherals/mouse
+    };
   };
 
   # dconf dump | cat
