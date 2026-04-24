@@ -68,21 +68,30 @@
         # Memory enhancements
         "browser.tabs.unloadOnLowMemory" = true; # Unload tabs when system is low on memory (default is less than 200MB)
         "browser.tabs.min_inactive_duration_before_unload" = 600000; # Unload tabs after 10 minutes (600k milliseconds) (default)
-        "dom.ipc.processCount" = 4; # Number of processes (default is 8) (lower amount reduces memory usage)
-        "dom.ipc.processCount.webIsolated" = 2; # Number of processes for web-isolated content (default is 4) (lower amount reduces memory usage)
+        "dom.ipc.processCount" = 1; # Number of processes (default is 8) (lower amount reduces memory usage)
+        "dom.ipc.processCount.webIsolated" = 1; # Number of processes for web-isolated content (default is 4) (lower amount reduces memory usage)
         "browser.tabs.fadeOutUnloadedTabs" = true; # See automatically unloaded tabs
+        
+        # Browser cache
+        "browser.cache.frecency_half_life_hours" = 18; # Lower cache sweep intervals (default is 6)
 
         # Increase network speed
         "network.http.max-connections" = 1500; # Max number of HTTP connections to have open at once (default is 900)
         "network.http.max-persistent-connections-per-server" = 10; # Max number of keep-alive connections to a single server (default is 6)
         "content.notify.interval" = 500000; # Increase to load page faster because of fewer periodic redraws (default is 120.000 ms)
+        "network.notify.checkForProxies" = false; # Don't check for proxies since I'm not using any (default is true)
 
         # Fastfox network speed settings (https://raw.githubusercontent.com/yokoffing/Betterfox/master/Fastfox.js)
         "network.dnsCacheEntries" = 2000; # Increase DNS cache entries (default is 800)
         "network.dnsCacheExpiration" = 3600; # Cache DNS entries for 1 hour (default is 60 seconds)
         "network.dnsCacheExpirationGracePeriod" = 240;
         "network.ssl_tokens_cache_capacity" = 32768; # Increase SSL session cache capacity at cost of slightly more RAM since most websites are HTTPS nowdays (default is 2048)
-        
+
+        # Disable safebrowsing (reduce CPU usage) (NextDNS already is good enough at this)
+        "browser.safebrowsing.malware.enabled" = false;
+        "browser.safebrowsing.phishing.enabled" = false;
+        "browser.safebrowsing.blockedURIs.enabled" = false;
+        "browser.safebrowsing.downloads.enabled" = false;
         "browser.safebrowsing.downloads.remote.enabled" = false; # Disable Google Safe Browsing for downloads (files still checked locally)
       };
 
@@ -235,7 +244,7 @@
               icon = "https://pypi.org/favicon.ico";
               definedAliases = [ "@py" ];
             };
-            
+
             # Useful Linux wiki
             arch-wiki = {
               name = "Arch Wiki";
