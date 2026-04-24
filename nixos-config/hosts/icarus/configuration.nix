@@ -47,6 +47,7 @@
 
   # Use Lix package manager instead of Nix
   # Override packages that use Nix to use Lix instead
+  # Overlay help: https://github.com/NixOS/nixpkgs/pull/445223#issuecomment-3330902652
   nixpkgs.overlays = [
     (final: prev: {
       nix = final.lixPackageSets.latest.lix;
@@ -80,7 +81,6 @@
       };
     })
   ];
-  nix.package = pkgs.lixPackageSets.latest.lix;
 
   # Disable access time updates for better performance (not usually needed by modern programs)
   fileSystems."/".options = [ "noatime" ];
