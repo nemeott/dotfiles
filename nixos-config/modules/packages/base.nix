@@ -18,6 +18,7 @@
     unzip
     zip
     gnutar
+    p7zip
     rsync
 
     # Networking

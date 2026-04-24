@@ -45,6 +45,8 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # Create directory and enter it
+#
+# mkcd <directory>
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
@@ -61,15 +63,36 @@ _run_if_exists eza "la alias" alias la='eza -a --icons'
 # Print path on newlines
 alias path='echo "$PATH" | tr ":" "\n"'
 
+# Add a resolved file or directory path to PATH
+#
+# addpath <path>
+addpath() {
+    if [[ ! -e "$1" ]]; then
+        printf 'Warning: %s does not exist; skipping\n' "$1" >&2
+        return 1
+    fi
+
+    local target
+    target=$(readlink -f "$1") || return 1
+    case ":$PATH:" in
+    *":$target:"*) return 0 ;;
+    *) export PATH="$PATH:$target" ;;
+    esac
+}
+
 # Clipboard utilities
 if _command_exists wl-copy; then
     alias cwd='pwd | wl-copy' # Copy working directory to clipboard
 
     # Print file path (follows symlinks to get absolute path)
+    #
+    # pfp <file>
     pfp() {
         readlink -f "$1"
     }
     # Copy file path to clipboard (follows symlinks to get absolute path)
+    #
+    # cfp <file>
     cfp() {
         pfp "$@" | wl-copy
     }
@@ -108,7 +131,36 @@ alias coclean="pgrep -f copilot-language-server | sort -n | head -n -1 | xargs -
 # Kill all copilot language server processes
 alias conuke="pkill -f copilot-language-server"
 
+# Extract any archive
+#
+# extract <archive>
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+        *.tar.bz2) tar -xjf "$1" ;;
+        *.tar.gz) tar -xzf "$1" ;;
+        *.tar.xz) tar -xJf "$1" ;;
+        *.tar.zst) tar -xf "$1" ;;
+        *.bz2) bunzip2 "$1" ;;
+        *.rar) unrar x "$1" ;;
+        *.gz) gunzip "$1" ;;
+        *.tar) tar -xf "$1" ;;
+        *.tbz2) tar -xjf "$1" ;;
+        *.tgz) tar -xzf "$1" ;;
+        *.zip) unzip "$1" ;;
+        *.zst) tar -xf "$1" ;;
+        *.Z) uncompress "$1" ;;
+        *.7z) 7z x "$1" ;;
+        *) echo "Unknown archive: $1" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
 # Publish current directory to GitHub using gh cli (supports optional --private flag)
+#
+# git-publish [--private]
 if _command_exists gh; then
     git-publish() {
         local repo_name
@@ -150,6 +202,6 @@ _run_if_exists lazygit "lg alias" alias lg='lazygit'
 _run_if_exists zeditor "zed alias" alias zed='zeditor'
 _run_if_exists zen-beta "zen alias" alias zen='zen-beta'
 
-unset -f _warn_missing
 unset -f _command_exists
+unset -f _warn_missing
 unset -f _run_if_exists
