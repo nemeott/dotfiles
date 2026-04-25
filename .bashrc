@@ -232,16 +232,25 @@ else
 fi
 
 # Enable zoxide and replace cd (can also use cdi to search cd history)
-_run_if_exists zoxide 'zoxide initialization\n\tInstall through package manager or with: curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh' \
-    eval '$(zoxide init bash --cmd cd)'
+if _command_exists zoxide; then
+    eval "$(zoxide init bash --cmd cd)"
+else
+    _warn_missing zoxide 'zoxide initialization\n\tInstall through package manager or with: curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh'
+fi
 
 # Enable batman (colored man pages)
-_run_if_exists batman "batman initialization" \
-    eval '$(batman --export-env)'
+if _command_exists batman; then
+    eval "$(batman --export-env)"
+else
+    _warn_missing batman "batman initialization"
+fi
 
 # Enable batpipe (colored less)
-_run_if_exists batpipe "batpipe initialization" \
-    eval '$(batpipe)'
+if _command_exists batpipe; then
+    eval "$(batpipe)"
+else
+    _warn_missing batpipe "batpipe initialization"
+fi
 
 # Enable atuin for better bash history (atuin needs bash-preexec)
 if _command_exists atuin; then
@@ -256,8 +265,11 @@ else
 fi
 
 # Direnv integration
-_run_if_exists direnv "direnv initialization" \
-    eval '$(direnv hook bash)'
+if _command_exists direnv; then
+    eval "$(direnv hook bash)"
+else
+    _warn_missing direnv "direnv initialization"
+fi
 
 # Use yazi shell wrapper to enable changing cwd from yazi
 if _command_exists yazi; then
