@@ -20,11 +20,6 @@
       enable-deferred-volume = "no"; # Disable deferred volume to avoid starting in "None" profile
       flat-volumes = "no"; # Prevent apps from changing volume implicitly
     };
-
-    extraConfig = ''
-      # Use legacy ALSA profile probing
-      load-module module-udev-detect ignore_dB=1 use_ucm=0
-		'';
   };
 
   # Switch audio sink manually with
@@ -57,7 +52,7 @@
 
       # Retry on failure
       Restart = "on-failure";
-      RestartSec = "1s";
+      RestartSec = "5s";
     };
 
     # Provide pactl/pacmd

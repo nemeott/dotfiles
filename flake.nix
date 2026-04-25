@@ -28,6 +28,7 @@
     firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
 
     nixpkgs-surge.url = "github:ErmitaVulpe/nixpkgs/init/surge-downloader";
+    nixpkgs-nirimod.url = "github:sophronesis/nixpkgs/pkg/nirimod";
   };
 
   outputs =
