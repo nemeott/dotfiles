@@ -83,7 +83,7 @@ if [ "$color_prompt" = yes ]; then
 
     # Dynamic prompt function
     set_prompt() {
-        local last_exit=$?
+        local last_exit=$? # Capture exit status of last command for prompt symbol coloring
 
         # # Regular text colors
         # local BLACK='\[\e[0;30m\]'
@@ -116,6 +116,7 @@ if [ "$color_prompt" = yes ]; then
         # local BGWHITE='\[\e[47m\]'
 
         local CHROOT='${debian_chroot:+'"$BMAGENTA"'($debian_chroot) '"$WHITE"'}'
+
         local NIX=""
         if [[ -n "$IN_NIX_SHELL" ]]; then
             if [[ -n "$NIX_SHELL_LEVEL" ]]; then
@@ -124,10 +125,12 @@ if [ "$color_prompt" = yes ]; then
                 NIX="$BBLUE(nix-shell)$WHITE "
             fi
         fi
+
         local CONDA=""
         if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
             CONDA="$BRED($CONDA_DEFAULT_ENV) $WHITE"
         fi
+
         local VENV=""
         if [[ -n "$VIRTUAL_ENV_PROMPT" ]]; then
             # Strip whitespace
@@ -151,7 +154,7 @@ if [ "$color_prompt" = yes ]; then
         # Red $ on failed command
         # White $ otherwise
         local symbol
-        if [ "$UID" -eq 0 ]; then
+        if [ "${EUID:-0}" -eq 0 ]; then
             symbol="$RED#$WHITE "
         elif [ "$last_exit" -eq 0 ]; then
             symbol="$WHITE\$ "
@@ -210,62 +213,46 @@ fi
 # Enable CLI tools enhancements
 #
 
-# Show a warning only in interactive shells
-_warn_missing() {
-    [[ $- == *i* ]] && printf 'Warning: %s not found; skipping %s\n' "$1" "$2" >&2
-}
-
 # Enable fzf
-if command -v fzf >/dev/null 2>&1; then
+if _command_exists fzf; then
     [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 else
     _warn_missing fzf "fzf initialization"
 fi
 
 # Enable zoxide and replace cd (can also use cdi to search cd history)
-if command -v zoxide >/dev/null 2>&1; then
-    eval "$(zoxide init bash --cmd cd)"
-else
-    _warn_missing zoxide $'zoxide initialization\n\tInstall through package manager or with: curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh'
-fi
+_run_if_exists zoxide 'zoxide initialization\n\tInstall through package manager or with: curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh' \
+    eval '$(zoxide init bash --cmd cd)'
 
 # Enable batman (colored man pages)
-if command -v batman >/dev/null 2>&1; then
-    eval "$(batman --export-env)"
-else
-    _warn_missing batman "batman initialization"
-fi
+_run_if_exists batman "batman initialization" \
+    eval '$(batman --export-env)'
 
 # Enable batpipe (colored less)
-if command -v batpipe >/dev/null 2>&1; then
-    eval "$(batpipe)"
-else
-    _warn_missing batpipe "batpipe initialization"
-fi
+_run_if_exists batpipe "batpipe initialization" \
+    eval '$(batpipe)'
 
 # Enable atuin for better bash history (atuin needs bash-preexec)
-if command -v atuin >/dev/null 2>&1; then
+if _command_exists atuin; then
     if [[ -f ~/.bash-preexec.sh ]]; then
         source ~/.bash-preexec.sh
         eval "$(atuin init bash)"
     else
-        _warn_missing ~/.bash-preexec.sh $'atuin initialization\n\tInstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
+        _warn_missing ~/.bash-preexec.sh 'atuin initialization\n\tInstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
     fi
 else
-    _warn_missing atuin $'atuin initialization\n\tInstall through package manager or with: curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh'
+    _warn_missing atuin 'atuin initialization\n\tInstall through package manager or with: curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh'
 fi
 
 # Direnv integration
-if command -v direnv >/dev/null 2>&1; then
-    eval "$(direnv hook bash)"
-else
-    _warn_missing direnv "direnv initialization"
-fi
+_run_if_exists direnv "direnv initialization" \
+    eval '$(direnv hook bash)'
 
 # Use yazi shell wrapper to enable changing cwd from yazi
-if command -v yazi >/dev/null 2>&1; then
+if _command_exists yazi; then
     function y() {
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        local tmp
+        tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
         command yazi "$@" --cwd-file="$tmp"
         IFS= read -r -d '' cwd <"$tmp"
         [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
@@ -275,7 +262,23 @@ else
     _warn_missing yazi "yazi shell wrapper function"
 fi
 
+#
+# Cleanup
+#
+
+# Print suppressed warnings summary (if any)
+_warn_missing_summary
+
+unset -f _command_exists
 unset -f _warn_missing
+unset -f _warn_missing_summary
+unset _warn_count
+unset _warn_suppressed
+unset -f _run_if_exists
+
+#
+# Editor
+#
 
 # Set Zed as default editor
 export EDITOR="zeditor"

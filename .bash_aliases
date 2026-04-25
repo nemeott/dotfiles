@@ -9,13 +9,28 @@ _command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Show a warning only in interactive shells
+# Show a warning only in interactive shells, with suppression after 3 messages
 #
 # _warn_missing <command> <error_context>
 #
 # Warning: <command> not found; skipping <error_context>
+_warn_count=0
+_warn_suppressed=0
 _warn_missing() {
-    [[ $- == *i* ]] && printf 'Warning: %s not found; skipping %s\n' "$1" "$2" >&2
+    [[ $- == *i* ]] || return 0 # Only show warnings in interactive shells
+
+    if ((_warn_count < 3)); then
+        printf 'Warning: %s not found; skipping %s\n' "$1" "$2" >&2
+        ((_warn_count++))
+    else
+        ((_warn_suppressed++))
+    fi
+}
+
+_warn_missing_summary() {
+    if ((_warn_suppressed > 0)); then
+        printf 'Warning: %d additional missing tool warnings suppressed\n' "$_warn_suppressed" >&2
+    fi
 }
 
 # Run a command if it exists, otherwise show a warning
@@ -220,7 +235,7 @@ _run_if_exists btop "btop alias" alias top='btop'
 _run_if_exists eza "eza alias" alias ls='eza --icons --group-directories-first'
 _run_if_exists eza "eza alias" alias tree='eza --tree'
 _run_if_exists fd "fd alias" alias find='fd'
-_run_if_exists fzf "fzf alias" alias fzfp='fzf --preview "bat --color=always --style=numbers {}"' # Start fzf with bat preview
+_run_if_exists fzf "fzf alias" alias fzfp='fzf --preview "bat --color=always --style=numbers {}"'
 _run_if_exists rg "rg alias" alias grep='rg'
 
 _run_if_exists powertop "ptop alias" alias ptop='powertop'
@@ -231,6 +246,4 @@ _run_if_exists lazygit "lg alias" alias lg='lazygit'
 _run_if_exists zeditor "zed alias" alias zed='zeditor'
 _run_if_exists zen-beta "zen alias" alias zen='zen-beta'
 
-unset -f _command_exists
-unset -f _warn_missing
-unset -f _run_if_exists
+# ~/.bashrc unsets the helpers
