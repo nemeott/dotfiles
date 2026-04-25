@@ -1,6 +1,19 @@
-{ lib, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
+  # Patch foot to fix "deprecated: foot: [colors]: use [colors-dark] instead" warning
+  # https://github.com/catppuccin/foot/pull/24
+  catppuccin.sources.foot = pkgs.runCommand "catppuccin-foot-patched" { } ''
+    cp -r ${inputs.catppuccin.packages.${pkgs.stdenv.hostPlatform.system}.foot} $out
+    chmod -R u+w $out
+    sed -i 's/^\[colors\]$/[colors-dark]/' $out/catppuccin-*.ini
+  '';
+
   # Enabled here for automatic Catppuccin integration
   programs = {
     # Terminal emulator
@@ -10,7 +23,9 @@
         main = {
           term = "xterm-256color";
           font = "Monaspace Neon Frozen:size=8.5";
+          pad = "1x1 center"; # Slight padding so text isn't super close to the edge
         };
+        scrollback.lines = 100000; # Larger scrollback buffer (default is 10,000?)
       };
     };
     fuzzel.enable = true; # Application launcher
