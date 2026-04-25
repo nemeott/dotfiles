@@ -77,9 +77,10 @@ mkcd() {
 }
 
 # ls aliases
-alias l='ls -l'
-alias ll='ls -la'
-alias la='ls -a'
+alias l='ls --color --group-directories-first'
+alias l='ls -l --color --group-directories-first --human-readable'
+alias ll='ls -la --color --group-directories-first --human-readable'
+alias la='ls -a --color --group-directories-first'
 
 _run_if_exists eza "l alias" alias l='eza -l --icons --group-directories-first'
 _run_if_exists eza "ll alias" alias ll='eza -la --icons --group-directories-first'
