@@ -4,8 +4,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-    *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # check the window size after each command and, if necessary,
@@ -36,13 +36,13 @@ bind 'set show-all-if-ambiguous on'
 bind "set mark-symlinked-directories on"
 
 # Prepend cd to directory names automatically
-shopt -s autocd 2> /dev/null
+shopt -s autocd 2>/dev/null
 
 # Correct spelling errors during tab-completion
-shopt -s dirspell 2> /dev/null
+shopt -s dirspell 2>/dev/null
 
 # Correct spelling errors in arguments supplied to cd
-shopt -s cdspell 2> /dev/null
+shopt -s cdspell 2>/dev/null
 
 #
 # History options
@@ -63,137 +63,105 @@ HISTCONTROL="erasedups:ignoreboth"
 
 # Don't record some commands
 export HISTIGNORE="&:[ ]*:cd:ls:y:clear:bash:exit:history:reboot:\
-    btop:ptop:ff:sys:lg:y";
+    btop:ptop:ff:sys:lg:y"
 
 #
 # Prompt
 #
 
 # Chroot name (if any)
-[ -r /etc/debian_chroot ] && debian_chroot=$(< /etc/debian_chroot)
+[ -r /etc/debian_chroot ] && debian_chroot=$(</etc/debian_chroot)
 
 # Enable color if supported
 case "$TERM" in
-   	*-256color|alacritty|foot) color_prompt=yes ;;
+*-256color | alacritty | foot) color_prompt=yes ;;
 esac
 
 if [ "$color_prompt" = yes ]; then
-   	# Default prompt
+    # Default prompt
     # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
-   	# # Timing code from https://stackoverflow.com/a/34812608
-#    timer_now() {
-   	# 	date +%s%N
-   	# }
+    # Dynamic prompt function
+    set_prompt() {
+        local last_exit=$?
 
-   	# Dynamic prompt function
-   	set_prompt() {
-   	# 	local timer_show=""
-   	# 	if [[ -n "$timer_start" ]]; then
-   	# 	    local now=$(timer_now)
-   	# 	    local delta_us=$(( (now - timer_start) / 1000 ))
+        # # Regular text colors
+        # local BLACK='\[\e[0;30m\]'
+        local RED='\[\e[0;31m\]'
+        # local GREEN='\[\e[0;32m\]'
+        # local YELLOW='\[\e[0;33m\]'
+        # local BLUE='\[\e[0;34m\]'
+        # local MAGENTA='\[\e[0;35m\]'
+        # local CYAN='\[\e[0;36m\]'
+        local WHITE='\[\e[0;37m\]'
 
-   	# 	    local us=$((delta_us % 1000))
-   	# 	    local ms=$(((delta_us / 1000) % 1000))
-   	# 	    local s=$(((delta_us / 1000000) % 60))
-   	# 	    local m=$(((delta_us / 60000000) % 60))
-   	# 	    local h=$((delta_us / 3600000000))
+        # Bold text colors
+        # local BBLACK='\[\e[1;30m\]'
+        local BRED='\[\e[1;31m\]'
+        local BGREEN='\[\e[1;32m\]'
+        local BYELLOW='\[\e[1;33m\]'
+        local BBLUE='\[\e[1;34m\]'
+        local BMAGENTA='\[\e[1;35m\]'
+        local BCYAN='\[\e[1;36m\]'
+        # local BWHITE='\[\e[1;37m\]'
 
-   	# 	    if ((h > 0)); then timer_show=${h}h${m}m
-   	# 	    elif ((m > 0)); then timer_show=${m}m${s}s
-   	# 	    elif ((s >= 10)); then timer_show=${s}.$((ms / 100))s
-   	# 	    elif ((s > 0)); then timer_show=${s}.$(printf %03d $ms)s
-   	# 	    elif ((ms >= 100)); then timer_show=${ms}ms
-   	# 	    elif ((ms > 0)); then timer_show=${ms}.$((us / 100))ms
-   	# 	    else timer_show=${us}us
-   	# 	    fi
-   	# 	fi
+        # # Background colors
+        # local BGBLACK='\[\e[40m\]'
+        # local BGRED='\[\e[41m\]'
+        # local BGGREEN='\[\e[42m\]'
+        # local BGYELLOW='\[\e[43m\]'
+        # local BGBLUE='\[\e[44m\]'
+        # local BGMAGENTA='\[\e[45m\]'
+        # local BGCYAN='\[\e[46m\]'
+        # local BGWHITE='\[\e[47m\]'
 
-   	#     local last_exit=$__LAST_EXIT
-
-   	    local last_exit=$?
-
-  		# # Regular text colors
-  		# local BLACK='\[\e[0;30m\]'
-  		local RED='\[\e[0;31m\]'
-  		# local GREEN='\[\e[0;32m\]'
-  		# local YELLOW='\[\e[0;33m\]'
-  		# local BLUE='\[\e[0;34m\]'
-  		# local MAGENTA='\[\e[0;35m\]'
-  		# local CYAN='\[\e[0;36m\]'
-  		local WHITE='\[\e[0;37m\]'
-
-  		# Bold text colors
-  		# local BBLACK='\[\e[1;30m\]'
-  		local BRED='\[\e[1;31m\]'
-  		local BGREEN='\[\e[1;32m\]'
-  		local BYELLOW='\[\e[1;33m\]'
-  		local BBLUE='\[\e[1;34m\]'
-  		local BMAGENTA='\[\e[1;35m\]'
-  		local BCYAN='\[\e[1;36m\]'
-  		# local BWHITE='\[\e[1;37m\]'
-
-  		# # Background colors
-  		# local BGBLACK='\[\e[40m\]'
-  		# local BGRED='\[\e[41m\]'
-  		# local BGGREEN='\[\e[42m\]'
-  		# local BGYELLOW='\[\e[43m\]'
-  		# local BGBLUE='\[\e[44m\]'
-  		# local BGMAGENTA='\[\e[45m\]'
-  		# local BGCYAN='\[\e[46m\]'
-  		# local BGWHITE='\[\e[47m\]'
-
-   	    local CHROOT='${debian_chroot:+'"$BMAGENTA"'($debian_chroot) '"$WHITE"'}'
-  		local NIX=""
-  		if [[ -n "$IN_NIX_SHELL" ]]; then
+        local CHROOT='${debian_chroot:+'"$BMAGENTA"'($debian_chroot) '"$WHITE"'}'
+        local NIX=""
+        if [[ -n "$IN_NIX_SHELL" ]]; then
             if [[ -n "$NIX_SHELL_LEVEL" ]]; then
                 NIX="$BBLUE(nix-shell:$NIX_SHELL_LEVEL)$WHITE "
             else
-      		    NIX="$BBLUE(nix-shell)$WHITE "
+                NIX="$BBLUE(nix-shell)$WHITE "
             fi
-  		fi
-  		local CONDA=""
-  		if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
-  		    CONDA="$BRED($CONDA_DEFAULT_ENV) $WHITE"
-  		fi
-  		local VENV=""
-  		if [[ -n "$VIRTUAL_ENV_PROMPT" ]]; then
-  		    # Strip whitespace
-  		    local v="${VIRTUAL_ENV_PROMPT//[[:space:]]/}"
-  		
-  		    # Add parentheses if missing
-  		    if [[ "$v" != \(*\) ]]; then
-  		        v="($v)"
-  		    fi
-  		
- 			# Formatted like "(venv_name) "
-  		    VENV="$BMAGENTA$v "
-  		fi
+        fi
+        local CONDA=""
+        if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
+            CONDA="$BRED($CONDA_DEFAULT_ENV) $WHITE"
+        fi
+        local VENV=""
+        if [[ -n "$VIRTUAL_ENV_PROMPT" ]]; then
+            # Strip whitespace
+            local v="${VIRTUAL_ENV_PROMPT//[[:space:]]/}"
 
-   	    local USER="$BGREEN\u"
-  		local AT="$BMAGENTA@"
-  		local HOST="$BCYAN\h$WHITE"
-  		local DIRECTORY="$BYELLOW\w"
+            # Add parentheses if missing
+            if [[ "$v" != \(*\) ]]; then
+                v="($v)"
+            fi
 
-  		# Red # for root
-  		# Red $ on failed command
-  		# White $ otherwise
-   	    local symbol
-   	    if [ "$UID" -eq 0 ]; then
-   	        symbol="$RED#$WHITE "
-   	    elif [ "$last_exit" -eq 0 ]; then
-   	        symbol="$WHITE\$ "
-   	    else
-   	        symbol="$RED\$ $WHITE"
-   	    fi
+            # Formatted like "(venv_name) "
+            VENV="$BMAGENTA$v "
+        fi
 
-   	    PS1="$CHROOT$NIX$CONDA$VENV$USER$AT$HOST:$DIRECTORY$symbol"
-   	    # PS1="($timer_show) $CHROOT$NIX$CONDA$VENV$USER$AT$HOST:$DIRECTORY$symbol"
-   	}
+        local USER="$BGREEN\u"
+        local AT="$BMAGENTA@"
+        local HOST="$BCYAN\h$WHITE"
+        local DIRECTORY="$BYELLOW\w"
 
-   	# trap 'timer_start=$(timer_now)' DEBUG
-   	# PROMPT_COMMAND='__LAST_EXIT=$?; set_prompt'
-   	PROMPT_COMMAND='set_prompt'
+        # Red # for root
+        # Red $ on failed command
+        # White $ otherwise
+        local symbol
+        if [ "$UID" -eq 0 ]; then
+            symbol="$RED#$WHITE "
+        elif [ "$last_exit" -eq 0 ]; then
+            symbol="$WHITE\$ "
+        else
+            symbol="$RED\$ $WHITE"
+        fi
+
+        PS1="$CHROOT$NIX$CONDA$VENV$USER$AT$HOST:$DIRECTORY$symbol"
+    }
+    PROMPT_COMMAND='set_prompt'
 else
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
 fi
@@ -201,7 +169,7 @@ unset color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+xterm* | rxvt*)
     ;;
 *)
     ;;
@@ -277,36 +245,34 @@ fi
 
 # Enable atuin for better bash history (atuin needs bash-preexec)
 if command -v atuin >/dev/null 2>&1; then
-   	if [[ -f ~/.bash-preexec.sh ]]; then
+    if [[ -f ~/.bash-preexec.sh ]]; then
         source ~/.bash-preexec.sh
         eval "$(atuin init bash)"
     else
-   	    _warn_missing ~/.bash-preexec.sh $'atuin initialization\n\tInstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
+        _warn_missing ~/.bash-preexec.sh $'atuin initialization\n\tInstall with: curl -fsSL https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
     fi
 else
     _warn_missing atuin $'atuin initialization\n\tInstall through package manager or with: curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh'
 fi
 
-
 # Direnv integration
 if command -v direnv >/dev/null 2>&1; then
-   	eval "$(direnv hook bash)"
+    eval "$(direnv hook bash)"
 else
-   	_warn_missing direnv "direnv initialization"
+    _warn_missing direnv "direnv initialization"
 fi
-
 
 # Use yazi shell wrapper to enable changing cwd from yazi
 if command -v yazi >/dev/null 2>&1; then
     function y() {
-       	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-       	command yazi "$@" --cwd-file="$tmp"
-       	IFS= read -r -d '' cwd < "$tmp"
-       	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
-       	rm -f -- "$tmp"
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        command yazi "$@" --cwd-file="$tmp"
+        IFS= read -r -d '' cwd <"$tmp"
+        [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+        rm -f -- "$tmp"
     }
 else
-   	_warn_missing yazi "yazi shell wrapper function"
+    _warn_missing yazi "yazi shell wrapper function"
 fi
 
 unset -f _warn_missing
