@@ -29,6 +29,7 @@
 
     nixpkgs-surge.url = "github:ErmitaVulpe/nixpkgs/init/surge-downloader";
     nixpkgs-nirimod.url = "github:sophronesis/nixpkgs/pkg/nirimod";
+    nixpkgs-models.url = "github:nemeott/nixpkgs/add-models-package";
   };
 
   outputs =
@@ -42,7 +43,20 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs username; };
           modules = [
-            { nixpkgs.config.allowUnfree = true; }
+            {
+              nixpkgs.config.allowUnfree = true;
+
+              # Overlays to add custom packages from other repos
+              nixpkgs.overlays = [
+                (final: prev: {
+                  inherit ((import inputs.nixpkgs-surge { inherit (prev.stdenv.hostPlatform) system; }))
+                    surge-downloader
+                    ;
+                  inherit ((import inputs.nixpkgs-nirimod { inherit (prev.stdenv.hostPlatform) system; })) nirimod;
+                  inherit ((import inputs.nixpkgs-models { inherit (prev.stdenv.hostPlatform) system; })) models;
+                })
+              ];
+            }
 
             ./nixos-config/hosts/icarus/configuration.nix
 

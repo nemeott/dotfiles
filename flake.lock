@@ -114,6 +114,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-models": {
+      "locked": {
+        "lastModified": 1775889714,
+        "narHash": "sha256-TYj//k9I+zsVGUR/4junG1ugi20I0b+jA0lQfgdJNQI=",
+        "owner": "nemeott",
+        "repo": "nixpkgs",
+        "rev": "7d0d6da46baba621eae16cea0e64aa6596461d6a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nemeott",
+        "ref": "add-models-package",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-nirimod": {
       "locked": {
         "lastModified": 1776591547,
@@ -198,6 +214,7 @@
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-models": "nixpkgs-models",
         "nixpkgs-nirimod": "nixpkgs-nirimod",
         "nixpkgs-surge": "nixpkgs-surge",
         "noctalia": "noctalia",

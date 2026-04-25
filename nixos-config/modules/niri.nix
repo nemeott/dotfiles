@@ -2,6 +2,8 @@
 
 # Toggle iio-niri screen rotation
 let
+  pkgs-nirimod = import inputs.nixpkgs-nirimod { inherit (pkgs.stdenv.hostPlatform) system; };
+
   toggle_screen_rotation = pkgs.writeShellApplication {
     name = "toggle_screen_rotation";
     runtimeInputs = [ pkgs.systemd ];
@@ -46,6 +48,7 @@ in
 
   environment.systemPackages = with pkgs; [
     xwayland-satellite # X11 compatibility for Wayland
+    nirimod # GUI for managing Niri
     inputs.noctalia.packages.${stdenv.hostPlatform.system}.default # Bar
     cliphist
     wl-clipboard
@@ -112,7 +115,7 @@ in
 
     # Let quickshell initialize, then turn off rotation
     script = ''
-        ${toggle_screen_rotation}/bin/toggle_screen_rotation
+      ${toggle_screen_rotation}/bin/toggle_screen_rotation
     '';
   };
 

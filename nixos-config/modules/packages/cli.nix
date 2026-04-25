@@ -1,14 +1,6 @@
-{
-  inputs,
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 
 let
-  pkgs-surge = import inputs.nixpkgs-surge { inherit (pkgs.stdenv.hostPlatform) system; };
-  pkgs-nirimod = import inputs.nixpkgs-nirimod { inherit (pkgs.stdenv.hostPlatform) system; };
-
   flake-path = "path:/home/${username}/dotfiles";
 
   # Scripts to get the diff of the current system with a new build
@@ -69,8 +61,9 @@ in
     tlrc # Simple man pages
     navi # Interactive cheatsheet tool (Get tldr man pages with: `navi repo add tao3k/navi-tldr-pages`)
     nixmate # Useful semi-nix related multitool
-    pkgs-surge.surge-downloader # Fast TUI downlaod manager
-    pkgs-nirimod.nirimod # GUI for managing Niri
+    surge-downloader # Fast TUI downlaod manager
+    llmfit # TUI for finding good LLMs for local use
+    models # TUI for displaying and comparing LLM providers and benchmarks
 
     #
     # Aliases and scripts
