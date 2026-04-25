@@ -39,10 +39,20 @@ _run_if_exists() {
 # Allow aliases to work with sudo
 alias sudo='sudo '
 
+# Saftey first!
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -I' # -I prompts once if removing more than 3 files or recursively
+
 # Navigation
 alias ..='cd ..'
 alias ...='cd ../..'
-alias ....='cd ../../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+
+# Create a new directory and any necessary parent directories (verbose)
+alias md='mkdir -pv'
 
 # Create directory and enter it
 #
@@ -56,9 +66,9 @@ alias l='ls -l'
 alias ll='ls -la'
 alias la='ls -a'
 
-_run_if_exists eza "l alias" alias l='eza -l --icons'
-_run_if_exists eza "ll alias" alias ll='eza -la --icons'
-_run_if_exists eza "la alias" alias la='eza -a --icons'
+_run_if_exists eza "l alias" alias l='eza -l --icons --group-directories-first'
+_run_if_exists eza "ll alias" alias ll='eza -la --icons --group-directories-first'
+_run_if_exists eza "la alias" alias la='eza -a --icons --group-directories-first'
 
 # Print path on newlines
 alias path='echo "$PATH" | tr ":" "\n"'
@@ -207,7 +217,7 @@ fi
 _run_if_exists bat "bat alias" alias cat='bat'
 _run_if_exists batman "batman alias" alias man='batman'
 _run_if_exists btop "btop alias" alias top='btop'
-_run_if_exists eza "eza alias" alias ls='eza --icons'
+_run_if_exists eza "eza alias" alias ls='eza --icons --group-directories-first'
 _run_if_exists eza "eza alias" alias tree='eza --tree'
 _run_if_exists fd "fd alias" alias find='fd'
 _run_if_exists fzf "fzf alias" alias fzfp='fzf --preview "bat --color=always --style=numbers {}"' # Start fzf with bat preview
