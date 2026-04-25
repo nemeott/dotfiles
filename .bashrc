@@ -193,6 +193,17 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+#
+# Path modifications
+#
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.bin:$PATH"
+
+# Activate atuin if installed in home directory (ssh servers)
+if [ -f "$HOME/.atuin/bin/env" ]; then
+    source "$HOME/.atuin/bin/env"
+fi
+
 # Alias definitions.
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
@@ -207,17 +218,6 @@ if ! shopt -oq posix; then
     elif [ -f /etc/bash_completion ]; then
         . /etc/bash_completion
     fi
-fi
-
-#
-# Path modifications
-#
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.bin:$PATH"
-
-# Activate atuin if installed in home directory (ssh servers)
-if [ -f "$HOME/.atuin/bin/env" ]; then
-    source "$HOME/.atuin/bin/env"
 fi
 
 #
