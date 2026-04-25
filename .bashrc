@@ -188,7 +188,7 @@ if [ "$color_prompt" = yes ]; then
    	    fi
 
    	    PS1="$CHROOT$NIX$CONDA$VENV$USER$AT$HOST:$DIRECTORY$symbol"
-   	    # PS1="($timer_show) $VENV$CHROOT$USER$HOST:$DIRECTORY$symbol"
+   	    # PS1="($timer_show) $CHROOT$NIX$CONDA$VENV$USER$AT$HOST:$DIRECTORY$symbol"
    	}
 
    	# trap 'timer_start=$(timer_now)' DEBUG
