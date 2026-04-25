@@ -210,6 +210,17 @@ if ! shopt -oq posix; then
 fi
 
 #
+# Path modifications
+#
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.bin:$PATH"
+
+# Activate atuin if installed in home directory (ssh servers)
+if [ -f "$HOME/.atuin/bin/env" ]; then
+    source "$HOME/.atuin/bin/env"
+fi
+
+#
 # Enable CLI tools enhancements
 #
 
@@ -251,8 +262,7 @@ _run_if_exists direnv "direnv initialization" \
 # Use yazi shell wrapper to enable changing cwd from yazi
 if _command_exists yazi; then
     function y() {
-        local tmp
-        tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
         command yazi "$@" --cwd-file="$tmp"
         IFS= read -r -d '' cwd <"$tmp"
         [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
