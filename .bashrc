@@ -285,6 +285,23 @@ else
 fi
 
 #
+# Editor
+#
+
+# Set Zed as default editor
+if _command_exists zeditor; then
+    export EDITOR="zeditor"
+    export VISUAL="zeditor"
+    export SUDO_EDITOR="zeditor --wait" # (sudoedit)
+    export GIT_EDITOR="zeditor --wait"
+else
+    EDITOR="${EDITOR:-nano}"
+    VISUAL="${VISUAL:-$EDITOR}"
+    SUDO_EDITOR="${SUDO_EDITOR:-$EDITOR}"
+    GIT_EDITOR="${GIT_EDITOR:-$EDITOR}"
+fi
+
+#
 # Cleanup
 #
 
@@ -297,13 +314,3 @@ unset -f _warn_missing_summary
 unset _warn_count
 unset _warn_suppressed
 unset -f _run_if_exists
-
-#
-# Editor
-#
-
-# Set Zed as default editor
-export EDITOR="zeditor"
-export VISUAL="zeditor"
-export SUDO_EDITOR="zeditor --wait" # (sudoedit)
-export GIT_EDITOR="zeditor --wait"

@@ -2,8 +2,6 @@
 
 # Toggle iio-niri screen rotation
 let
-  pkgs-nirimod = import inputs.nixpkgs-nirimod { inherit (pkgs.stdenv.hostPlatform) system; };
-
   toggle_screen_rotation = pkgs.writeShellApplication {
     name = "toggle_screen_rotation";
     runtimeInputs = [ pkgs.systemd ];
