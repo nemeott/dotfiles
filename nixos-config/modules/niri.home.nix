@@ -71,15 +71,15 @@
           pkgs.gnused
         ];
         text = ''
-          	status=$1 # First argument is "on" or "off"
+          status=$1 # First argument is "on" or "off"
 
-           # Read brightness value
-            value=$(brightnessctl -m | cut -d, -f3)
+          # Read brightness value
+          value=$(brightnessctl -m | cut -d, -f3)
 
-            # Don't start if 0 brightness
-            if [ "$value" -gt 0 ]; then
+          # Don't start if 0 brightness
+          if [ "$value" -gt 0 ]; then
               ${pkgs.niri}/bin/niri msg action power-"$status"-monitors
-            fi
+          fi
         '';
       };
 
