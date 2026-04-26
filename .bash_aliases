@@ -106,6 +106,8 @@ addpath() {
     esac
 }
 
+alias colors='for ((i=30;i<=37;i++));do echo -e "\033[0;"$i"m echo -e \"\\\033[0;"$i"m"\";done;echo -e "\033[0;m echo -e \"\\\033[0;m\""'
+
 # Pretty print the type of a command, showing the function or alias definition with bat
 #
 # ptype <command>
@@ -179,31 +181,77 @@ alias conuke="pkill -f copilot-language-server"
 # View errors from the current boot
 alias error="journalctl -b -p err"
 
-# Extract any archive
+# Extract any archive into a named folder
 #
 # extract <archive>
 extract() {
-    if [ -f "$1" ]; then
-        case "$1" in
-        *.tar.bz2) tar -xjf "$1" ;;
-        *.tar.gz) tar -xzf "$1" ;;
-        *.tar.xz) tar -xJf "$1" ;;
-        *.tar.zst) tar -xf "$1" ;;
-        *.bz2) bunzip2 "$1" ;;
-        *.rar) unrar x "$1" ;;
-        *.gz) gunzip "$1" ;;
-        *.tar) tar -xf "$1" ;;
-        *.tbz2) tar -xjf "$1" ;;
-        *.tgz) tar -xzf "$1" ;;
-        *.zip) unzip "$1" ;;
-        *.zst) tar -xf "$1" ;;
-        *.Z) uncompress "$1" ;;
-        *.7z) 7z x "$1" ;;
-        *) echo "Unknown archive: $1" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
+    if [ -z "$1" ]; then
+        echo "Usage: extract <archive>"
+        return 1
     fi
+    if [ ! -f "$1" ]; then
+        echo "'$1' is not a valid file"
+        return 1
+    fi
+
+    local archive="$1"
+
+    # Derive folder name from filename
+    local base
+    base=$(basename "$archive" | sed -E 's/\.(tar\.(bz2|gz|xz|zst)|tbz2|tgz|zip|rar|7z|bz2|gz|tar|zst|Z)$//')
+
+    # Append _n if destination already exists
+    local destdir="$base"
+    local i=1
+    while [ -d "$destdir" ]; do
+        destdir="${base}_${i}"
+        i=$((i + 1))
+    done
+
+    mkdir -p "$destdir"
+
+    case "$archive" in
+    *.tar.bz2 | *.tbz2) tar -xjf "$archive" -C "$destdir" ;;
+    *.tar.gz | *.tgz) tar -xzf "$archive" -C "$destdir" ;;
+    *.tar.xz) tar -xJf "$archive" -C "$destdir" ;;
+    *.tar.zst | *.tar | *.zst) tar -xf "$archive" -C "$destdir" ;;
+    *.bz2) bunzip2 -k "$archive" && mv "${archive%.bz2}" "$destdir/" ;;
+    *.gz) gunzip -c "$archive" >"$destdir/$(basename "${archive%.gz}")" ;;
+    *.Z) uncompress -c "$archive" >"$destdir/$(basename "${archive%.Z}")" ;;
+    *.zip) unzip "$archive" -d "$destdir" ;;
+    *.rar) unrar x "$archive" "$destdir/" ;;
+    *.7z) 7z x "$archive" -o"$destdir" ;;
+    *)
+        echo "Unknown archive: $archive"
+        rmdir "$destdir"
+        return 1
+        ;;
+    esac
+
+    # Check contents including dotfiles
+    local contents
+    shopt -s dotglob
+    contents=("$destdir"/*)
+    shopt -u dotglob
+
+    # If archive extracted to a single folder with no loose files, collapse it
+    if [ "${#contents[@]}" -eq 1 ] && [ -d "${contents[0]}" ]; then
+        local inner="${contents[0]}"
+
+        # Find a safe tmp name that doesn't exist
+        local tmp="${destdir}_tmp"
+        local j=1
+        while [ -e "$tmp" ]; do
+            tmp="${destdir}_tmp${j}"
+            j=$((j + 1))
+        done
+
+        mv "$inner" "$tmp"
+        rmdir "$destdir"
+        mv "$tmp" "$destdir"
+    fi
+
+    echo "Extracted to: $destdir"
 }
 
 # Publish current directory to GitHub using gh cli (supports optional --private flag)
