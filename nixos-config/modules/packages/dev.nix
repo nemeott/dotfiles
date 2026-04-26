@@ -41,6 +41,10 @@ in
           log.order = "default"; # Make Lazygit faster on large repos
           pagers = [ { pager = "delta --dark --paging=never"; } ]; # Use delta pager for diffs
         };
+        keybinding.commits = {
+          moveUpCommit = "<c-u>";
+          moveDownCommit = "<c-d>"; # ctrl-j on Zed minimizes terminal
+        };
       };
     };
   };
