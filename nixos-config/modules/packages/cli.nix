@@ -7,9 +7,6 @@ let
   nrdiff = pkgs.writeShellScriptBin "nrdiff" ''
     nixos-rebuild build --flake ${flake-path} "$@" && nvd diff /run/current-system result
   '';
-  nrudiff = pkgs.writeShellScriptBin "nrudiff" ''
-    nixos-rebuild build --flake ${flake-path} --upgrade "$@" && nvd diff /run/current-system result
-  '';
 
   # Custom script to display Zswap stats
   zswap-stats = pkgs.writeShellScriptBin "zswap" (builtins.readFile ../../../scripts/zswap.sh);
@@ -71,7 +68,6 @@ in
 
     nvd # NixOS version diff
     nrdiff # Custom diff command to rebuild and get the diff
-    nrudiff # Custom diff command to rebuild with upgrade and get the diff
 
     zswap-stats # Custom shell script to display zswap stats
 
@@ -79,19 +75,16 @@ in
   ];
 
   environment.shellAliases = {
+    nfu = "nix flake update";
+    
     nrt = "nixos-rebuild test --flake ${flake-path}";
-    nrtu = "nixos-rebuild test --flake ${flake-path} --upgrade";
     nrtm = "nixos-rebuild test 2>&1 | nixmate"; # Pipe error output to nixmate
 
     nrs = "nixos-rebuild switch --flake ${flake-path}";
-    nrsu = "nixos-rebuild switch --flake ${flake-path} --upgrade";
 
     nrb = "nixos-rebuild boot --flake ${flake-path}";
-    nrbu = "nixos-rebuild boot --flake ${flake-path} --upgrade";
     nrbb = "nixos-rebuild boot --flake ${flake-path} && reboot";
-    nrbub = "nixos-rebuild boot --flake ${flake-path} --upgrade && reboot";
     nrbs = "nixos-rebuild boot --flake ${flake-path} && shutdown -h now";
-    nrbus = "nixos-rebuild boot --flake ${flake-path} --upgrade && shutdown -h now";
 
     ns = "nix-shell";
     nsp = "nix-shell -p";
@@ -99,7 +92,7 @@ in
     nb = "nix-build";
     nba = "nix-build -A";
 
-    # Get option from a flake
+    # Get option from main flake
     no = "nixos-option --flake ${flake-path}";
   };
 }
