@@ -115,6 +115,10 @@
       "snd_hda_intel.power_save=1"
       "snd_hda_intel.power_save_controller=Y"
 
+      "pcie_aspm.policy=powersupersave"
+      "i915.i915_enable_rc6=1" # Enable RC6 deep sleep state for Intel GPU
+      "i915.i915_enable_fbc=1" # Enable frame buffer compression (less memory bandwidth and lower power usage)
+
       "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
     ];
 
@@ -141,6 +145,11 @@
   # };
 
   systemd = {
+    # Enable HWP dynamic boost for better performance when needed (slightly higher battery usage)
+    tmpfiles.rules = [
+      "w /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost - - - - 1"
+    ];
+
     # Faster restarts (no waiting for long processes)
     user.extraConfig = ''
       DefaultTimeoutStopSec=10
@@ -157,6 +166,7 @@
   services.udev.extraRules = ''
     # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
     ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
+    SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
 
     # Use powersave on battery and performance when plugged-in
     SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver"
