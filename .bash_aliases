@@ -294,6 +294,7 @@ _run_if_exists powertop "ptop alias" alias ptop='powertop'
 _run_if_exists fastfetch "ff alias" alias ff='fastfetch'
 _run_if_exists systemctl-tui "sys alias" alias sys='systemctl-tui'
 _run_if_exists lazygit "lg alias" alias lg='lazygit'
+_run_if_exists bitwise "bw alias" alias bw='bitwise'
 
 _run_if_exists zeditor "zed alias" alias zed='zeditor'
 _run_if_exists zen-beta "zen alias" alias zen='zen-beta'

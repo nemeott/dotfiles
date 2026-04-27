@@ -176,8 +176,8 @@
   },
   {
     "bindings": {
-      "alt-d": "editor::ToggleDiagnostics"
-    }
+      "alt-d": "editor::ToggleDiagnostics",
+    },
   },
   {
     "context": "(GitPanel > Editor)",
@@ -206,102 +206,125 @@
   {
     "context": "AgentPanel",
     "bindings": {
-      "ctrl-alt-n": "agent::RejectOnce"
-    }
+      "ctrl-alt-n": "agent::RejectOnce",
+    },
   },
   {
     "context": "AgentPanel",
     "unbind": {
-      "ctrl-alt-z": "agent::RejectOnce"
-    }
+      "ctrl-alt-z": "agent::RejectOnce",
+    },
   },
   {
     "context": "AgentDiff",
     "bindings": {
-      "ctrl-alt-n": "agent::Reject"
-    }
+      "ctrl-alt-n": "agent::Reject",
+    },
   },
   {
     "context": "AgentDiff",
     "unbind": {
-      "ctrl-alt-z": "agent::Reject"
-    }
+      "ctrl-alt-z": "agent::Reject",
+    },
   },
   {
     "context": "Editor && editor_agent_diff",
     "bindings": {
-      "ctrl-alt-n": "agent::Reject"
-    }
+      "ctrl-alt-n": "agent::Reject",
+    },
   },
   {
     "context": "Editor && editor_agent_diff",
     "unbind": {
-      "ctrl-alt-z": "agent::Reject"
-    }
+      "ctrl-alt-z": "agent::Reject",
+    },
   },
   {
     "context": "Editor && editor_agent_diff",
     "bindings": {
-      "alt-shift-n": "agent::RejectAll"
-    }
+      "alt-shift-n": "agent::RejectAll",
+    },
   },
   {
     "context": "Editor && editor_agent_diff",
     "unbind": {
-      "alt-shift-z": "agent::RejectAll"
-    }
+      "alt-shift-z": "agent::RejectAll",
+    },
   },
   {
     "context": "AgentDiff",
     "bindings": {
-      "alt-shift-n": "agent::RejectAll"
-    }
+      "alt-shift-n": "agent::RejectAll",
+    },
   },
   {
     "context": "AgentDiff",
     "unbind": {
-      "alt-shift-z": "agent::RejectAll"
-    }
+      "alt-shift-z": "agent::RejectAll",
+    },
   },
   {
     "context": "AcpThread > Editor",
     "bindings": {
-      "alt-shift-n": "agent::RejectAll"
-    }
+      "alt-shift-n": "agent::RejectAll",
+    },
   },
   {
     "context": "AcpThread > Editor",
     "unbind": {
-      "alt-shift-z": "agent::RejectAll"
-    }
+      "alt-shift-z": "agent::RejectAll",
+    },
   },
   {
     "context": "AgentPanel",
     "bindings": {
-      "ctrl-/": "agent::ToggleProfileSelector"
-    }
+      "alt-/": "agent::ToggleProfileSelector",
+    },
   },
   {
     "context": "AgentPanel",
     "unbind": {
-      "ctrl-i": "agent::ToggleProfileSelector"
-    }
+      "ctrl-i": "agent::ToggleProfileSelector",
+    },
   },
   {
     "context": "AcpThread > Editor",
     "bindings": {
-      "ctrl-/": "agent::ToggleProfileSelector"
-    }
+      "alt-/": "agent::ToggleProfileSelector",
+    },
   },
   {
     "context": "AcpThread > Editor",
     "unbind": {
-      "ctrl-i": "agent::ToggleProfileSelector"
-    }
+      "ctrl-i": "agent::ToggleProfileSelector",
+    },
   },
   {
     "bindings": {
-      "alt-m": "editor::ToggleMinimap"
-    }
-  }
+      "alt-m": "editor::ToggleMinimap",
+    },
+  },
+  {
+    "context": "AgentPanel",
+    "bindings": {
+      "ctrl-alt-/": "agent::ToggleModelSelector",
+    },
+  },
+  {
+    "bindings": {
+      "alt-shift-l": "zed::OpenLog",
+    },
+  },
+  {
+    "context": "Onboarding",
+    "unbind": {
+      "alt-shift-l": "onboarding::SignIn",
+    },
+  },
+  {
+    "context": "!Terminal",
+    "unbind": {
+      "ctrl-shift-c": "collab_panel::ToggleFocus",
+    },
+  },
 ]

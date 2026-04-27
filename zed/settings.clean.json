@@ -7,6 +7,20 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "auto_update_extensions": {
+    "comment": false,
+  },
+  "buffer_font_family": "Monaspace Neon",
+  "horizontal_scroll_margin": 6.0,
+  "fast_scroll_sensitivity": 10.0,
+  "autoscroll_on_clicks": false,
+  "scrollbar": {
+    "diagnostics": "all",
+  },
+  "inline_code_actions": false,
+  "drag_and_drop_selection": {
+    "enabled": false,
+  },
   "diff_view_style": "unified",
   "format_on_save": "off",
   "remove_trailing_whitespace_on_save": false,
@@ -23,8 +37,14 @@
       "tab_size": 2,
     },
     "Python": {
+      "inlay_hints": {
+        "show_type_hints": true,
+        "show_value_hints": true,
+        "show_background": false,
+        "enabled": true,
+      },
       "hard_tabs": false,
-      "language_servers": ["ty", "ruff"], // Don't use pylsp, pyright, or basedpyright
+      "language_servers": ["pyrefly", "ruff"],
     },
   },
   "lsp": {
@@ -65,7 +85,7 @@
   "show_edit_predictions": true,
   "agent_buffer_font_size": 12.0,
   "extend_comment_on_newline": false,
-  "vertical_scroll_margin": 4.0,
+  "vertical_scroll_margin": 6.0,
   "file_finder": {
     "file_icons": true,
   },
@@ -84,6 +104,9 @@
     "dock": "bottom",
   },
   "git_panel": {
+    "scrollbar": {
+      "show": "never",
+    },
     "tree_view": true,
     "default_width": 240.0,
     "sort_by_path": false,
@@ -94,6 +117,12 @@
     "button": true,
   },
   "project_panel": {
+    "git_status_indicator": true,
+    "diagnostic_badges": true,
+    "scrollbar": {
+      "show": "never",
+    },
+    "button": true,
     "hide_gitignore": false,
     "sort_mode": "directories_first",
     "hide_hidden": false,
@@ -109,6 +138,7 @@
     "right_padding": 0.2,
   },
   "tab_bar": {
+    "show": true,
     "show_nav_history_buttons": false,
     "show_tab_bar_buttons": true,
   },
@@ -118,13 +148,9 @@
     "git_status": true,
   },
   "title_bar": {
-    "show_user_picture": true,
-    "show_onboarding_banner": true,
+    "button_layout": "platform_default",
     "show_menus": false,
-    "show_project_items": true,
-    "show_branch_name": true,
-    "show_branch_icon": false,
-    "show_sign_in": true,
+    "show_branch_icon": true,
   },
   "search": {
     "button": true,
@@ -158,6 +184,7 @@
   },
   "icon_theme": "Material Icon Theme",
   "git": {
+    "hunk_style": "staged_hollow",
     "enable_diff": true,
     "inline_blame": {
       "enabled": false,
@@ -181,11 +208,50 @@
     "provider": "copilot",
   },
   "agent": {
+    "tool_permissions": {
+      "tools": {
+        "terminal": {
+          "always_allow": [
+            {
+              "pattern": "^cargo\\s+check(\\s|$)",
+            },
+          ],
+        },
+        "fetch": {
+          "always_allow": [
+            {
+              "pattern": "^https?://raw\\.githubusercontent\\.com",
+            },
+            {
+              "pattern": "^https?://github\\.com",
+            },
+            {
+              "pattern": "^https?://crates\\.io",
+            },
+          ],
+        },
+      },
+    },
+    "inline_assistant_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4.1",
+      "enable_thinking": false,
+    },
     "single_file_review": true,
     "favorite_models": [
       {
         "provider": "copilot_chat",
-        "model": "grok-code-fast-1",
+        "model": "gpt-4.1",
+        "enable_thinking": false,
+      },
+      {
+        "provider": "copilot_chat",
+        "model": "gemini-3.1-pro-preview",
+        "enable_thinking": false,
+      },
+      {
+        "provider": "copilot_chat",
+        "model": "gpt-5.3-codex",
         "enable_thinking": false,
       },
       {
@@ -195,11 +261,16 @@
       },
       {
         "provider": "copilot_chat",
+        "model": "gemini-3-flash-preview",
+        "enable_thinking": false,
+      },
+      {
+        "provider": "copilot_chat",
         "model": "gpt-5.4-mini",
         "enable_thinking": false,
       },
     ],
-    "default_profile": "ask",
+    "default_profile": "write",
     "default_width": 320.0,
     "default_model": {
       "effort": "high",
@@ -221,10 +292,35 @@
   "auto_signature_help": false,
   "multi_cursor_modifier": "cmd_or_ctrl",
   "autosave": "on_focus_change",
-  "buffer_font_family": "Monaspace Neon Frozen",
   "ui_font_size": 13.0,
   "buffer_font_size": 10.0,
   "theme": "Catppuccin Mocha",
+  // Fix comment colors
+  "theme_overrides": {
+    "Catppuccin Mocha": {
+      // Color reference: https://catppuccin.com/palette/
+      "syntax": {
+        "constant.comment.todo": {
+          "color": "#f5c2e7", // Catppuccin Mocha Pink
+          "font_style": "italic",
+        },
+        "string.comment.info": {
+          "color": "#89dceb", // Catppuccin Mocha Sky
+          "font_style": "italic",
+        },
+        "keyword.comment.warn": {
+          "color": "#f9e2af", // Catppuccin Mocha Yellow
+          "font_weight": 700,
+          "font_style": "italic",
+        },
+        "property.comment.error": {
+          "color": "#f38ba8", // Catppuccin Mocha Red
+          "font_weight": 900,
+          "font_style": "italic",
+        },
+      },
+    },
+  },
   "buffer_font_features": {
     "calt": true, // Texture healing
     "liga": true, // Dynamic spacing for certain repeating character patterns like ///

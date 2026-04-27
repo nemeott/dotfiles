@@ -14,5 +14,44 @@
       ""
     ],
     "description": "Inserts a basic nix-shell template"
+  },
+  "nixpkgs-rust": {
+    "prefix": "nixpkgs-rust",
+    "body": [
+      "{",
+      "\tlib,",
+      "\trustPlatform,",
+      "\tfetchFromGitHub,",
+      "\tnix-update-script,",
+      "}:",
+      "",
+      "rustPlatform.buildRustPackage (finalAttrs: {",
+      "__structuredAttrs = true;",
+      "",
+      "\tpname = \"$1\";",
+      "\tversion = \"$3\";",
+      "",
+      "\tsrc = fetchFromGitHub {",
+      "\t\towner = \"$2\";",
+      "\t\trepo = \"$1\";",
+      "\t\ttag = \"v\\${finalAttrs.version}\";",
+      "\t\thash = \"\";",
+      "\t};",
+      "",
+      "\tcargoHash = \"\";",
+      "",
+      "\tpassthru.updateScript = nix-update-script { };",
+      "",
+      "\tmeta = {",
+      "\t\tdescription = \"$4\";",
+      "\t\thomepage = \"https://github.com/$2/$1\";",
+      "\t\tlicense = lib.licenses.mit;",
+      "\t\tmaintainers = with lib.maintainers; [ nemeott ];",
+      "\t\tmainProgram = \"$1\";",
+      "\t};",
+      "})",
+      ""
+    ],
+    "description": "Inserts a basic rust nixpkgs template"
   }
 }

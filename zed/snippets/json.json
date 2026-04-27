@@ -1,0 +1,15 @@
+{
+  "zed-snippet": {
+    "prefix": "zed-snippet",
+    "body": [
+      "\t\"$1\": {",
+      "\t\t\"prefix\": \"$1\",",
+      "\t\t\"body\": [",
+      "\t\t\t$0",
+      "\t\t],",
+      "\t\t\"description\": \"$2\"",
+      "\t}"
+    ],
+    "description": "Inserts a Zed snippet"
+  }
+}
