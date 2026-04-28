@@ -32,19 +32,10 @@ in
       enable = true;
 
       # TODO: Use zed-editor-fhs for better extension compatibility?
-      package = pkgs.symlinkJoin {
-        name = "zed-wrapped";
-        paths = [ pkgs.zed-editor ];
-        postBuild = ''
-          rm $out/bin/zeditor
-          cat > $out/bin/zeditor << 'EOF'
-          #!/bin/sh
-          systemctl --user start zed-coclean.timer
-          exec ${pkgs.zed-editor}/bin/zeditor "$@"
-          EOF
-          chmod +x $out/bin/zeditor
-        '';
-      };
+      package = pkgs.writeShellScriptBin "zeditor" ''
+        systemctl --user start zed-coclean.timer >/dev/null 2>&1 &
+        exec ${pkgs.zed-editor}/bin/zeditor "$@"
+      '';
 
       extraPackages = with pkgs; [
         # Nix
