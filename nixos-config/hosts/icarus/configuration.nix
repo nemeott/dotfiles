@@ -99,10 +99,6 @@
       "vm.dirty_writeback_centisecs" = 5000;
       "vm.dirty_expire_centisecs" = 5000;
 
-      # Zram settings
-      # "vm.page-cluster" = 0; # Use with zramSwap
-      # "vm.swappiness" = 10; # Use normal swap less often
-
       # Zswap settings
       "vm.swappiness" = 30;
     };
@@ -122,8 +118,6 @@
       "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
     ];
 
-    # Useful Zram resource: https://notes.xeome.dev/notes/Zram
-
     zswap = {
       enable = true;
 
@@ -136,13 +130,6 @@
       shrinkerEnabled = true; # Enable zswap shrinker to reclaim memory when under pressure (default true)
     };
   };
-
-  # # Enable zram swap for better performance on systems with limited RAM
-  # zramSwap = {
-  #   enable = true;
-  #   algorithm = "zstd";
-  #   memoryPercent = 50;
-  # };
 
   systemd = {
     # Enable HWP dynamic boost for better performance when needed (slightly higher battery usage)
@@ -166,6 +153,7 @@
   services.udev.extraRules = ''
     # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
     ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
+    # TODO: Non responsive input devices?
     SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
 
     # Use powersave on battery and performance when plugged-in
@@ -243,16 +231,10 @@
   # # Enroll device with: boltctl enroll DEVICE
   # # Temporarily add device with: boltctl authorize DEVICE
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-
   # programs.gnupg.agent = {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
