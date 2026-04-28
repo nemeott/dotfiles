@@ -30,6 +30,7 @@
     nixpkgs-surge.url = "github:ErmitaVulpe/nixpkgs/init/surge-downloader";
     nixpkgs-nirimod.url = "github:sophronesis/nixpkgs/pkg/nirimod";
     nixpkgs-models.url = "github:nemeott/nixpkgs/add-models-package";
+    nixpkgs-my-yazi-plugins.url = "github:nemeott/nixpkgs/my-yazi-plugins";
   };
 
   outputs =
@@ -54,6 +55,9 @@
                     ;
                   inherit ((import inputs.nixpkgs-nirimod { inherit (prev.stdenv.hostPlatform) system; })) nirimod;
                   inherit ((import inputs.nixpkgs-models { inherit (prev.stdenv.hostPlatform) system; })) models;
+                  inherit ((import inputs.nixpkgs-my-yazi-plugins { inherit (prev.stdenv.hostPlatform) system; }))
+                    yaziPlugins
+                    ;
                 })
               ];
             }

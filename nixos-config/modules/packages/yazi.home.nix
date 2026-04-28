@@ -6,11 +6,15 @@
     extraPackages = with pkgs; [
       trash-cli # Used by recycle-bin plugin
       ouch
+      imagemagick # Used by convert plugin
       # duckdb # TODO
+      libreoffice-fresh # Used by office plugin
+      poppler-utils # Used by office plugin (pdftoppm)
       jdupes # Used by dupes plugin
     ];
     plugins = with pkgs; {
       inherit (yaziPlugins)
+        close-and-restore-tab
         smart-paste
         jump-to-char
         git
@@ -20,24 +24,15 @@
         recycle-bin
         rsync
         compress
+        convert # Convert images to PNG, JPG, and WepP using ImageMagick
         ouch # Preview more archive types (like tar.zst)
         # duckdb # TODO
+        office
         dupes # Detect and remove duplicates
         toggle-pane # Toggle the file finder or the preview pane
         # mediainfo # TODO
         lazygit
         ;
-      # TODO: Fix zoom plugin (or add it to nixpkgs)
-      zoom = yaziPlugins.mkYaziPlugin {
-        pname = "zoom.yazi";
-        version = "2026-03-08";
-        src = fetchFromGitHub {
-          owner = "yazi-rs";
-          repo = "plugins";
-          rev = "196281844b8cbcac658a59013e4805300c2d6126";
-          hash = "sha256-pAkBlodci4Yf+CTjhGuNtgLOTMNquty7xP0/HSeoLzE=";
-        };
-      };
     };
     initLua = ''
       -- Git plugin configuration
@@ -126,10 +121,55 @@
           }
         ];
         prepend_previewers = [
-          # Ouch
+          # Ouch plugin
           {
             mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}";
             run = "ouch --archive-icon=''"; # No icons
+          }
+
+          # Office plugin
+          {
+            mime = "application/openxmlformats-officedocument.*";
+            run = "office";
+          }
+          {
+            mime = "application/oasis.opendocument.*";
+            run = "office";
+          }
+          {
+            mime = "application/ms-*";
+            run = "office";
+          }
+          {
+            mime = "application/msword";
+            run = "office";
+          }
+          {
+            name = "*.docx";
+            run = "office";
+          }
+        ];
+        prepend_preloaders = [
+          # Office plugin
+          {
+            mime = "application/openxmlformats-officedocument.*";
+            run = "office";
+          }
+          {
+            mime = "application/oasis.opendocument.*";
+            run = "office";
+          }
+          {
+            mime = "application/ms-*";
+            run = "office";
+          }
+          {
+            mime = "application/msword";
+            run = "office";
+          }
+          {
+            name = "*.docx";
+            run = "office";
           }
         ];
       };
@@ -167,11 +207,11 @@
           run = "tab_create";
           desc = "Open new tab";
         }
-        {
-          on = "<C-w>";
-          run = "close";
-          desc = "Close current tab";
-        }
+        # {
+        #   on = "<C-w>";
+        #   run = "close";
+        #   desc = "Close current tab";
+        # }
         {
           on = "<C-Tab>";
           run = "tab_switch 1 --relative";
@@ -268,6 +308,17 @@
         # Plugins
         #
 
+        # Close and restore tab plugin
+        {
+          on = "<C-w>";
+          run = "plugin close-and-restore-tab close_to_left";
+          desc = "Close the current tab and turn to left tab, or quit if it is last tab";
+        }
+        {
+          on = "<C-T>";
+          run = "plugin close-and-restore-tab restore";
+          desc = "Restore the closed tab";
+        }
         # Smart paste plugin
         {
           on = "P";
@@ -371,6 +422,32 @@
           ];
           run = "plugin compress -phl";
           desc = "Archive selected files (password+header+level)";
+        }
+
+        # Convert plugin
+        {
+          on = [
+            "c"
+            "p"
+          ];
+          run = "plugin convert -- --extension='png'";
+          desc = "Convert selected files to PNG";
+        }
+        {
+          on = [
+            "c"
+            "j"
+          ];
+          run = "plugin convert -- --extension='jpg'";
+          desc = "Convert selected files to JPG";
+        }
+        {
+          on = [
+            "c"
+            "w"
+          ];
+          run = "plugin convert -- --extension='webp'";
+          desc = "Convert selected files to WebP";
         }
 
         # Toggle pane plugin

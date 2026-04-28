@@ -250,13 +250,13 @@
     daemonIOSchedClass = "best-effort"; # (default)
     daemonCPUSchedPolicy = "batch"; # Optimized for non-interactive tasks
     daemonIOSchedPriority = 2; # Higher priority for IO operations
-  };
 
-  # Enable flakes
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+    # Enable flakes
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
 
   # First installation version
   system.stateVersion = "25.11";

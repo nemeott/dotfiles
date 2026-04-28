@@ -130,6 +130,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-my-yazi-plugins": {
+      "locked": {
+        "lastModified": 1777341294,
+        "narHash": "sha256-biB2MBe6K3v87aYs1DXZ2XB/VkfJ0DEcg4NbCokEqfI=",
+        "owner": "nemeott",
+        "repo": "nixpkgs",
+        "rev": "d177edb20ba039eb2d0cfb025d26ac3823f6b542",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nemeott",
+        "ref": "my-yazi-plugins",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-nirimod": {
       "locked": {
         "lastModified": 1776591547,
@@ -215,6 +231,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-models": "nixpkgs-models",
+        "nixpkgs-my-yazi-plugins": "nixpkgs-my-yazi-plugins",
         "nixpkgs-nirimod": "nixpkgs-nirimod",
         "nixpkgs-surge": "nixpkgs-surge",
         "noctalia": "noctalia",
