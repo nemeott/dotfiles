@@ -71,7 +71,7 @@
         "dom.ipc.processCount" = 1; # Number of processes (default is 8) (lower amount reduces memory usage)
         "dom.ipc.processCount.webIsolated" = 1; # Number of processes for web-isolated content (default is 4) (lower amount reduces memory usage)
         "browser.tabs.fadeOutUnloadedTabs" = true; # See automatically unloaded tabs
-        
+
         # Browser cache
         "browser.cache.frecency_half_life_hours" = 18; # Lower cache sweep intervals (default is 6)
 
@@ -237,6 +237,18 @@
               urls = [ { template = "https://github.com/search?q={searchTerms}&type=repositories"; } ];
               icon = "https://github.com/favicon.ico";
               definedAliases = [ "@gh" ];
+            };
+            github-code = {
+              name = "GitHub";
+              urls = [ { template = "https://github.com/search?q={searchTerms}&type=code"; } ];
+              icon = "https://github.com/favicon.ico";
+              definedAliases = [ "@ghc" ];
+            };
+            github-nix-code = {
+              name = "GitHub";
+              urls = [ { template = "https://github.com/search?q=path%3A.nix+{searchTerms}&type=code"; } ];
+              icon = nixSnowflakeIcon;
+              definedAliases = [ "@ghnc" ];
             };
             pypi = {
               name = "PyPI";

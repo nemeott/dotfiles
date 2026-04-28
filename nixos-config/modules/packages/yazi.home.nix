@@ -5,11 +5,14 @@
     enable = true; # Terminal-based file explorer
     extraPackages = with pkgs; [
       trash-cli # Used by recycle-bin plugin
+      ouch
+      # duckdb # TODO
       jdupes # Used by dupes plugin
     ];
     plugins = with pkgs; {
       inherit (yaziPlugins)
         smart-paste
+        jump-to-char
         git
         diff
         chmod
@@ -17,9 +20,11 @@
         recycle-bin
         rsync
         compress
-        dupes
-        toggle-pane
-        # mediainfo # TODO: mediainfo
+        ouch # Preview more archive types (like tar.zst)
+        # duckdb # TODO
+        dupes # Detect and remove duplicates
+        toggle-pane # Toggle the file finder or the preview pane
+        # mediainfo # TODO
         lazygit
         ;
       # TODO: Fix zoom plugin (or add it to nixpkgs)
@@ -35,71 +40,100 @@
       };
     };
     initLua = ''
-          				-- Git plugin configuration
-                  -- https://github.com/yazi-rs/plugins/tree/main/git.yazi
-                  th.git = th.git or {}
-                  th.git = {
-                 	added_sign = "A",
-                 	modified_sign = "M",
-                 	deleted_sign = "D",
-                 	updated_sign = "U",
-                 	untracked_sign = "?",
-                 	ignored_sign = "i",
-                 	clean_sign = " ",
-                 	unknown_sign = " ",
-                  }
-                  
-                  require("git"):setup {
-                   	-- Order of status signs showing in the linemode
-                   	order = 1500,
-                  }
-                  
-          				-- Recycle bin plugin configuration
-                  require("recycle-bin"):setup()
-                  
-          				-- Dupes plugin configuration
-                  th.dupes = th.dupes or {}
-                  -- th.dupes.mark_style = ui.Style():fg("#FFFFFF")
-                  th.dupes.mark_style = ui.Style():fg("blue")
-                  th.dupes.mark_sign = "X"
-                  
-                  require("dupes"):setup {
-      							-- Global settings
-      							save_op = false,        -- Save results to file by default
-      							-- auto_confirm = true, -- Skip confirmation for apply (use with caution!)
-      							
-      							profiles = {
-      								-- Interactive mode: recursively scan and display duplicates
-      								interactive = {
-      									args = { "-r" },
-      								},
-      								-- Apply mode: recursively scan and DELETE duplicates
-      								apply = {
-      									args = { "-r", "-N", "-d" },
-      									save_op = true,  -- Save results before deletion
-      								},
-      								-- Custom profile example (uncomment to use)
-      								-- custom = {
-      								-- 	args = { "-r", "-s", },  -- Your custom jdupes flags
-      								-- },
-      							},
-                  }
-                  
-          				-- Size and time display configuration
-                  function Linemode:size_and_mtime()
-      	      			local time = math.floor(self._file.cha.mtime or 0)
-      	      			if time == 0 then
-      	      				time = ""
-      	      			elseif os.date("%Y", time) == os.date("%Y") then
-      	      				time = os.date("%b %d %H:%M", time)
-      	      			else
-      	      				time = os.date("%b %d  %Y", time)
-      	      			end
-      	      		         
-      	      			local size = self._file:size()
-      	      			return string.format("%s %s", size and ya.readable_size(size) or "-", time)
-      	          end
+      -- Git plugin configuration
+      -- https://github.com/yazi-rs/plugins/tree/main/git.yazi
+      th.git = th.git or {}
+      th.git = {
+      added_sign = "A",
+      modified_sign = "M",
+      deleted_sign = "D",
+      updated_sign = "U",
+      untracked_sign = "?",
+      ignored_sign = "i",
+      clean_sign = " ",
+      unknown_sign = " ",
+      }
+
+      require("git"):setup {
+       	-- Order of status signs showing in the linemode
+       	order = 1500,
+      }
+
+      -- Recycle bin plugin configuration
+      require("recycle-bin"):setup()
+
+      -- Dupes plugin configuration
+      th.dupes = th.dupes or {}
+      -- th.dupes.mark_style = ui.Style():fg("#FFFFFF")
+      th.dupes.mark_style = ui.Style():fg("blue")
+      th.dupes.mark_sign = "X"
+
+      require("dupes"):setup {
+      	-- Global settings
+      	save_op = false,        -- Save results to file by default
+      	-- auto_confirm = true, -- Skip confirmation for apply (use with caution!)
+      	
+      	profiles = {
+      		-- Interactive mode: recursively scan and display duplicates
+      		interactive = {
+      			args = { "-r" },
+      		},
+      		-- Apply mode: recursively scan and DELETE duplicates
+      		apply = {
+      			args = { "-r", "-N", "-d" },
+      			save_op = true,  -- Save results before deletion
+      		},
+      		-- Custom profile example (uncomment to use)
+      		-- custom = {
+      		-- 	args = { "-r", "-s", },  -- Your custom jdupes flags
+      		-- },
+      	},
+      }
+
+      -- Size and time display configuration
+      function Linemode:size_and_mtime()
+      	local time = math.floor(self._file.cha.mtime or 0)
+      	if time == 0 then
+      		time = ""
+      	elseif os.date("%Y", time) == os.date("%Y") then
+      		time = os.date("%b %d %H:%M", time)
+      	else
+      		time = os.date("%b %d  %Y", time)
+      	end
+               
+      	local size = self._file:size()
+      	return string.format("%s %s", size and ya.readable_size(size) or "-", time)
+      end
     '';
+    settings = {
+      mgr = {
+        sort_by = "mtime";
+        sort_reverse = true; # Newest first
+        linemode = "size_and_mtime";
+        show_hidden = true;
+      };
+      plugin = {
+        prepend_fetchers = [
+          {
+            id = "git";
+            url = "*";
+            run = "git";
+          }
+          {
+            id = "git";
+            url = "*/";
+            run = "git";
+          }
+        ];
+        prepend_previewers = [
+          # Ouch
+          {
+            mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}";
+            run = "ouch --archive-icon=''"; # No icons
+          }
+        ];
+      };
+    };
     keymap = {
       mgr.prepend_keymap = [
         #
@@ -236,9 +270,16 @@
 
         # Smart paste plugin
         {
-          on = "p";
+          on = "P";
           run = "plugin smart-paste";
           desc = "Paste into the hovered directory or CWD";
+        }
+
+        # Jump to char plugin
+        {
+          on = "F";
+          run = "plugin jump-to-char";
+          desc = "Jump to char";
         }
 
         # Diff plugin
@@ -398,26 +439,6 @@
           ];
           run = "plugin lazygit";
           desc = "Open LazyGit in current directory";
-        }
-      ];
-    };
-    settings = {
-      mgr = {
-        sort_by = "mtime";
-        sort_reverse = true; # Newest first
-        linemode = "size_and_mtime";
-        show_hidden = true;
-      };
-      plugin.prepend_fetchers = [
-        {
-          id = "git";
-          url = "*";
-          run = "git";
-        }
-        {
-          id = "git";
-          url = "*/";
-          run = "git";
         }
       ];
     };
