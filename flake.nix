@@ -31,6 +31,22 @@
     nixpkgs-nirimod.url = "github:sophronesis/nixpkgs/pkg/nirimod";
     nixpkgs-models.url = "github:nemeott/nixpkgs/add-models-package";
     nixpkgs-my-yazi-plugins.url = "github:nemeott/nixpkgs/my-yazi-plugins";
+
+    #
+    # Android (nix-on-droid)
+    #
+    nod-nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+
+    nod-home-manager = {
+      url = "github:nix-community/home-manager/release-24.05";
+      inputs.nixpkgs.follows = "nod-nixpkgs";
+    };
+
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nod-nixpkgs";
+      inputs.home-manager.follows = "nod-home-manager";
+    };
   };
 
   outputs =
@@ -77,6 +93,38 @@
             }
           ];
         };
+      };
+      nixOnDroidConfigurations.daedalus = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        extraSpecialArgs = { inherit inputs username; };
+
+        pkgs = import inputs.nod-nixpkgs {
+          system = "aarch64-linux";
+          config.allowUnfree = true;
+          overlays = [
+            inputs.nix-on-droid.overlays.default
+            (final: prev: {
+              inherit ((import inputs.nixpkgs-my-yazi-plugins { inherit (prev.stdenv.hostPlatform) system; }))
+                yaziPlugins
+                ;
+            })
+          ];
+        };
+
+        modules = [
+          ./nixos-config/hosts/daedalus/configuration.nix
+
+          # Home manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              backupFileExtension = "backup";
+              extraSpecialArgs = { inherit inputs username; };
+              config = ./nixos-config/hosts/daedalus/home.nix;
+            };
+          }
+        ];
+
+        # home-manager-path = inputs.nod-home-manager.outPath;
       };
     };
 }
