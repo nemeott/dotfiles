@@ -3,7 +3,7 @@ _:
 {
   # Enabled here for automatic Catppuccin integration
   programs = {
-    # shell history
+    # Shell history
     atuin = {
       enable = true;
       settings = {

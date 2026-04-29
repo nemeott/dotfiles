@@ -42,7 +42,6 @@ in
     ripgrep # grep
 
     bash-completion # Needed by atuin
-    xclip # Needed for aliases interacting with the clipboard
 
     # Fun
     fastfetch
@@ -57,16 +56,16 @@ in
     bitwise # Terminal-based bit manipulator and calculator
     tlrc # Simple man pages
     navi # Interactive cheatsheet tool (Get tldr man pages with: `navi repo add tao3k/navi-tldr-pages`)
+    nvd # NixOS version diff
     nixmate # Useful semi-nix related multitool
     surge-downloader # Fast TUI downlaod manager
     llmfit # TUI for finding good LLMs for local use
     models # TUI for displaying and comparing LLM providers and benchmarks
-
+    
     #
     # Aliases and scripts
     #
 
-    nvd # NixOS version diff
     nrdiff # Custom diff command to rebuild and get the diff
 
     zswap-stats # Custom shell script to display zswap stats

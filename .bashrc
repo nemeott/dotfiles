@@ -145,9 +145,9 @@ if [ "$color_prompt" = yes ]; then
             VENV="$BMAGENTA$v "
         fi
 
-        local USER="$BGREEN\u"
+        local USER="$BGREEN${USER}"
         local AT="$BMAGENTA@"
-        local HOST="$BCYAN\h$WHITE"
+        local HOST="$BCYAN${HOSTNAME%%.*}$WHITE" # Remove suffix (e.g., gateway-00.dmz -> gateway-00)
         local DIRECTORY="$BYELLOW\w"
 
         # Red # for root

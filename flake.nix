@@ -100,9 +100,14 @@
         pkgs = import inputs.nod-nixpkgs {
           system = "aarch64-linux";
           config.allowUnfree = true;
+
+          # Overlays to add custom packages from other repos
           overlays = [
-            inputs.nix-on-droid.overlays.default
             (final: prev: {
+              inherit ((import inputs.nixpkgs-surge { inherit (prev.stdenv.hostPlatform) system; }))
+                surge-downloader
+                ;
+              inherit ((import inputs.nixpkgs-models { inherit (prev.stdenv.hostPlatform) system; })) models;
               inherit ((import inputs.nixpkgs-my-yazi-plugins { inherit (prev.stdenv.hostPlatform) system; }))
                 yaziPlugins
                 ;
@@ -123,8 +128,6 @@
             };
           }
         ];
-
-        # home-manager-path = inputs.nod-home-manager.outPath;
       };
     };
 }
