@@ -33,7 +33,7 @@ in
     hostname
     man
     gawk
-    sed
+    gnused
 
     wget
     curl

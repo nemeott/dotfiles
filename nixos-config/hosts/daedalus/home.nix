@@ -30,6 +30,7 @@ in
       # Bash
       ".bashrc".source = "${dotfilesPath}/.bashrc";
       ".bash_aliases".source = "${dotfilesPath}/.bash_aliases";
+      ".profile".source = "./.profile";
 
       # Clang format
       ".clang-format".source = "${dotfilesPath}/.clang-format";
