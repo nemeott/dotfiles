@@ -32,6 +32,8 @@ in
     util-linux
     hostname
     man
+    gawk
+    sed
 
     wget
     curl
