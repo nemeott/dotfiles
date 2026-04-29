@@ -1,22 +1,20 @@
 { lib, pkgs, ... }:
 
 {
-  modules = [
-    # Modules
-    ../../modules/user.nix
-
-    # Packages
-    ../../modules/packages/base.nix
-    ../../modules/packages/fonts.nix
-  ];
-
   environment.packages = with pkgs; [
+    bash
+    nano
+    
     procps
     killall
     diffutils
     util-linuxMinimal
     hostname
     man
+    
+    wget
+    curl
+    git
   ];
 
   environment.etcBackupExtension = ".bak";
