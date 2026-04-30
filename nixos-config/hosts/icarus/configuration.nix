@@ -252,10 +252,15 @@
     daemonIOSchedPriority = 2; # Higher priority for IO operations
 
     # Enable flakes
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+
+      keep-derivations = true; # Default
+      keep-outputs = true; # Keep build outputs for fast package rebuilds
+    };
   };
 
   # First installation version

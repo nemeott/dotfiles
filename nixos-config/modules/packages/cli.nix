@@ -8,6 +8,10 @@ let
     nixos-rebuild build --flake ${flake-path} "$@" && nvd diff /run/current-system result
   '';
 
+  nsn = pkgs.writeShellScriptBin "nsn" ''
+    nix shell "''${@/#/nixpkgs#}"
+  '';
+
   # Custom script to display Zswap stats
   zswap-stats = pkgs.writeShellScriptBin "zswap" (builtins.readFile ../../../scripts/zswap.sh);
 
@@ -61,10 +65,12 @@ in
     surge-downloader # Fast TUI downlaod manager
     llmfit # TUI for finding good LLMs for local use
     models # TUI for displaying and comparing LLM providers and benchmarks
-    
+
     #
     # Aliases and scripts
     #
+
+    nsn # nix shell nixpkgs# expand helper
 
     nrdiff # Custom diff command to rebuild and get the diff
 
@@ -75,23 +81,33 @@ in
 
   environment.shellAliases = {
     nfu = "nix flake update";
-    
+
     nrt = "nixos-rebuild test --flake ${flake-path}";
+    nrts = "nixos-rebuild test --flake ${flake-path} 2> /dev/null"; # Suppress output
     nrtm = "nixos-rebuild test 2>&1 | nixmate"; # Pipe error output to nixmate
 
     nrs = "nixos-rebuild switch --flake ${flake-path}";
+    nrsm = "nixos-rebuild switch --flake ${flake-path} 2>&1 | nixmate"; # Pipe error output to nixmate
 
     nrb = "nixos-rebuild boot --flake ${flake-path}";
+    nrbm = "nixos-rebuild boot --flake ${flake-path} 2>&1 | nixmate"; # Pipe error output to nixmate
     nrbb = "nixos-rebuild boot --flake ${flake-path} && reboot";
     nrbs = "nixos-rebuild boot --flake ${flake-path} && shutdown -h now";
 
-    ns = "nix-shell";
-    nsp = "nix-shell -p";
-
-    nb = "nix-build";
-    nba = "nix-build -A";
+    nd = "nix develop";
+    nb = "nix build";
 
     # Get option from main flake
     no = "nixos-option --flake ${flake-path}";
+
+    #
+    # Old aliases for nix-shell and nix-build
+    #
+
+    # ns = "nix-shell";
+    # nsp = "nix-shell -p";
+
+    # nb = "nix-build";
+    # nba = "nix-build -A";
   };
 }

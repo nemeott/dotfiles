@@ -12,6 +12,7 @@ in
     ../../modules/packages/dev.home.nix
     ../../modules/packages/yazi.home.nix
     ../../modules/packages/zen-browser.home.nix
+    ../../modules/packages/zed.home.nix
     ../../modules/niri.home.nix
   ];
 

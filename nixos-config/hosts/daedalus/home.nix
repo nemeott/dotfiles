@@ -1,6 +1,5 @@
 {
   inputs,
-  pkgs,
   lib,
   username,
   ...
@@ -15,11 +14,15 @@ let
 in
 {
   imports = [
-    # inputs.catppuccin.homeModules.catppuccin # TODO: User different version for 24.05
+    inputs.nod-catppuccin.homeModules.catppuccin
     inputs.nix-index-database.homeModules.default
+
+    ../../modules/packages/cli.home.nix
+    ../../modules/packages/dev.home.nix
+    ../../modules/packages/yazi.home.nix
   ];
 
-  # catppuccin.enable = true;
+  catppuccin.enable = true;
 
   home = {
     username = lib.mkForce username;
@@ -40,23 +43,13 @@ in
   programs = {
     git = {
       enable = true;
-      userName = "nemeott";
-      userEmail = secrets.git-email;
+      settings = {
+        user.name = "nemeott";
+        user.email = secrets.git-email;
 
-      extraConfig = {
-        init.defaultBranch = "main";
-      };
-
-      # git diff (used with lazygit)
-      delta = {
-        enable = true;
-        options = {
-          syntax-theme = "Catppuccin Mocha";
-          keep-plus-minus-markers = true;
-        };
+        defaultBranch = "main";
       };
     };
-    gh.enable = true;
 
     lazygit = {
       enable = true;
@@ -72,49 +65,43 @@ in
       };
     };
 
-    # Shell history
-    atuin = {
-      enable = true;
-      settings = {
-        enter_accept = true;
-      };
-    };
-
-    bat.enable = true; # cat
-    btop.enable = true; # top
-    eza.enable = true; # ls
-    fzf.enable = true; # fuzzy finder
-
-    yazi.enable = true;
-
-    # Locate Nix packages and provide command-not-found integration
-    nix-index = {
-      enable = true;
-      enableBashIntegration = true;
-    };
-    nix-index-database.comma.enable = true; # nix-shell and nix-index wrapper
-
     # Development environments (installs direnv and nix-direnv)
     direnv = {
       enable = true;
       nix-direnv.enable = true;
-      config.global.disable_stdin = true;
-      # silent = true;
+      silent = true;
     };
   };
 
   home.shellAliases = {
     nfu = "nix flake update";
 
-    nrs = "nix-on-droid switch --flake ${flake-path}";
+    nrt = "nixos-rebuild test --flake ${flake-path}";
+    nrts = "nixos-rebuild test --flake ${flake-path} 2> /dev/null"; # Suppress output
+    nrtm = "nixos-rebuild test 2>&1 | nixmate"; # Pipe error output to nixmate
 
-    ns = "nix-shell";
-    nsp = "nix-shell -p";
+    nrs = "nixos-rebuild switch --flake ${flake-path}";
+    nrsm = "nixos-rebuild switch --flake ${flake-path} 2>&1 | nixmate"; # Pipe error output to nixmate
 
-    nb = "nix-build";
-    nba = "nix-build -A";
+    nrb = "nixos-rebuild boot --flake ${flake-path}";
+    nrbm = "nixos-rebuild boot --flake ${flake-path} 2>&1 | nixmate"; # Pipe error output to nixmate
+    nrbb = "nixos-rebuild boot --flake ${flake-path} && reboot";
+    nrbs = "nixos-rebuild boot --flake ${flake-path} && shutdown -h now";
+
+    nd = "nix develop";
+    nb = "nix build";
 
     # Get option from main flake
     no = "nixos-option --flake ${flake-path}";
+
+    #
+    # Old aliases for nix-shell and nix-build
+    #
+
+    # ns = "nix-shell";
+    # nsp = "nix-shell -p";
+
+    # nb = "nix-build";
+    # nba = "nix-build -A";
   };
 }

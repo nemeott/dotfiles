@@ -262,7 +262,7 @@ if _command_exists atuin; then
     fi
 else
     _warn_missing atuin 'atuin initialization\n\tInstall through package manager or with: curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh'
-fi
+fi # FIXME
 
 # Direnv integration
 if _command_exists direnv; then

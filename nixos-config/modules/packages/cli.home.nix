@@ -36,14 +36,7 @@ _:
       enable = true;
       options = {
         syntax-theme = "Catppuccin Mocha";
-        
         keep-plus-minus-markers = true;
-        # plus-style = "syntax";
-        # minus-style = "syntax";
-        # plus-non-emph-style = "syntax";
-        # minus-non-emph-style = "syntax";
-        # plus-emph-style = "syntax";
-        # minus-emph-style = "syntax";
       };
     };
   };

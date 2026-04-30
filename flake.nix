@@ -35,18 +35,21 @@
     #
     # Android (nix-on-droid)
     #
-    nod-nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nod-nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
     nod-home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nod-nixpkgs";
     };
 
     nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/release-24.05";
+      url = "github:nix-community/nix-on-droid/testing";
       inputs.nixpkgs.follows = "nod-nixpkgs";
       inputs.home-manager.follows = "nod-home-manager";
     };
+    
+    nod-catppuccin.url = "github:catppuccin/nix/release-25.11";
+    nod-catppuccin.inputs.nixpkgs.follows = "nod-nixpkgs";
   };
 
   outputs =
@@ -62,6 +65,7 @@
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
+              nix.registry.nixpkgs.flake = nixpkgs; # Use flake version of nixpkgs for nix shells and others
 
               # Overlays to add custom packages from other repos
               nixpkgs.overlays = [
@@ -99,7 +103,9 @@
 
         pkgs = import inputs.nod-nixpkgs {
           system = "aarch64-linux";
+          
           config.allowUnfree = true;
+          nix.registry.nixpkgs.flake = nixpkgs; # Use flake version of nixpkgs for nix shells and others
 
           # Overlays to add custom packages from other repos
           overlays = [

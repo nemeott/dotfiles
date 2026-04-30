@@ -51,6 +51,8 @@ _run_if_exists() {
 # General Aliases
 #
 
+alias reload='source ~/.bashrc'
+
 # Allow aliases to work with sudo
 alias sudo='sudo '
 

@@ -10,6 +10,10 @@ let
     nix-on-droid build --flake ${flake-path} "$@" && nvd diff /run/current-system result
   '';
 
+  nsn = pkgs.writeShellScriptBin "nsn" ''
+    nix shell "''${@/#/nixpkgs#}"
+  '';
+
   # Custom script to create a .envrc file with "use nix" for direnv
   direnv-init = pkgs.writeShellScriptBin "direnv-init" ''
     if [ -e .envrc ]; then
@@ -32,12 +36,14 @@ in
     util-linux
     hostname
     man
-    gawk
-    gnused
+    gawk # awk
+    gnused # sed
+    ncurses # clear
 
     wget
     curl
     git
+    openssh
 
     #
     # Packages
@@ -77,10 +83,17 @@ in
     # Aliases and scripts
     #
 
+    nsn # nix shell nixpkgs# expand helper
+
     nrdiff # Custom diff command to rebuild and get the diff
 
     direnv-init # Custom shell script to create a .envrc file with "use nix" for direnv
   ];
+  
+  terminal.font = "${pkgs.monaspace}/share/fonts/truetype/MonaspaceNeonFrozen-Regular.ttf";
+
+  # Set time zone and select internationalisation properties
+  time.timeZone = "America/New_York";
 
   environment.etcBackupExtension = ".bak";
 
@@ -88,5 +101,8 @@ in
 
   nix.extraOptions = ''
     experimental-features = nix-command flakes
+
+    keep-derivations = true # Default?
+    keep-outputs = true # Keep build outputs for fast package rebuilds
   '';
 }
