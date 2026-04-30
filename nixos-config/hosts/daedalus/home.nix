@@ -47,7 +47,7 @@ in
         user.name = "nemeott";
         user.email = secrets.git-email;
 
-        defaultBranch = "main";
+        init.defaultBranch = "main";
       };
     };
 

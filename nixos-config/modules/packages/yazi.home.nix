@@ -12,8 +12,8 @@
       poppler-utils # Used by office plugin (pdftoppm)
       jdupes # Used by dupes plugin
     ];
-    plugins = with pkgs; {
-      inherit (yaziPlugins)
+    plugins = {
+      inherit (pkgs.yaziPlugins)
         close-and-restore-tab
         smart-paste
         jump-to-char

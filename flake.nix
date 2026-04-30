@@ -47,15 +47,47 @@
       inputs.nixpkgs.follows = "nod-nixpkgs";
       inputs.home-manager.follows = "nod-home-manager";
     };
-    
+
     nod-catppuccin.url = "github:catppuccin/nix/release-25.11";
     nod-catppuccin.inputs.nixpkgs.follows = "nod-nixpkgs";
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      nod-nixpkgs,
+      ...
+    }@inputs:
     let
       username = "nathan";
+
+      # Overlays using hardcoded system strings to avoid lambda instability
+      # and ensure Nix can properly memoize these across evaluations.
+      desktopOverlays = [
+        (final: prev: {
+          surge-downloader = inputs.nixpkgs-surge.legacyPackages.x86_64-linux.surge-downloader;
+          nirimod = inputs.nixpkgs-nirimod.legacyPackages.x86_64-linux.nirimod;
+          models = inputs.nixpkgs-models.legacyPackages.x86_64-linux.models;
+          yaziPlugins = inputs.nixpkgs-my-yazi-plugins.legacyPackages.x86_64-linux.yaziPlugins;
+        })
+      ];
+
+      androidOverlays = [
+        (final: prev: {
+          surge-downloader = inputs.nixpkgs-surge.legacyPackages.aarch64-linux.surge-downloader;
+          models = inputs.nixpkgs-models.legacyPackages.aarch64-linux.models;
+          yaziPlugins = inputs.nixpkgs-my-yazi-plugins.legacyPackages.aarch64-linux.yaziPlugins;
+        })
+      ];
+
+      # Instantiated once at eval time, stable reference for nix-on-droid
+      nodPkgs = import inputs.nod-nixpkgs {
+        system = "aarch64-linux";
+        config.allowUnfree = true;
+        # Overlays to add custom packages from other repos
+        overlays = androidOverlays;
+      };
     in
     {
       nixosConfigurations = {
@@ -68,18 +100,7 @@
               nix.registry.nixpkgs.flake = nixpkgs; # Use flake version of nixpkgs for nix shells and others
 
               # Overlays to add custom packages from other repos
-              nixpkgs.overlays = [
-                (final: prev: {
-                  inherit ((import inputs.nixpkgs-surge { inherit (prev.stdenv.hostPlatform) system; }))
-                    surge-downloader
-                    ;
-                  inherit ((import inputs.nixpkgs-nirimod { inherit (prev.stdenv.hostPlatform) system; })) nirimod;
-                  inherit ((import inputs.nixpkgs-models { inherit (prev.stdenv.hostPlatform) system; })) models;
-                  inherit ((import inputs.nixpkgs-my-yazi-plugins { inherit (prev.stdenv.hostPlatform) system; }))
-                    yaziPlugins
-                    ;
-                })
-              ];
+              nixpkgs.overlays = desktopOverlays;
             }
 
             ./nixos-config/hosts/icarus/configuration.nix
@@ -97,37 +118,23 @@
             }
           ];
         };
-      };
+      }; # TODO: Remove with pkgs?
       nixOnDroidConfigurations.daedalus = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
         extraSpecialArgs = { inherit inputs username; };
 
-        pkgs = import inputs.nod-nixpkgs {
-          system = "aarch64-linux";
-          
-          config.allowUnfree = true;
-          nix.registry.nixpkgs.flake = nixpkgs; # Use flake version of nixpkgs for nix shells and others
-
-          # Overlays to add custom packages from other repos
-          overlays = [
-            (final: prev: {
-              inherit ((import inputs.nixpkgs-surge { inherit (prev.stdenv.hostPlatform) system; }))
-                surge-downloader
-                ;
-              inherit ((import inputs.nixpkgs-models { inherit (prev.stdenv.hostPlatform) system; })) models;
-              inherit ((import inputs.nixpkgs-my-yazi-plugins { inherit (prev.stdenv.hostPlatform) system; }))
-                yaziPlugins
-                ;
-            })
-          ];
-        };
+        pkgs = nodPkgs;
 
         modules = [
           ./nixos-config/hosts/daedalus/configuration.nix
+
+          # Use flake version of nixpkgs for nix shells and others
+          { nix.registry.nixpkgs.flake = nod-nixpkgs; }
 
           # Home manager
           {
             home-manager = {
               useGlobalPkgs = true;
+              useUserPackages = true;
               backupFileExtension = "backup";
               extraSpecialArgs = { inherit inputs username; };
               config = ./nixos-config/hosts/daedalus/home.nix;
