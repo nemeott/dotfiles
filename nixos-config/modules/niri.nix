@@ -46,7 +46,6 @@ in
 
   environment.systemPackages = with pkgs; [
     xwayland-satellite # X11 compatibility for Wayland
-    nirimod # GUI for managing Niri
     inputs.noctalia.packages.${stdenv.hostPlatform.system}.default # Bar
     cliphist
     wl-clipboard

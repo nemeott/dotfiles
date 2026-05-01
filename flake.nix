@@ -1,3 +1,5 @@
+# TODO: Remove with pkgs?
+
 {
   description = "My NixOS configuration";
 
@@ -20,15 +22,16 @@
     noctalia.url = "github:noctalia-dev/noctalia-shell";
     noctalia.inputs.nixpkgs.follows = "nixpkgs";
 
-    zen-browser.url = "github:0xc000022070/zen-browser-flake";
-    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
-    zen-browser.inputs.home-manager.follows = "home-manager";
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
 
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
 
     nixpkgs-surge.url = "github:ErmitaVulpe/nixpkgs/init/surge-downloader";
-    nixpkgs-nirimod.url = "github:sophronesis/nixpkgs/pkg/nirimod";
     nixpkgs-models.url = "github:nemeott/nixpkgs/add-models-package";
     nixpkgs-my-yazi-plugins.url = "github:nemeott/nixpkgs/my-yazi-plugins";
 
@@ -62,32 +65,41 @@
     let
       username = "nathan";
 
-      # Overlays using hardcoded system strings to avoid lambda instability
-      # and ensure Nix can properly memoize these across evaluations.
-      desktopOverlays = [
+      mkOverlays = system: [
         (final: prev: {
-          surge-downloader = inputs.nixpkgs-surge.legacyPackages.x86_64-linux.surge-downloader;
-          nirimod = inputs.nixpkgs-nirimod.legacyPackages.x86_64-linux.nirimod;
-          models = inputs.nixpkgs-models.legacyPackages.x86_64-linux.models;
-          yaziPlugins = inputs.nixpkgs-my-yazi-plugins.legacyPackages.x86_64-linux.yaziPlugins;
+          surge-downloader = inputs.nixpkgs-surge.legacyPackages.${system}.surge-downloader;
+          models = inputs.nixpkgs-models.legacyPackages.${system}.models;
+          yaziPlugins = inputs.nixpkgs-my-yazi-plugins.legacyPackages.${system}.yaziPlugins;
         })
       ];
 
-      androidOverlays = [
-        (final: prev: {
-          surge-downloader = inputs.nixpkgs-surge.legacyPackages.aarch64-linux.surge-downloader;
-          models = inputs.nixpkgs-models.legacyPackages.aarch64-linux.models;
-          yaziPlugins = inputs.nixpkgs-my-yazi-plugins.legacyPackages.aarch64-linux.yaziPlugins;
-        })
-      ];
+      mkPkgs =
+        nixpkgsInput: system:
+        import nixpkgsInput {
+          inherit system;
+          config.allowUnfree = true;
+          overlays = mkOverlays system;
+        };
 
-      # Instantiated once at eval time, stable reference for nix-on-droid
-      nodPkgs = import inputs.nod-nixpkgs {
-        system = "aarch64-linux";
-        config.allowUnfree = true;
-        # Overlays to add custom packages from other repos
-        overlays = androidOverlays;
-      };
+      mkHomeManagerModule =
+        {
+          homePath ? null,
+          configPath ? null,
+        }:
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            backupFileExtension = "backup";
+            extraSpecialArgs = { inherit inputs username; };
+          }
+          // (
+            if configPath != null then
+              { config = configPath; }
+            else
+              { users.${username}.imports = [ homePath ]; }
+          );
+        };
     in
     {
       nixosConfigurations = {
@@ -96,50 +108,30 @@
           specialArgs = { inherit inputs username; };
           modules = [
             {
-              nixpkgs.config.allowUnfree = true;
-              nix.registry.nixpkgs.flake = nixpkgs; # Use flake version of nixpkgs for nix shells and others
+              nixpkgs.pkgs = mkPkgs nixpkgs "x86_64-linux";
 
-              # Overlays to add custom packages from other repos
-              nixpkgs.overlays = desktopOverlays;
+              # Use flake version of nixpkgs for nix shells and others
+              nix.registry.nixpkgs.flake = nixpkgs;
             }
 
             ./nixos-config/hosts/icarus/configuration.nix
 
-            # Home manager
             inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "backup";
-                extraSpecialArgs = { inherit inputs username; };
-                users.${username}.imports = [ ./nixos-config/hosts/icarus/home.nix ];
-              };
-            }
+            (mkHomeManagerModule { homePath = ./nixos-config/hosts/icarus/home.nix; })
           ];
         };
-      }; # TODO: Remove with pkgs?
+      };
       nixOnDroidConfigurations.daedalus = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = mkPkgs nod-nixpkgs "aarch64-linux";
         extraSpecialArgs = { inherit inputs username; };
-
-        pkgs = nodPkgs;
-
         modules = [
-          ./nixos-config/hosts/daedalus/configuration.nix
-
           # Use flake version of nixpkgs for nix shells and others
           { nix.registry.nixpkgs.flake = nod-nixpkgs; }
 
+          ./nixos-config/hosts/daedalus/configuration.nix
+
           # Home manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "backup";
-              extraSpecialArgs = { inherit inputs username; };
-              config = ./nixos-config/hosts/daedalus/home.nix;
-            };
-          }
+          (mkHomeManagerModule { configPath = ./nixos-config/hosts/daedalus/home.nix; })
         ];
       };
     };

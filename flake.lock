@@ -232,22 +232,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-nirimod": {
-      "locked": {
-        "lastModified": 1776591547,
-        "narHash": "sha256-Yh30pU35sAUJUqkANBXwXBp+uJxE42fqlYSzfZdangI=",
-        "owner": "sophronesis",
-        "repo": "nixpkgs",
-        "rev": "b115025fa1325fd315dad57335f835246d8127ef",
-        "type": "github"
-      },
-      "original": {
-        "owner": "sophronesis",
-        "ref": "pkg/nirimod",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-surge": {
       "locked": {
         "lastModified": 1771931440,
@@ -415,7 +399,6 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-models": "nixpkgs-models",
         "nixpkgs-my-yazi-plugins": "nixpkgs-my-yazi-plugins",
-        "nixpkgs-nirimod": "nixpkgs-nirimod",
         "nixpkgs-surge": "nixpkgs-surge",
         "noctalia": "noctalia",
         "nod-catppuccin": "nod-catppuccin",
