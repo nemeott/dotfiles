@@ -22,7 +22,7 @@ let
     else
       echo ".envrc created"
     fi
-    echo "use nix" > .envrc
+    echo "use flake" > .envrc
   '';
 in
 {

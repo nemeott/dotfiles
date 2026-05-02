@@ -73,6 +73,9 @@ in
     nurl
     nix-init
     nix-update
+    
+    # LLMs
+    ollama
   ];
   # Set the xauth location for ssh correctly (nixos uses unusual file system)
   programs.ssh.setXAuthLocation = true;
