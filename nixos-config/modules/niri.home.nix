@@ -6,14 +6,6 @@
 }:
 
 {
-  # Patch foot to fix "deprecated: foot: [colors]: use [colors-dark] instead" warning
-  # https://github.com/catppuccin/foot/pull/24
-  catppuccin.sources.foot = pkgs.runCommand "catppuccin-foot-patched" { } ''
-    cp -r ${inputs.catppuccin.packages.${pkgs.stdenv.hostPlatform.system}.foot} $out
-    chmod -R u+w $out
-    sed -i 's/^\[colors\]$/[colors-dark]/' $out/catppuccin-*.ini
-  '';
-
   # Enabled here for automatic Catppuccin integration
   programs = {
     # Terminal emulator
