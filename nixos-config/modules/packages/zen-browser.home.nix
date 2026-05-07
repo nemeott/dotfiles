@@ -236,7 +236,7 @@
               name = "GitHub";
               urls = [ { template = "https://github.com/search?q={searchTerms}&type=repositories"; } ];
               icon = "https://github.com/favicon.ico";
-              definedAliases = [ "@gh" ];
+              definedAliases = [ "@ghr" ];
             };
             github-code = {
               name = "GitHub";
