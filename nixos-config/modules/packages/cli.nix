@@ -12,6 +12,10 @@ let
     nix shell "''${@/#/nixpkgs#}"
   '';
 
+  nrn = pkgs.writeShellScriptBin "nrn" ''
+    nix run nixpkgs#"$@"
+  '';
+
   # Custom script to display Zswap stats
   zswap-stats = pkgs.writeShellScriptBin "zswap" (builtins.readFile ../../../scripts/zswap.sh);
 
@@ -71,6 +75,7 @@ in
     #
 
     nsn # nix shell nixpkgs# expand helper
+    nrn # nix run nixpkgs# expand helper
 
     nrdiff # Custom diff command to rebuild and get the diff
 
