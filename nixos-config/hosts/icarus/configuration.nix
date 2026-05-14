@@ -40,9 +40,14 @@
     enableAllFirmware = true;
 
     # Use facter for better hardware support
-    facter.reportPath = ./facter.json;
-    # Generate facter config file with:
-    # sudo nix run nixpkgs#nixos-facter -- -o facter.json
+    facter = {
+      reportPath = ./facter.json;
+      # Generate facter config file with:
+      # sudo nix run nixpkgs#nixos-facter -- -o facter.json
+
+      # Manually set this to remove ip6tnl0 since the new facter report removed this (from my device at least)
+      detected.dhcp.interfaces = [ "wlp0s20f3" ];
+    };
   };
 
   # Use Lix package manager instead of Nix

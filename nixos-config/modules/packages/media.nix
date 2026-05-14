@@ -13,8 +13,9 @@
     imagemagick
 
     # Media editing
-    gimp
-    audacity
+    gimp # Image editor
+    aseprite # Pixel art editor and animator
+    audacity # Audio editor
 
     # Music
     musescore
