@@ -181,7 +181,7 @@ alias coclean="pgrep -f copilot-language-server | sort -n | head -n -1 | xargs -
 alias conuke="pkill -f copilot-language-server"
 
 # View errors from the current boot
-alias error="journalctl -b -p err"
+alias errors="journalctl -b -p err"
 
 # Extract any archive into a named folder
 #
