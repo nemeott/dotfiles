@@ -407,6 +407,7 @@ binds {
     Mod+Shift+O hotkey-overlay-title="Obsidian" { spawn "obsidian"; }
     Mod+M hotkey-overlay-title="MuseScore 3.7 Evolution" { spawn "mscore-evo"; }
     Mod+Shift+M hotkey-overlay-title="MuseScore 4" { spawn "mscore"; }
+    Mod+K hotkey-overlay-title="Okular" { spawn "okular"; }
     
     // Noctalia settings
     Mod+Comma { spawn "noctalia-shell" "ipc" "call" "settings" "toggle"; }

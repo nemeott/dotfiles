@@ -34,7 +34,7 @@ in
     enable = true;
     settings.Resolve =
       let
-        host = lib.strings.toCamelCase hostname;
+        host = lib.strings.toSentenceCase hostname;
         next-dns-id = secrets."next-dns-id";
       in
       {
