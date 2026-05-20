@@ -61,9 +61,7 @@ in
     gcc
     mold # Fast linker
     python313
-    python313Packages.pip
     python313Packages.numpy
-    uv
     gnumake
 
     xauth # For X11 ssh forwarding (school)
