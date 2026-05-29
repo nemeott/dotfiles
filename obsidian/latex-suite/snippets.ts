@@ -48,6 +48,7 @@
   {trigger: "quad", replacement: " \\quad ", options: "mA", description: "Quad (tab like space)"},
   {trigger: "qquad", replacement: " \\qquad ", options: "mA", description: "Double quad (quad times two)"},
   {trigger: "qtq", replacement: " \\quad\\therefore\\quad ", options: "mA", description: "Quad therefore quad"},
+  {trigger: "tq", replacement: "\\therefore\\quad ", options: "mA", description: "Therefore quad"},
   
   
   // Text in math mode

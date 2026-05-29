@@ -110,14 +110,14 @@
       plugin = {
         prepend_fetchers = [
           {
-            id = "git";
             url = "*";
             run = "git";
+            group = "git";
           }
           {
-            id = "git";
             url = "*/";
             run = "git";
+            group = "git";
           }
         ];
         prepend_previewers = [
@@ -145,7 +145,7 @@
             run = "office";
           }
           {
-            name = "*.docx";
+            url = "*.docx";
             run = "office";
           }
         ];
@@ -168,7 +168,7 @@
             run = "office";
           }
           {
-            name = "*.docx";
+            url = "*.docx";
             run = "office";
           }
         ];
