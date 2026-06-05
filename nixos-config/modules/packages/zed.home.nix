@@ -1,6 +1,16 @@
 { pkgs, ... }:
 
 let
+  # TODO: Chromebook can't compile this without OOM
+  # zed-no-title = pkgs.zed-editor.overrideAttrs (old: {
+  #   patches = (old.patches or [ ]) ++ [
+  #     (pkgs.fetchpatch {
+  #       url = "https://github.com/zed-industries/zed/compare/main...rudiodeo:zed:main.patch";
+  #       hash = "sha256-R3+S9gECZwOW7ylsLFxL3Q7Lz20U8UGn7sKTn6tLBbo=";
+  #     })
+  #   ];
+  # });
+
   statix = pkgs.statix.overrideAttrs (_o: rec {
     src = pkgs.fetchFromGitHub {
       owner = "oppiliappan";
@@ -27,6 +37,7 @@ in
         systemctl --user start zed-coclean.timer >/dev/null 2>&1 &
         exec ${pkgs.zed-editor}/bin/zeditor "$@"
       '';
+      # exec ${zed-no-title}/bin/zeditor "$@"
 
       extraPackages = with pkgs; [
         # Nix

@@ -125,7 +125,7 @@
       ];
       # Fails activation on schema changes to detect potential regressions
       # Find this in about:config or prefs.js of your profile
-      keyboardShortcutsVersion = 18;
+      keyboardShortcutsVersion = 19;
 
       # AKA Profiles
       containersForce = true; # Delete existing containers not in the config

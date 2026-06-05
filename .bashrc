@@ -35,9 +35,6 @@ bind 'set show-all-if-ambiguous on'
 # Immediately add a trailing slash when autocompleting symlinks to directories
 bind "set mark-symlinked-directories on"
 
-# Prepend cd to directory names automatically
-shopt -s autocd 2>/dev/null
-
 # Correct spelling errors during tab-completion
 shopt -s dirspell 2>/dev/null
 
