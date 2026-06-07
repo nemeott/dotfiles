@@ -17,6 +17,7 @@ in
   ];
 
   catppuccin.enable = true;
+  catppuccin.autoEnable = true;
 
   home = {
     inherit username;

@@ -185,7 +185,16 @@
         in
         {
           force = true; # Allow Nix to overwrite search settings on rebuild
+          default = "brave-search";
           engines = {
+            # Brave Search
+            brave-search = {
+              name = "Brave Search";
+              urls = [ { template = "https://search.brave.com/search?q={searchTerms}"; } ];
+              icon = "https://brave.com/favicon.ico";
+              definedAliases = [ "@b" ];
+            };
+
             # NixOS
             mynixos = {
               name = "MyNixOS";
