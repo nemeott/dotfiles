@@ -38,6 +38,9 @@ in
 
       # Niri
       ".config/niri/config.kdl".source = "${dotfilesPath}/niri/config.kdl";
+      
+      # Noctalia
+      ".config/noctalia/config.toml".source = "${dotfilesPath}/noctalia/config.toml";
 
       # Clang format
       ".clang-format".source = "${dotfilesPath}/.clang-format";

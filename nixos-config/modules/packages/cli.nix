@@ -90,14 +90,17 @@ in
     nrt = "nixos-rebuild test --flake ${flake-path}";
     nrts = "nixos-rebuild test --flake ${flake-path} 2> /dev/null"; # Suppress output
     nrtm = "nixos-rebuild test 2>&1 | nixmate"; # Pipe error output to nixmate
+    nrte = "nixos-rebuild test --flake ${flake-path} && exit";
 
     nrs = "nixos-rebuild switch --flake ${flake-path}";
     nrsm = "nixos-rebuild switch --flake ${flake-path} 2>&1 | nixmate"; # Pipe error output to nixmate
+    nrse = "nixos-rebuild switch --flake ${flake-path} && exit";
 
     nrb = "nixos-rebuild boot --flake ${flake-path}";
     nrbm = "nixos-rebuild boot --flake ${flake-path} 2>&1 | nixmate"; # Pipe error output to nixmate
     nrbb = "nixos-rebuild boot --flake ${flake-path} && reboot";
     nrbs = "nixos-rebuild boot --flake ${flake-path} && shutdown -h now";
+    nrbe = "nixos-rebuild boot --flake ${flake-path} && exit";
 
     nd = "nix develop";
     nb = "nix build";
@@ -113,6 +116,6 @@ in
     # nsp = "nix-shell -p";
 
     # nb = "nix-build";
-    # nba = "nix-build -A";
+    nba = "nix-build -A";
   };
 }

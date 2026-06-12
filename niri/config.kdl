@@ -286,13 +286,39 @@ layout {
     }
 }
 
+layer-rule {
+  match namespace="^noctalia-backdrop"
+  place-within-backdrop true
+}
+
+/* Apps: blur them all without xray so it looks more realistic. */
+window-rule {
+  background-effect {
+    blur true
+    xray false
+  }
+}
+
+/*
+  Noctalia
+  Disable xray on all our surfaces so it looks more realistic.
+  Noctalia publishes blur regions automatically when ext-background-effects is available.
+*/
+layer-rule {
+  match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
+  background-effect {
+    xray false
+    // blur false
+  }
+}
+
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
 // Start a bar at startup
-spawn-at-startup "noctalia-shell"
+spawn-at-startup "noctalia"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -396,8 +422,9 @@ binds {
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
     // Mod+Shift+Slash { show-hotkey-overlay; }
-    // Mod+Shift+Slash { spawn-sh "qs -c noctalia-shell ipc call plugin:keybind-cheatsheet toggle"; }
-    Mod+Shift+Slash { spawn-sh "noctalia-shell ipc call plugin:keybind-cheatsheet toggle"; }
+    
+    // TODO: Wait for V5 support
+    // Mod+Shift+Slash { spawn-sh "noctalia msg plugin keybind-cheatsheet toggle"; }
 
     // Open apps
     Mod+T hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
@@ -410,18 +437,18 @@ binds {
     Mod+K hotkey-overlay-title="Okular" { spawn "okular"; }
     
     // Noctalia settings
-    Mod+Comma { spawn "noctalia-shell" "ipc" "call" "settings" "toggle"; }
-    Mod+Period { spawn "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
+    Mod+Comma { spawn "noctalia" "msg" "settings-toggle"; }
+    Mod+Period { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
 
     // Noctalia shortcuts
-    Mod+V { spawn "noctalia-shell" "ipc" "call" "launcher" "clipboard"; }
-    Mod+E { spawn "noctalia-shell" "ipc" "call" "launcher" "emoji"; }
-    Mod+A { spawn "noctalia-shell" "ipc" "call" "calendar" "toggle"; }
-    Mod+N { spawn "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
-    Mod+W { spawn "noctalia-shell" "ipc" "call" "network" "togglePanel"; }
-    Mod+S { spawn "noctalia-shell" "ipc" "call" "systemMonitor" "toggle"; }
-    Mod+B { spawn "noctalia-shell" "ipc" "call" "bluetooth" "togglePanel"; }
-    Mod+Shift+B { spawn "noctalia-shell" "ipc" "call" "powerProfile" "cycle"; }
+    Mod+V { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
+    // Mod+E { spawn "noctalia" "msg" "launcher" "emoji"; }
+    Mod+A { spawn "noctalia" "msg" "panel-toggle" "control-center" "calendar"; }
+    Mod+N { spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"; }
+    Mod+W { spawn "noctalia" "msg" "panel-toggle" "control-center" "network"; }
+    Mod+S { spawn "noctalia" "msg" "panel-toggle" "control-center" "system"; }
+    Mod+B { spawn "noctalia" "msg" "panel-toggle" "control-center" "bluetooth"; }
+    Mod+Shift+B { spawn "noctalia" "msg" "power-cycle"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
@@ -459,7 +486,7 @@ binds {
     Mod+Shift+Ctrl+P { power-off-monitors; }
     
     // Lock key on chromebook
-    XF86ScreenSaver { spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; } // Bring up noctalia-shell session menu
+    XF86ScreenSaver { spawn "noctalia" "msg" "panel-toggle" "session"; } // Bring up noctalia session menu
     
     Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     

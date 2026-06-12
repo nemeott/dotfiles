@@ -143,10 +143,10 @@
     ];
 
     # Faster restarts (no waiting for long processes)
-    user.extraConfig = ''
-      DefaultTimeoutStopSec=10
-      DefaultTimeoutStartSec=10
-    '';
+    user.settings.Manager = {
+      DefaultTimeoutStopSec = 10;
+      DefaultTimeoutStartSec = 10;
+    };
 
     # Hibernate after 60 minutes of suspend
     sleep.settings.Sleep = {

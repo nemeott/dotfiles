@@ -20,12 +20,6 @@ in
   # Name the generation
   system.nixos.tags = [ "Niri" ];
 
-  # Interface with X11 apps
-  programs.xwayland.enable = true;
-
-  # Attempt to open compatible apps with Wayland
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
   services.greetd = {
     enable = true;
     settings = {
@@ -39,10 +33,29 @@ in
 
   # Tiling window manager
   programs.niri.enable = true;
-  services.iio-niri.enable = true; # Allow screen rotation with Niri
 
-  catppuccin.enable = true;
-  catppuccin.tty.enable = false; # Save my eyes on boot
+  # Allow screen rotation with Niri
+  services.iio-niri.enable = true;
+
+  # Interface with X11 apps
+  programs.xwayland.enable = true;
+
+  # Attempt to open compatible apps with Wayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  catppuccin = {
+    enable = true;
+    autoEnable = true;
+    tty.enable = false; # Save my eyes on boot
+  };
+
+  # Enable cache for Noctalia
+  nix.settings = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     xwayland-satellite # X11 compatibility for Wayland
