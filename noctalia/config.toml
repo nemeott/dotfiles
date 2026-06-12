@@ -15,23 +15,23 @@ order = [ "default" ]
 
     [bar.default]
     auto_hide = false
-    background_opacity = 0.4
+    background_opacity = 0.5
     border = "outline"
     border_width = 0.0
-    capsule = false
-    capsule_fill = "surface"
+    capsule = true
+    capsule_fill = "primary"
     capsule_group = []
-    capsule_opacity = 1.0
+    capsule_opacity = 0.1
     capsule_padding = 6.0
-    center = [ "clock", "date", "spacer_2", "cpu", "temp", "ram", "disk" ]
+    center = [ "workspaces", "spacer_15", "active_window" ]
     contact_shadow = false
     enabled = true
-    end = [ "notifications", "network", "bluetooth", "brightness", "power_profile", "battery" ]
+    end = [ "notifications", "network", "bluetooth", "brightness", "battery", "power_profile" ]
     font_weight = 500
     layer = "top"
     margin_edge = 0
-    margin_ends = 180
-    padding = 14
+    margin_ends = 0
+    padding = 4
     panel_overlap = 1
     position = "top"
     radius = 12
@@ -40,11 +40,11 @@ order = [ "default" ]
     radius_top_left = 12
     radius_top_right = 12
     reserve_space = true
-    scale = 1.0
+    scale = 0.95
     shadow = true
-    start = [ "workspaces", "spacer_1", "active_window" ]
-    thickness = 30
-    widget_spacing = 6
+    start = [ "clock", "spacer_20", "cpu", "temp", "ram", "disk" ]
+    thickness = 27
+    widget_spacing = 4
 
 [battery]
 warning_threshold = 20
@@ -185,7 +185,7 @@ blur_intensity = 0.5
 blurred_desktop = false
 enabled = true
 monitors = []
-tint_intensity = 0.30
+tint_intensity = 0.3
 wallpaper = ""
 
 [lockscreen_widgets]
@@ -239,7 +239,7 @@ show_actions = true
 show_app_name = true
 
 [osd]
-background_opacity = 0.40
+background_opacity = 0.4
 monitors = []
 offset_x = 20
 offset_y = 8
@@ -436,7 +436,7 @@ wallpaper_scheme = "m3-content"
 directory = "/home/nathan/Pictures/Wallpapers"
 directory_dark = ""
 directory_light = ""
-edge_smoothness = 0.30
+edge_smoothness = 0.3
 enabled = true
 fill_color = ""
 fill_mode = "crop"
@@ -459,8 +459,9 @@ unit = "metric"
 
 [widget.active_window]
 icon_size = 14.0
-max_length = 150.0
+max_length = 320
 min_length = 80.0
+show_empty_label = true
 title_scroll = "none"
 type = "active_window"
 
@@ -469,7 +470,7 @@ show_label = true
 type = "bluetooth"
 
 [widget.clock]
-format = "{:%H:%M:%S}"
+format = "{:%H:%M:%S, %a, %b %d}"
 type = "clock"
 
 [widget.cpu]
@@ -535,11 +536,12 @@ type = "sysmon"
 [widget.spacer]
 type = "spacer"
 
-[widget.spacer_1]
-length = 25
+[widget.spacer_15]
+length = 15
 type = "spacer"
 
-[widget.spacer_2]
+[widget.spacer_20]
+length = 20
 type = "spacer"
 
 [widget.sysmon]
