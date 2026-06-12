@@ -15,12 +15,11 @@
 
     wantedBy = [ "default.target" ];
     after = [ "niri.service" ];
-    serviceConfig.Type = "oneshot";
-
-    # Let quickshell initialize, then turn off bluetooth
-    script = ''
-      sleep 5 # Pray noctalia shell is fully started after this
-      ${pkgs.bluez}/bin/bluetoothctl power off
-    '';
+    serviceConfig = {
+      Type = "oneshot";
+      # Pray noctalia shell is fully started after this
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
+      ExecStart = "${pkgs.bluez}/bin/bluetoothctl power off";
+    };
   };
 }

@@ -82,7 +82,6 @@ in
     Service = {
       Type = "oneshot";
       ExecStart = "${pkgs.writeShellScript "zed-coclean-script" ''
-        set +e
         # If Zed isn't running, don't do anything and stop the timer
         if ! ${pkgs.procps}/bin/pgrep -f zed-editor > /dev/null; then
           systemctl --user stop zed-coclean.timer

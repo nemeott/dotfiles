@@ -1,19 +1,5 @@
 { inputs, pkgs, ... }:
 
-# Toggle iio-niri screen rotation
-let
-  toggle_screen_rotation = pkgs.writeShellApplication {
-    name = "toggle_screen_rotation";
-    runtimeInputs = [ pkgs.systemd ];
-    text = ''
-      if systemctl --user is-active --quiet iio-niri; then
-          systemctl --user stop iio-niri
-      else
-          systemctl --user start iio-niri
-      fi
-    '';
-  };
-in
 {
   imports = [ inputs.catppuccin.nixosModules.catppuccin ];
 
@@ -102,8 +88,6 @@ in
       '';
     })
 
-    toggle_screen_rotation
-
     bibata-cursors
     papirus-icon-theme # TODO: Actually use these
     adwaita-icon-theme
@@ -121,12 +105,11 @@ in
       "niri.service"
       "iio-niri.service"
     ];
-    serviceConfig.Type = "oneshot";
 
-    # Let quickshell initialize, then turn off rotation
-    script = ''
-      ${toggle_screen_rotation}/bin/toggle_screen_rotation
-    '';
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.iio-niri}/bin/iio-niri msg lock-rotation true";
+    };
   };
 
   # environment.variables = {

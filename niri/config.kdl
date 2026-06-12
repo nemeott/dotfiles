@@ -421,7 +421,7 @@ binds {
 
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
-    // Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Shift+Slash { show-hotkey-overlay; }
     
     // TODO: Wait for V5 support
     // Mod+Shift+Slash { spawn-sh "noctalia msg plugin keybind-cheatsheet toggle"; }
@@ -491,7 +491,7 @@ binds {
     Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     
     // Toggle screen rotation by stopping/starting iio-niri user systemd service through custom script
-    Mod+Alt+R hotkey-overlay-title="Toggle iio-niri" { spawn "toggle_screen_rotation"; }
+    Mod+R hotkey-overlay-title="Toggle iio-niri" { spawn "iio-niri" "msg" "toggle-lock-rotation"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
