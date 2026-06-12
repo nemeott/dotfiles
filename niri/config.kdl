@@ -221,7 +221,7 @@ layout {
         // If you enable the border, you probably want to disable the focus ring.
         // off
 
-        width 1.2
+        width 1.0
         active-color "#ffc87f"
         inactive-color "#505050"
 
@@ -392,7 +392,7 @@ animations {
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
 window-rule {
-    geometry-corner-radius 4
+    geometry-corner-radius 2
     clip-to-geometry true
 }
 
