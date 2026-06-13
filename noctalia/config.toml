@@ -42,7 +42,7 @@ order = [ "default" ]
     reserve_space = true
     scale = 0.95
     shadow = true
-    start = [ "clock", "spacer_20", "cpu", "temp", "ram", "disk" ]
+    start = [ "clock", "spacer_20", "cpu", "ram", "temp", "disk" ]
     thickness = 27
     widget_spacing = 4
 
