@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  # TODO: Chromebook can't compile this without OOM
+  # # TODO: Chromebook can't compile this without OOM
   # zed-no-title = pkgs.zed-editor.overrideAttrs (old: {
   #   patches = (old.patches or [ ]) ++ [
   #     (pkgs.fetchpatch {

@@ -26,7 +26,7 @@ order = [ "default" ]
     center = [ "workspaces", "spacer_15", "active_window" ]
     contact_shadow = false
     enabled = true
-    end = [ "notifications", "network", "bluetooth", "brightness", "battery", "power_profile" ]
+    end = [ "notifications", "network", "bluetooth", "brightness", "battery", "power_profile", "control-center" ]
     font_weight = 500
     layer = "top"
     margin_edge = 0
@@ -265,12 +265,14 @@ enabled = []
 
     [[plugins.source]]
     auto_update = false
+    enabled = true
     kind = "git"
     location = "https://github.com/noctalia-dev/community-plugins"
     name = "community"
 
     [[plugins.source]]
     auto_update = false
+    enabled = true
     kind = "git"
     location = "https://github.com/noctalia-dev/official-plugins"
     name = "official"
@@ -278,7 +280,7 @@ enabled = []
 [shell]
 app_icon_colorize = false
 avatar_path = ".face"
-clipboard_auto_paste = "auto"
+clipboard_auto_paste = "off"
 clipboard_confirm_clear_history = true
 clipboard_enabled = true
 clipboard_history_max_entries = 100
@@ -472,6 +474,11 @@ type = "bluetooth"
 [widget.clock]
 format = "{:%H:%M:%S, %a, %b %d}"
 type = "clock"
+
+[widget.control-center]
+custom_image = "/home/nathan/dotfiles/icons/nixos_snowflake_rewrite.svg"
+custom_image_colorize = true
+type = "control-center"
 
 [widget.cpu]
 show_label = false

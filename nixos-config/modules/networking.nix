@@ -24,7 +24,7 @@ in
     networkmanager = {
       enable = true;
       dns = "systemd-resolved";
-      wifi.powersave = false; # Increase internet speed
+      wifi.powersave = true;
     };
   };
 
