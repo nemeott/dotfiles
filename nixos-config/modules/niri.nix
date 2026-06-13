@@ -105,10 +105,16 @@
       "niri.service"
       "iio-niri.service"
     ];
+    requires = [ "iio-niri.service" ];
 
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.iio-niri}/bin/iio-niri msg lock-rotation true";
+      # Retry until socket is ready
+      Restart = "on-failure";
+      RestartSec = "1s";
+      StartLimitBurst = 10;
+      StartLimitIntervalSec = "30s";
     };
   };
 
