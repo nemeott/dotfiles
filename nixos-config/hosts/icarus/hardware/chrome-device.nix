@@ -1,4 +1,5 @@
 # https://github.com/dj1ch/nixos-chromebook
+# https://github.com/nemeott/nixos-chromebook
 { pkgs, ... }:
 
 let
@@ -10,7 +11,7 @@ let
       hash = "sha256-3TpzjmWuOn8+eIdj0BUQk2TeAU7BzPBi3FxAmZ3zkN8=";
     };
 
-    patches = [ ]; # TODO: Is it legal to clear the patches?
+    patches = [ ]; # TODO: Is it legal to clear the patches? (maybe since I only need my audio config?)
 
     installPhase = ''
       runHook preInstall
@@ -40,30 +41,27 @@ in
       options snd-intel-dspcfg dsp_driver=3
     '';
   };
+
   environment = {
     systemPackages = [ pkgs.sof-firmware ];
     sessionVariables.ALSA_CONFIG_UCM2 = "${cb-ucm-conf}/share/alsa/ucm2";
   };
 
-  # # AUDIO SETUP FOR > 24.05
-  # services.pipewire.wireplumber.configPackages = [
-  #   (pkgs.writeTextDir "share/wireplumber/main.lua.d/51-increase-headroom.lua" ''
-  #     rule = {
-  #       matches = {
-  #         {
-  #           { "node.name", "matches", "alsa_output.*" },
-  #         },
-  #       },
-  #       apply_properties = {
-  #         ["api.alsa.headroom"] = 4096,
-  #       },
-  #     }
+  services.pipewire.wireplumber.extraConfig = {
+    "51-alsa-headroom" = {
+      "monitor.alsa.rules" = [
+        {
+          matches = [ { "node.name" = "~alsa_output.*"; } ];
+          actions = {
+            update-props = {
+              "api.alsa.headroom" = 4096;
+            };
+          };
+        }
+      ];
+    };
+  };
 
-  #     table.insert(alsa_monitor.rules,rule)
-  #   '')
-  # ];
-
-  # system.replaceRuntimeDependencies = [
   system.replaceDependencies.replacements = [
     {
       original = pkgs.alsa-ucm-conf;

@@ -14,7 +14,6 @@
 
     # Custom hardware configuration for Chromebook (audio and keyboard)
     ./hardware/chrome-device.nix # Audio fix from GitHub
-    ./hardware/chrome-audio.nix # Custom audio config to manually set audio profile
     ./hardware/chrome-bluetooth.nix # Bluetooth fix to work around rfkill issue and noctalia toggle bug
     ./hardware/chrome-keyboard.nix # Custom keymap for Chromebook keyboard (with keyd)
 
@@ -23,6 +22,7 @@
     # ../../modules/cinnamon.nix
     ../../modules/niri.nix
     ../../modules/networking.nix
+    ../../modules/audio.nix
 
     # Packages
     ../../modules/packages/base.nix

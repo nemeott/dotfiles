@@ -26,7 +26,7 @@ order = [ "default" ]
     center = [ "workspaces", "spacer_15", "active_window" ]
     contact_shadow = false
     enabled = true
-    end = [ "notifications", "network", "bluetooth", "brightness", "battery", "power_profile", "control-center" ]
+    end = [ "network", "bluetooth", "output_volume", "brightness", "battery", "power_profile", "control-center" ]
     font_weight = 500
     layer = "top"
     margin_edge = 0
@@ -42,7 +42,7 @@ order = [ "default" ]
     reserve_space = true
     scale = 0.95
     shadow = true
-    start = [ "clock", "spacer_20", "cpu", "ram", "temp", "disk" ]
+    start = [ "clock", "spacer_20", "cpu", "ram", "temp", "disk", "spacer_15", "notifications" ]
     thickness = 27
     widget_spacing = 4
 
@@ -461,7 +461,7 @@ unit = "imperial"
 
 [widget.active_window]
 icon_size = 14.0
-max_length = 320
+max_length = 300
 min_length = 80.0
 show_empty_label = true
 title_scroll = "none"
