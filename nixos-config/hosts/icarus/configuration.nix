@@ -87,8 +87,11 @@
     })
   ];
 
-  # Disable access time updates for better performance (not usually needed by modern programs)
-  fileSystems."/".options = [ "noatime" ];
+  
+  fileSystems."/".options = [
+    "noatime" # Disable access time updates for better performance (not usually needed by modern programs)
+    "commit=15" # Flush ext4 journal to disk less to reduce write operations (5s default)
+  ];
 
   # Battery draw under load much less than default from my testing (https://github.com/nemeott/scx_benchmark)
   # Also helps latency for interactive workloads
@@ -129,6 +132,7 @@
       "i915.i915_enable_fbc=1" # Enable frame buffer compression (less memory bandwidth and lower power usage)
 
       "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
+      "rcutree.enable_rcu_lazy=1" # Enable lazy RCU for +5-10% battery savings (slightly worse disk I/O)
     ];
 
     zswap = {
