@@ -27,7 +27,13 @@ _:
       };
     };
     bat.enable = true; # cat
-    btop.enable = true; # top
+    # top
+    btop = {
+      enable = true;
+      settings = {
+        theme_background = false; # Don't draw background so we can use transparency
+      };
+    };
     eza.enable = true; # ls
     fzf.enable = true; # fuzzy finder
 

@@ -90,7 +90,7 @@
   # Disable access time updates for better performance (not usually needed by modern programs)
   fileSystems."/".options = [ "noatime" ];
 
-  # From my testing, the battery draw under load is much less than default
+  # Battery draw under load much less than default from my testing (https://github.com/nemeott/scx_benchmark)
   # Also helps latency for interactive workloads
   services.scx = {
     enable = true;

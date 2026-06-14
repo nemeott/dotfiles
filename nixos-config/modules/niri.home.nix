@@ -12,6 +12,7 @@
     foot = {
       enable = true;
       settings = {
+        colors-dark.alpha = 0.85;
         main = {
           term = "xterm-256color";
           font = "Monaspace Neon Frozen:size=8.5";
