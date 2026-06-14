@@ -21,7 +21,10 @@
         scrollback.lines = 100000; # Larger scrollback buffer (default is 10,000?)
       };
     };
-    fuzzel.enable = true; # Application launcher
+
+    # Application launcher
+    fuzzel.enable = true;
+
     # Screen locker
     swaylock = {
       enable = true;

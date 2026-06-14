@@ -14,6 +14,17 @@
     useTextGreeter = true;
   };
 
+  # Hide audio error messages on the greeter
+  systemd.services.suppress-console-noise = {
+    description = "Suppress kernel console messages during greeter";
+    wantedBy = [ "greetd.service" ];
+    before = [ "greetd.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.util-linux}/bin/dmesg --console-level 1";
+    };
+  };
+
   # Use swaylock for authentication
   security.pam.services.swaylock = { };
 
@@ -106,14 +117,15 @@
     ];
     requires = [ "iio-niri.service" ];
 
+    startLimitBurst = 10;
+    startLimitIntervalSec = 30;
+
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.iio-niri}/bin/iio-niri msg lock-rotation true";
       # Retry until socket is ready
       Restart = "on-failure";
       RestartSec = "1s";
-      StartLimitBurst = 10;
-      StartLimitIntervalSec = "30s";
     };
   };
 
