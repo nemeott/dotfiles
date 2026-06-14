@@ -312,6 +312,12 @@ layer-rule {
   }
 }
 
+// Allow transparency to work with Zed
+window-rule {
+    match app-id="^dev.zed.Zed$"
+    draw-border-with-background false
+}
+
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.

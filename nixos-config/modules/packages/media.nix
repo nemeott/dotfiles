@@ -15,6 +15,9 @@
     # Image viewer
     vipsdisp
 
+    # Color picker
+    wl-color-picker
+
     # Media editing
     gimp # Image editor
     aseprite # Pixel art editor and animator

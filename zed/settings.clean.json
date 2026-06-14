@@ -7,9 +7,21 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "auto_update_extensions": {
-    "comment": false,
+  // TODO: Organize
+  "which_key": {
+    "enabled": true,
   },
+  "session": {
+    "trust_all_worktrees": false,
+  },
+  "cli_default_open_behavior": "new_window",
+  "language_models": {
+    "ollama": {
+      "context_window": 4096,
+      "api_url": "http://127.0.0.1:11434",
+    },
+  },
+  "minimum_split_diff_width": 120.0,
   "buffer_font_family": "Monaspace Neon",
   "horizontal_scroll_margin": 6.0,
   "fast_scroll_sensitivity": 10.0,
@@ -21,10 +33,19 @@
   "drag_and_drop_selection": {
     "enabled": false,
   },
-  "diff_view_style": "unified",
+  "diff_view_style": "split",
   "format_on_save": "off",
   "remove_trailing_whitespace_on_save": false,
   "languages": {
+    "Rust": {
+      "document_folding_ranges": "on",
+      "indent_guides": {
+        "background_coloring": "disabled",
+      },
+      "inlay_hints": {
+        "enabled": true,
+      },
+    },
     "C++": {
       "inlay_hints": {
         "enabled": true,
@@ -55,6 +76,7 @@
           "lint": {
             "select": ["ALL"],
             "ignore": [
+              "INP001", // Allow implicit namespace package (don't make me make an __init__.py for everything)
               "T201", // Allow print statements
               "S101", // Allow asserts
               "EXE002", // Don't need shebangs for Python
@@ -81,12 +103,27 @@
         },
       },
     },
+    "rust-analyzer": {
+      "initialization_options": {
+        "cargo": {
+          "targetDir": true, // Use separate directory for r-a to avoid lock contention
+        },
+        "files": {
+          "exclude": [".git", "target", ".direnv", ".venv"],
+        },
+        "check": {
+          "command": "clippy",
+          "extraArgs": ["--no-deps"],
+        },
+      },
+    },
   },
   "show_edit_predictions": true,
   "agent_buffer_font_size": 12.0,
   "extend_comment_on_newline": false,
   "vertical_scroll_margin": 6.0,
   "file_finder": {
+    "skip_focus_for_active_in_search": true,
     "file_icons": true,
   },
   "toolbar": {
@@ -98,12 +135,17 @@
   "disable_ai": false,
   "when_closing_with_no_tabs": "platform_default",
   "collaboration_panel": {
+    "dock": "left",
     "button": false,
   },
   "debugger": {
     "dock": "bottom",
   },
   "git_panel": {
+    "fallback_branch_name": "main",
+    "button": false,
+    "dock": "right",
+    "show_count_badge": false,
     "scrollbar": {
       "show": "never",
     },
@@ -114,15 +156,18 @@
     "status_style": "label_color",
   },
   "outline_panel": {
+    "dock": "right",
     "button": true,
   },
   "project_panel": {
+    "auto_reveal_entries": true,
+    "dock": "right",
     "git_status_indicator": true,
     "diagnostic_badges": true,
     "scrollbar": {
       "show": "never",
     },
-    "button": true,
+    "button": false,
     "hide_gitignore": false,
     "sort_mode": "directories_first",
     "hide_hidden": false,
@@ -148,12 +193,13 @@
     "git_status": true,
   },
   "title_bar": {
+    "show_branch_name": true,
+    "show_branch_status_icon": true,
     "button_layout": "platform_default",
     "show_menus": false,
-    "show_branch_icon": true,
   },
   "search": {
-    "button": true,
+    "button": false,
   },
   "diagnostics": {
     "button": true,
@@ -182,7 +228,6 @@
   "buffer_line_height": {
     "custom": 1.45,
   },
-  "icon_theme": "Material Icon Theme",
   "git": {
     "hunk_style": "staged_hollow",
     "enable_diff": true,
@@ -193,9 +238,11 @@
   "ui_font_family": ".SystemUIFont",
   "auto_update": false,
   "terminal": {
+    "max_scroll_history_lines": 20000,
+    "font_family": "Monaspace Neon",
     "copy_on_select": true,
     "font_size": 12.0,
-    "button": true,
+    "button": false,
     "cursor_shape": "bar",
   },
   "telemetry": {
@@ -208,8 +255,75 @@
     "provider": "copilot",
   },
   "agent": {
+    "show_turn_stats": true,
+    "profiles": {
+      "write": {
+        "name": "Write",
+        "tools": {
+          "copy_path": true,
+          "create_directory": true,
+          "delete_path": true,
+          "diagnostics": true,
+          "edit_file": true,
+          "fetch": true,
+          "list_directory": true,
+          "project_notifications": false,
+          "move_path": true,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "restore_file_from_disk": true,
+          "save_file": true,
+          "open": true,
+          "grep": true,
+          "spawn_agent": true,
+          "terminal": true,
+          "thinking": true,
+          "update_plan": true,
+          "search_web": true,
+        },
+        "enable_all_context_servers": true,
+        "context_servers": {
+          "nixos": {
+            "tools": {
+              "nix": true,
+            },
+          },
+        },
+      },
+      "ask": {
+        "name": "Ask",
+        "tools": {
+          "diagnostics": true,
+          "fetch": true,
+          "list_directory": true,
+          "project_notifications": false,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "open": true,
+          "grep": true,
+          "spawn_agent": true,
+          "thinking": true,
+          "update_plan": true,
+          "search_web": true,
+        },
+        "enable_all_context_servers": false,
+        "context_servers": {
+          "nixos": {
+            "tools": {
+              "nix_versions": true,
+              "nix": true,
+            },
+          },
+        },
+      },
+    },
     "tool_permissions": {
       "tools": {
+        "mcp:nixos:nix": {
+          "default": "allow",
+        },
         "terminal": {
           "always_allow": [
             {
@@ -234,56 +348,53 @@
     },
     "inline_assistant_model": {
       "provider": "copilot_chat",
-      "model": "gpt-4.1",
+      "model": "gpt-5-mini",
       "enable_thinking": false,
     },
     "single_file_review": true,
     "favorite_models": [
       {
         "provider": "copilot_chat",
-        "model": "gpt-4.1",
-        "enable_thinking": false,
+        "model": "gpt-5-mini",
+        "enable_thinking": true,
+        "effort": "high"
       },
       {
         "provider": "copilot_chat",
         "model": "gemini-3.1-pro-preview",
-        "enable_thinking": false,
-      },
-      {
-        "provider": "copilot_chat",
-        "model": "gpt-5.3-codex",
-        "enable_thinking": false,
-      },
-      {
-        "provider": "copilot_chat",
-        "model": "gpt-5-mini",
-        "enable_thinking": false,
-      },
-      {
-        "provider": "copilot_chat",
-        "model": "gemini-3-flash-preview",
-        "enable_thinking": false,
+        "enable_thinking": true,
+        "effort": "high"
       },
       {
         "provider": "copilot_chat",
         "model": "gpt-5.4-mini",
         "enable_thinking": false,
-      },
+        "effort": "medium"
+      }
     ],
-    "default_profile": "write",
+    "default_profile": "ask",
     "default_width": 320.0,
     "default_model": {
-      "effort": "high",
+      "effort": "medium",
       "enable_thinking": false,
       "provider": "copilot_chat",
-      "model": "gpt-5-mini",
+      "model": "gpt-5.4-mini",
     },
-    "dock": "right",
+    "dock": "left",
     "use_modifier_to_send": false,
     "enable_feedback": false,
     "enabled": true,
     "button": true,
     "model_parameters": [],
+  },
+  "context_servers": {
+    "nixos": {
+      "enabled": true,
+      "remote": false,
+      "command": "nix",
+      "args": ["run", "github:utensils/mcp-nixos", "--"],
+      "env": {},
+    },
   },
   "preview_tabs": {
     "enabled": false,
@@ -294,6 +405,7 @@
   "autosave": "on_focus_change",
   "ui_font_size": 13.0,
   "buffer_font_size": 10.0,
+  "icon_theme": "Material Icon Theme",
   "theme": "Catppuccin Mocha",
   // Fix comment colors
   "theme_overrides": {
@@ -320,6 +432,18 @@
         },
       },
     },
+  },
+  "experimental.theme_overrides": {
+    // Mocha base color with transparency
+    "background": "#1e1e2e80",
+    "editor.background": "#1e1e2e80",
+    // "title_bar.background": "#1e1e2e99",
+    "tab_bar.background": "#1e1e2e99",
+    "toolbar.background": "#1e1e2e99",
+    // "status_bar.background": "#1e1e2e99",
+    // "editor.gutter.background": "#1e1e2e99",
+    // "panel.background": "#1e1e2e20",
+    "background.appearance": "transparent",
   },
   "buffer_font_features": {
     "calt": true, // Texture healing

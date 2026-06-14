@@ -327,4 +327,27 @@
       "ctrl-shift-c": "collab_panel::ToggleFocus",
     },
   },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-alt-shift-o": "project_symbols::Toggle"
+    }
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "ctrl-t": "project_symbols::Toggle"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-alt-o": [
+        "projects::OpenRecent",
+        {
+          "create_new_window": true
+        }
+      ]
+    }
+  }
 ]
