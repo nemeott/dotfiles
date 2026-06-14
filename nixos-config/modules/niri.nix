@@ -94,7 +94,6 @@
 
     # Media
     nemo-with-extensions # File manager
-    pix # Image viewer
   ];
 
   systemd.user.services.disable-rotation-on-startup = {

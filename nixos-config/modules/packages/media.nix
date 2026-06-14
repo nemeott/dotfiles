@@ -12,6 +12,9 @@
     ffmpeg
     imagemagick
 
+    # Image viewer
+    vipsdisp
+
     # Media editing
     gimp # Image editor
     aseprite # Pixel art editor and animator
