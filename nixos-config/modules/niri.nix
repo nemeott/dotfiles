@@ -25,8 +25,21 @@
     };
   };
 
-  # Use swaylock for authentication
-  security.pam.services.swaylock = { };
+  security.pam = {
+    # Use swaylock for authentication
+    services.swaylock = { };
+
+    # Allow any program run by users group to request real-time priority
+    # Improves latency and reduces stuttering (https://wiki.nixos.org/wiki/Sway)
+    loginLimits = [
+      {
+        domain = "@users";
+        item = "rtprio";
+        type = "-";
+        value = 1;
+      }
+    ];
+  };
 
   # Tiling window manager
   programs.niri.enable = true;
@@ -123,6 +136,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.iio-niri}/bin/iio-niri msg lock-rotation true";
+
       # Retry until socket is ready
       Restart = "on-failure";
       RestartSec = "1s";
