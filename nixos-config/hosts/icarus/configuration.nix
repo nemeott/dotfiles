@@ -85,15 +85,29 @@
           ;
       };
     })
+
+    inputs.nix-cachyos-kernel.overlays.pinned
   ];
 
   # Disable access time updates for better performance (not usually needed by modern programs)
   fileSystems."/".options = [ "noatime" ];
 
+  services.scx = {
+    enable = true;
+    scheduler = "scx_cake";
+    
+  };
+
+  nix.settings = {
+    substituters = [ "https://attic.xuyh0120.win/lantian" ];
+    trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
+  };
+
   # Bootloader
   boot = {
     # Check for latest kernel versions here: https://www.kernel.org/
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_18; # TODO: Update to 7.0 when stable (7.1 comes out)
+    # kernelPackages = pkgs.linuxKernel.packages.linux_6_18; # TODO: 7_0 has battery life bug for me
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-lts-lto-x86_64-v4;
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;

@@ -10,6 +10,8 @@
     # Need to use special url to use hardware modules not implemented for flakes: might not be needed anymore?
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
