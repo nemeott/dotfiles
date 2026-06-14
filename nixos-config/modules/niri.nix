@@ -1,29 +1,37 @@
 { inputs, pkgs, ... }:
 
 {
-  imports = [ inputs.catppuccin.nixosModules.catppuccin ];
+  imports = [
+    inputs.catppuccin.nixosModules.catppuccin
+    inputs.noctalia-greeter.nixosModules.default
+  ];
 
   # Name the generation
   system.nixos.tags = [ "Niri" ];
 
-  services.greetd = {
+  programs.noctalia-greeter = {
     enable = true;
-    settings = {
-      default_session.command = "${pkgs.tuigreet}/bin/tuigreet -t --time-format '%F %H:%M:%S' --remember --remember-user-session --asterisks --asterisks-char '*' --window-padding 2";
-    };
-    useTextGreeter = true;
+    package = inputs.noctalia-greeter.packages.${pkgs.stdenv.hostPlatform.system}.default;
   };
 
-  # Hide audio error messages on the greeter
-  systemd.services.suppress-console-noise = {
-    description = "Suppress kernel console messages during greeter";
-    wantedBy = [ "greetd.service" ];
-    before = [ "greetd.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.util-linux}/bin/dmesg --console-level 1";
-    };
-  };
+  # services.greetd = {
+  #   enable = true;
+  #   settings = {
+  #     default_session.command = "${pkgs.tuigreet}/bin/tuigreet -t --time-format '%F %H:%M:%S' --remember --remember-user-session --asterisks --asterisks-char '*' --window-padding 2";
+  #   };
+  #   useTextGreeter = true;
+  # };
+
+  # # Hide audio error messages on the greeter
+  # systemd.services.suppress-console-noise = {
+  #   description = "Suppress kernel console messages during greeter";
+  #   wantedBy = [ "greetd.service" ];
+  #   before = [ "greetd.service" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     ExecStart = "${pkgs.util-linux}/bin/dmesg --console-level 1";
+  #   };
+  # };
 
   # Use swaylock for authentication
   security.pam.services.swaylock = { };

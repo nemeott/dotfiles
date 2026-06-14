@@ -322,6 +322,26 @@
         "type": "github"
       }
     },
+    "noctalia-greeter": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781445028,
+        "narHash": "sha256-nl5m/hzheg7FaJbji3pRjDpi/dQvCh9wHqFwe/Vxq0k=",
+        "owner": "noctalia-dev",
+        "repo": "noctalia-greeter",
+        "rev": "6221797c8411ad135133a9f362b9a62ea2aef5a9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "noctalia-greeter",
+        "type": "github"
+      }
+    },
     "nod-catppuccin": {
       "inputs": {
         "nixpkgs": [
@@ -393,6 +413,7 @@
         "nixpkgs-my-yazi-plugins": "nixpkgs-my-yazi-plugins",
         "nixpkgs-surge": "nixpkgs-surge",
         "noctalia": "noctalia",
+        "noctalia-greeter": "noctalia-greeter",
         "nod-catppuccin": "nod-catppuccin",
         "nod-home-manager": "nod-home-manager",
         "nod-nixpkgs": "nod-nixpkgs",
