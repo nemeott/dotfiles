@@ -205,9 +205,6 @@
     # Enable thermald for thermal management (Intel CPUs)
     thermald.enable = true;
 
-    # Enable system76-scheduler for better IO scheduling
-    system76-scheduler.enable = true;
-
     # Enable removable media management
     devmon.enable = true; # Automatic device mounting
     gvfs.enable = true; # Userspace virtual filesystem
@@ -219,7 +216,6 @@
     enable = true;
     powerOnBoot = false; # Don't power on Bluetooth by default
   };
-  services.blueman.enable = true;
 
   # Set time zone and select internationalisation properties
   time.timeZone = "America/New_York";

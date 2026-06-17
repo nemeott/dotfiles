@@ -454,6 +454,7 @@ binds {
     Mod+N { spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"; }
     Mod+W { spawn "noctalia" "msg" "panel-toggle" "control-center" "network"; }
     Mod+S { spawn "noctalia" "msg" "panel-toggle" "control-center" "system"; }
+    Mod+Shift+S { spawn "noctalia" "msg" "panel-toggle" "control-center" "screen-time"; }
     Mod+B { spawn "noctalia" "msg" "panel-toggle" "control-center" "bluetooth"; }
     Mod+Shift+B { spawn "noctalia" "msg" "power-cycle"; }
 
