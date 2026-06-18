@@ -33,6 +33,7 @@
     ../../modules/packages/media.nix
     # ../../modules/packages/messaging.nix # Not using Signal currently
     ../../modules/packages/productivity.nix
+    ../../modules/packages/zen-browser.nix
   ];
 
   hardware = {
