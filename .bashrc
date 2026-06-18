@@ -292,10 +292,10 @@ if _command_exists zeditor; then
     export SUDO_EDITOR="zeditor --wait" # (sudoedit)
     export GIT_EDITOR="zeditor --wait"
 else
-    EDITOR="${EDITOR:-nano}"
-    VISUAL="${VISUAL:-$EDITOR}"
-    SUDO_EDITOR="${SUDO_EDITOR:-$EDITOR}"
-    GIT_EDITOR="${GIT_EDITOR:-$EDITOR}"
+    export EDITOR="${EDITOR:-nano}"
+    export VISUAL="${VISUAL:-$EDITOR}"
+    export SUDO_EDITOR="${SUDO_EDITOR:-$EDITOR}"
+    export GIT_EDITOR="${GIT_EDITOR:-$EDITOR}"
 fi
 
 #
