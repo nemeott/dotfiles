@@ -54,7 +54,7 @@ in
           matches = [ { "node.name" = "~alsa_output.*"; } ];
           actions = {
             update-props = {
-              "api.alsa.headroom" = 4096;
+              "api.alsa.headroom" = 8192;
             };
           };
         }

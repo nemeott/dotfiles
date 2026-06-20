@@ -217,6 +217,7 @@
     enable = true;
     powerOnBoot = false; # Don't power on Bluetooth by default
   };
+  services.blueman.enable = true;
 
   # Set time zone and select internationalisation properties
   time.timeZone = "America/New_York";
