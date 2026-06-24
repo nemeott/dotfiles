@@ -64,16 +64,18 @@ in
     python313Packages.numpy
     gnumake
 
-    xauth # For X11 ssh forwarding (school)
-
-    # Nix dev
+    # Nix Development
     nixpkgs-review
     nurl
     nix-init
     nix-update
-    
-    # LLMs
-    ollama
+
+    # Local LLMs
+    llama-cpp
+    # llama-cpp-vulkan
+    jan
+
+    xauth # For X11 ssh forwarding (school)
   ];
   # Set the xauth location for ssh correctly (nixos uses unusual file system)
   programs.ssh.setXAuthLocation = true;

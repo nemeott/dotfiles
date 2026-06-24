@@ -35,7 +35,7 @@ in
       # TODO: Use zed-editor-fhs for better extension compatibility?
       package = pkgs.writeShellScriptBin "zeditor" ''
         systemctl --user start zed-coclean.timer >/dev/null 2>&1 &
-        exec ${pkgs.zed-editor}/bin/zeditor "$@"
+        exec ${pkgs.zed-editor-fhs}/bin/zeditor "$@"
       '';
       # exec ${zed-no-title}/bin/zeditor "$@"
 
