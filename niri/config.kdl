@@ -478,10 +478,6 @@ binds {
     XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
     XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
 
-    // Example brightness key mappings for brightnessctl. (Default is +-10%)
-    // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
-    // but you need to manually put each argument in separate "" quotes.
-
     // Uses custom script (increment by 5%, lowest is 1%, with option to press again to go to 0%)
     XF86MonBrightnessUp allow-when-locked=true { spawn "brightness_up"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightness_down"; }

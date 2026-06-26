@@ -45,7 +45,10 @@
   programs.niri.enable = true;
 
   # Allow screen rotation with Niri
-  services.iio-niri.enable = true;
+  services.iio-niri = {
+    enable = true;
+    extraArgs = [ "--lock-rotation" ];
+  };
 
   # Interface with X11 apps
   programs.xwayland.enable = true;
@@ -119,29 +122,6 @@
     # Media
     nemo-with-extensions # File manager
   ];
-
-  systemd.user.services.disable-rotation-on-startup = {
-    description = "Disable iio-niri screen rotation on startup";
-
-    wantedBy = [ "niri.service" ];
-    after = [
-      "niri.service"
-      "iio-niri.service"
-    ];
-    requires = [ "iio-niri.service" ];
-
-    startLimitBurst = 10;
-    startLimitIntervalSec = 30;
-
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.iio-niri}/bin/iio-niri msg lock-rotation true";
-
-      # Retry until socket is ready
-      Restart = "on-failure";
-      RestartSec = "1s";
-    };
-  };
 
   # environment.variables = {
   #   XDG_ICON_THEME = "Papirus";
