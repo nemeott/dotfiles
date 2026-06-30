@@ -237,19 +237,19 @@
             };
 
             github-repositories = {
-              name = "GitHub";
+              name = "GitHub Repositories";
               urls = [ { template = "https://github.com/search?q={searchTerms}&type=repositories"; } ];
               icon = "https://github.com/favicon.ico";
               definedAliases = [ "@ghr" ];
             };
             github-code = {
-              name = "GitHub";
+              name = "GitHub Code";
               urls = [ { template = "https://github.com/search?q={searchTerms}&type=code"; } ];
               icon = "https://github.com/favicon.ico";
               definedAliases = [ "@ghc" ];
             };
             github-nix-code = {
-              name = "GitHub";
+              name = "GitHub Nix Code";
               urls = [ { template = "https://github.com/search?q=path%3A.nix+{searchTerms}&type=code"; } ];
               icon = nixSnowflakeIcon;
               definedAliases = [ "@ghnc" ];

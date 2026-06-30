@@ -62,7 +62,7 @@
     tty.enable = false; # Save my eyes on boot
   };
 
-  # Enable cache for Noctalia
+  # Enable binary cache for Noctalia
   nix.settings = {
     extra-substituters = [ "https://noctalia.cachix.org" ];
     extra-trusted-public-keys = [

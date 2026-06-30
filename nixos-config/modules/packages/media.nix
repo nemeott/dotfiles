@@ -20,7 +20,7 @@
 
     # Media editing
     gimp # Image editor
-    aseprite # Pixel art editor and animator
+    # aseprite # Pixel art editor and animator
     audacity # Audio editor
 
     # Music

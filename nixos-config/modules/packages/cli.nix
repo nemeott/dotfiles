@@ -12,8 +12,24 @@ let
     nix shell "''${@/#/nixpkgs#}"
   '';
 
+  nsh = pkgs.writeShellScriptBin "nsh" ''
+    nix shell "''${@/#/.#}"
+  '';
+
+  nbn = pkgs.writeShellScriptBin "nbn" ''
+    nix build "''${@/#/nixpkgs#}"
+  '';
+
+  nbh = pkgs.writeShellScriptBin "nbh" ''
+    nix build "''${@/#/.#}"
+  '';
+
   nrn = pkgs.writeShellScriptBin "nrn" ''
     nix run nixpkgs#"$@"
+  '';
+
+  nrh = pkgs.writeShellScriptBin "nrh" ''
+    nix run .#"$@"
   '';
 
   # Custom script to display Zswap stats
@@ -74,10 +90,14 @@ in
     # Aliases and scripts
     #
 
-    nsn # nix shell nixpkgs# expand helper
-    nrn # nix run nixpkgs# expand helper
-
     nrdiff # Custom diff command to rebuild and get the diff
+
+    nsn # nix shell nixpkgs# expand helper
+    nsh # nix shell .# expand helper (nix shell here)
+    nbn # nix build nixpkgs# expand helper
+    nbh # nix build .# expand helper (nix build here)
+    nrn # nix run nixpkgs# expand helper
+    nrh # nix run .# expand helper (nix run here)
 
     zswap-stats # Custom shell script to display zswap stats
 
@@ -103,6 +123,7 @@ in
     nrbe = "nixos-rebuild boot --flake ${flake-path} && exit";
 
     nd = "nix develop";
+    ns = "nix shell";
     nb = "nix build";
 
     # Get option from main flake
@@ -116,6 +137,6 @@ in
     # nsp = "nix-shell -p";
 
     # nb = "nix-build";
-    nba = "nix-build -A";
+    # nba = "nix-build -A";
   };
 }

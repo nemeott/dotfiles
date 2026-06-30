@@ -19,8 +19,8 @@
     catppuccin.url = "github:catppuccin/nix";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
-    noctalia.url = "github:noctalia-dev/noctalia";
-    noctalia.inputs.nixpkgs.follows = "nixpkgs";
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
+    # noctalia.inputs.nixpkgs.follows = "nixpkgs";  # Disable for binary cache
 
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
