@@ -19,11 +19,13 @@ order = [ "default" ]
     border = "outline"
     border_width = 0.0
     capsule = true
+    capsule_border = "outline"
     capsule_fill = "primary"
     capsule_group = []
     capsule_opacity = 0.1
     capsule_padding = 6.0
-    center = [ "workspaces", "spacer_15", "active_window" ]
+    capsule_thickness = 0.75
+    center = [ "active_window" ]
     contact_shadow = false
     enabled = true
     end = [ "network", "bluetooth", "output_volume", "brightness", "battery", "power_profile", "control-center" ]
@@ -31,6 +33,7 @@ order = [ "default" ]
     layer = "top"
     margin_edge = 0
     margin_ends = 0
+    margin_opposite_edge = 0
     padding = 4
     panel_overlap = 1
     position = "top"
@@ -42,9 +45,17 @@ order = [ "default" ]
     reserve_space = true
     scale = 0.95
     shadow = true
+    show_on_workspace_switch = true
     start = [ "clock", "spacer_20", "cpu", "ram", "temp", "disk", "spacer_15", "notifications" ]
     thickness = 27
     widget_spacing = 4
+
+        [bar.default.dead_zone]
+        command = ""
+        middle_command = ""
+        right_command = ""
+        scroll_down_command = ""
+        scroll_up_command = ""
 
 [battery]
 warning_threshold = 20
@@ -52,14 +63,18 @@ warning_threshold = 20
 [brightness]
 enable_ddcutil = false
 ignore_mmids = []
+minimum_brightness = 0.0
+sync_all_monitors = false
 
 [calendar]
 enabled = false
 refresh_minutes = 15
 
 [control_center]
+hidden_tabs = []
 sidebar = "full"
 sidebar_section = "compact"
+width = 800
 
     [[control_center.shortcuts]]
     type = "wifi"
@@ -150,27 +165,29 @@ pre_action_fade_seconds = 0.0
     command = ""
     enabled = false
     resume_command = ""
-    timeout = 600
+    timeout = 600.0
 
     [idle.behavior.lock-and-suspend]
     action = "lock_and_suspend"
     command = ""
     enabled = false
     resume_command = ""
-    timeout = 900
+    timeout = 900.0
 
     [idle.behavior.screen-off]
     action = "screen_off"
     command = ""
     enabled = false
     resume_command = ""
-    timeout = 660
+    timeout = 660.0
 
 [keybinds]
 cancel = [ "Escape" ]
 down = [ "Down" ]
 left = [ "Left" ]
 right = [ "Right" ]
+tab_next = [ "Tab" ]
+tab_previous = [ "Shift+ISO_Left_Tab" ]
 up = [ "Up" ]
 validate = [ "Return", "KP_Enter" ]
 
@@ -181,9 +198,11 @@ sunrise = ""
 sunset = ""
 
 [lockscreen]
+allow_empty_password = false
 blur_intensity = 0.5
 blurred_desktop = false
 enabled = true
+fingerprint = false
 monitors = []
 tint_intensity = 0.3
 wallpaper = ""
@@ -223,10 +242,7 @@ temperature_day = 6500
 temperature_night = 3200
 
 [notification]
-allowed_urgencies = []
 background_opacity = 0.4
-blacklist = []
-blacklist_allow_critical = true
 collapse_on_dismiss = true
 enable_daemon = true
 layer = "top"
@@ -245,6 +261,7 @@ offset_x = 20
 offset_y = 8
 orientation = "horizontal"
 position = "top_center"
+position_vertical = "top_center"
 scale = 1.0
 
     [osd.kinds]
@@ -254,7 +271,10 @@ scale = 1.0
     dnd = true
     keyboard_layout = true
     lock_keys = true
+    media = true
+    nightlight = true
     power_profile = true
+    privacy = true
     volume = true
     volume_input = true
     volume_output = true
@@ -290,6 +310,7 @@ date_format = "%A, %x"
 disable_mipmaps = false
 font_family = "Noto Sans"
 launch_apps_as_systemd_services = false
+launch_apps_custom_command = ""
 middle_click_opens_widget_settings = true
 niri_overview_type_to_launch_enabled = false
 offline_mode = false
@@ -308,33 +329,55 @@ ui_scale = 1.0
     enabled = true
     speed = 2.0
 
+    [shell.greeter_sync]
+    auto_sync = false
+
+    [shell.launcher]
+    app_grid = false
+    categories = true
+    compact = false
+    session_search = false
+    show_icons = true
+    sort_by_usage = true
+
+        [shell.launcher.dmenu]
+
     [shell.mpris]
     blacklist = []
 
     [shell.panel]
     borders = true
-    clipboard_placement = "centered"
+    clipboard_placement = "floating"
+    clipboard_position = "center"
     control_center_placement = "attached"
-    launcher_categories = true
-    launcher_compact = false
-    launcher_placement = "centered"
-    launcher_session_search = false
-    launcher_show_icons = true
+    control_center_position = "auto"
+    floating_offset = 8
+    launcher_placement = "floating"
+    launcher_position = "center"
     open_near_click_clipboard = false
     open_near_click_control_center = false
     open_near_click_launcher = false
     open_near_click_session = false
     open_near_click_wallpaper = false
+    polkit_placement = "floating"
+    polkit_position = "center"
     session_placement = "attached"
+    session_position = "auto"
     shadow = true
     transparency_mode = "glass"
     wallpaper_placement = "attached"
+    wallpaper_position = "auto"
+
+    [shell.privacy]
+    cam_filter_regex = ""
+    mic_filter_regex = ""
 
     [shell.screen_corners]
     enabled = false
     size = 32
 
     [shell.screenshot]
+    confirm_region = false
     copy_to_clipboard = true
     directory = "/home/nathan/Pictures/Screenshots"
     filename_pattern = ""
@@ -343,9 +386,12 @@ ui_scale = 1.0
     pipe_to_command = false
     save_to_file = true
 
+    [shell.session.power]
+
     [[shell.session.actions]]
     action = "lock"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -355,6 +401,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "logout"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -364,6 +411,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "lock_and_suspend"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -373,6 +421,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "reboot"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -382,6 +431,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "shutdown"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -396,6 +446,7 @@ ui_scale = 1.0
 cpu_poll_seconds = 2.0
 cpu_temp_activity_threshold = 60.0
 cpu_temp_critical_threshold = 85.0
+cpu_temp_sensor_path = ""
 cpu_usage_activity_threshold = 50.0
 cpu_usage_critical_threshold = 90.0
 disk_pct_activity_threshold = 80.0
@@ -461,7 +512,7 @@ unit = "imperial"
 
 [widget.active_window]
 icon_size = 14.0
-max_length = 300
+max_length = 320
 min_length = 80.0
 show_empty_label = true
 title_scroll = "none"
