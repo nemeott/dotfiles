@@ -88,7 +88,6 @@
     })
   ];
 
-  
   fileSystems."/".options = [
     "noatime" # Disable access time updates for better performance (not usually needed by modern programs)
     "commit=15" # Flush ext4 journal to disk less to reduce write operations (5s default)
@@ -275,6 +274,20 @@
 
       keep-derivations = true; # Default
       keep-outputs = true; # Keep build outputs for fast package rebuilds
+    };
+
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 7d"; # Keep previous week
+      dates = "weekly"; # Monday at midnight
+      persistent = true; # Do after reboot if system was shut down early
+      randomizedDelaySec = "300"; # Random delay to avoid running at the same time as other services (5 min)
+    };
+    optimise = {
+      automatic = true;
+      dates = "weekly"; # Monday at midnight
+      persistent = true; # Do after reboot if system was shut down early
+      randomizedDelaySec = "300"; # Random delay to avoid running at the same time as other services (5 min)
     };
   };
 
