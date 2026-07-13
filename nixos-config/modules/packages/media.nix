@@ -20,6 +20,7 @@
 
     # Media editing
     gimp # Image editor
+    siril # Astrophotographic image processing tool
     # aseprite # Pixel art editor and animator
     audacity # Audio editor
 

@@ -115,15 +115,7 @@
       '';
     })
 
-    bibata-cursors
-    papirus-icon-theme # TODO: Actually use these
-    adwaita-icon-theme
-
     # Media
     nemo-with-extensions # File manager
   ];
-
-  # environment.variables = {
-  #   XDG_ICON_THEME = "Papirus";
-  # };
 }

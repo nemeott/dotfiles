@@ -1,11 +1,36 @@
-{
-  inputs,
-  lib,
-  pkgs,
-  ...
-}:
+{ lib, pkgs, ... }:
 
 {
+  gtk =
+    let
+      catppuccin-theme = {
+        name = "catppuccin-mocha-mauve-standard";
+        package = pkgs.catppuccin-gtk.override {
+          variant = "mocha";
+          accents = [ "mauve" ];
+        };
+      };
+    in
+    {
+      enable = true;
+
+      theme = catppuccin-theme;
+      gtk3.theme = catppuccin-theme;
+      gtk4.theme = catppuccin-theme;
+      iconTheme = lib.mkForce {
+        name = "Papirus-Dark";
+        package = pkgs.papirus-icon-theme;
+      };
+      # Already applied in Niri
+      cursorTheme = {
+        name = "Bibata-Modern-Classic";
+        package = pkgs.bibata-cursors;
+      };
+      gtk3.extraConfig = {
+        gtk-application-prefer-dark-theme = true;
+      };
+    };
+
   # Enabled here for automatic Catppuccin integration
   programs = {
     # Terminal emulator
