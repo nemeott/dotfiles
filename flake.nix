@@ -34,6 +34,7 @@
     nixpkgs-surge.url = "github:ErmitaVulpe/nixpkgs/init/surge-downloader";
     nixpkgs-models.url = "github:nemeott/nixpkgs/add-models-package";
     nixpkgs-my-yazi-plugins.url = "github:nemeott/nixpkgs/my-yazi-plugins";
+    nixpkgs-onlyoffice.url = "github:emmanuelrosa/nixpkgs/onlyoffice-update";
 
     #
     # Android (nix-on-droid)
@@ -75,10 +76,30 @@
 
       mkPkgs =
         nixpkgsInput: system:
+        {
+          extraOverlays ? [ ],
+        }:
         import nixpkgsInput {
           inherit system;
           config.allowUnfree = true;
-          overlays = mkOverlays system;
+          overlays = mkOverlays system ++ extraOverlays;
+        };
+
+      onlyofficeOverlay = final: prev: {
+        onlyoffice-desktopeditors =
+          inputs.nixpkgs-onlyoffice.legacyPackages.${final.system}.onlyoffice-desktopeditors;
+      };
+      # Strip meta.doc to avoid build failures
+      onlyofficeModule =
+        args@{ pkgs, ... }:
+        let
+          mod = import "${inputs.nixpkgs-onlyoffice}/nixos/modules/programs/onlyoffice.nix" (
+            args // { inherit pkgs; }
+          );
+        in
+        mod
+        // {
+          meta = removeAttrs mod.meta [ "doc" ];
         };
 
       mkHomeManagerModule =
@@ -108,11 +129,12 @@
           specialArgs = { inherit inputs username; };
           modules = [
             {
-              nixpkgs.pkgs = mkPkgs nixpkgs "x86_64-linux";
+              nixpkgs.pkgs = mkPkgs nixpkgs "x86_64-linux" { extraOverlays = [ onlyofficeOverlay ]; };
 
               # Use flake version of nixpkgs for nix shells and others
               nix.registry.nixpkgs.flake = nixpkgs;
             }
+            onlyofficeModule
 
             ./nixos-config/hosts/icarus/configuration.nix
 
@@ -121,8 +143,9 @@
           ];
         };
       };
+
       nixOnDroidConfigurations.daedalus = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-        pkgs = mkPkgs nod-nixpkgs "aarch64-linux";
+        pkgs = mkPkgs nod-nixpkgs "aarch64-linux" { };
         extraSpecialArgs = { inherit inputs username; };
         modules = [
           # Use flake version of nixpkgs for nix shells and others
