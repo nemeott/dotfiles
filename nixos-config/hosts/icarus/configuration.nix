@@ -170,8 +170,11 @@
   services.udev.extraRules = ''
     # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
     ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
-    # TODO: Non responsive input devices?
-    SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
+
+    ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
+
+    # Disable auto for Wireless Logitech mouse (fixes lag after not using mouse for a while)
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c548", TEST=="power/control", ATTR{power/control}="on"
 
     # Use powersave on battery and performance when plugged-in
     SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver"
