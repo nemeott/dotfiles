@@ -290,6 +290,14 @@
         {
           on = [
             "g"
+            "A"
+          ];
+          run = "cd ~/Pictures/Astrophotography";
+          desc = "Go ~/Pictures/Astrophotography";
+        }
+        {
+          on = [
+            "g"
             "V"
           ];
           run = "cd ~/Videos";
