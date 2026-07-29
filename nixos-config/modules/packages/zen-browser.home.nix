@@ -8,7 +8,6 @@
 {
   imports = [ inputs.zen-browser.homeModules.beta ];
 
-
   programs.zen-browser = {
     enable = true;
     policies = {
@@ -209,7 +208,15 @@
                 { template = "https://github.com/NixOS/nixpkgs/pulls?q=is%3Apr+is%3Aopen+{searchTerms}"; }
               ];
               icon = "https://github.com/favicon.ico";
-              definedAliases = [ "@npp" ];
+              definedAliases = [ "@npr" ];
+            };
+            nix-packages-github-issues = {
+              name = "Nixpkgs Issues";
+              urls = [
+                { template = "https://github.com/NixOS/nixpkgs/issues?q=is%3Aissue+is%3Aopen+{searchTerms}"; }
+              ];
+              icon = "https://github.com/favicon.ico";
+              definedAliases = [ "@npi" ];
             };
             nixos-options = {
               name = "NixOS Options";
