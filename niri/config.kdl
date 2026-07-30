@@ -427,10 +427,8 @@ binds {
 
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
-    Mod+Shift+Slash { show-hotkey-overlay; }
-    
-    // TODO: Wait for V5 support
-    // Mod+Shift+Slash { spawn-sh "noctalia msg plugin keybind-cheatsheet toggle"; }
+    // Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Shift+Slash { spawn "noctalia" "msg" "panel-toggle" "kenn/keybind-cheatsheet:cheatsheet"; }
 
     // Open apps
     Mod+T hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
