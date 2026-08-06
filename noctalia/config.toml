@@ -325,11 +325,12 @@ scale = 1.0
     volume_output = true
     wifi = true
 
-[plugin_settings]
+[plugin_settings."kenn/keybind-cheatsheet"]
+compositor = "niri"
 
 [plugins]
 auto_update = true
-enabled = []
+enabled = [ "kenn/keybind-cheatsheet" ]
 
     [[plugins.source]]
     enabled = true
@@ -370,6 +371,7 @@ popup_borders = true
 popup_shadows = true
 screen_time_enabled = true
 settings_show_advanced = true
+settings_window_translucent = false
 setup_wizard_enabled = true
 shared_gl_context = true
 show_location = true
@@ -382,6 +384,8 @@ time_format = "{:%H:%M:%S}"
 
     [shell.greeter_sync]
     auto_sync = false
+
+    [shell.keyboard_layout]
 
     [shell.launcher]
     app_grid = false
@@ -606,7 +610,7 @@ custom_image_colorize = true
 type = "control-center"
 
 [widget.cpu]
-show_label = false
+show_value = false
 stat = "cpu_usage"
 type = "sysmon"
 
@@ -615,7 +619,7 @@ format = "{:%a, %b %d}"
 type = "clock"
 
 [widget.disk]
-show_label = false
+show_value = false
 stat = "disk_used_pct"
 type = "sysmon"
 
@@ -660,7 +664,7 @@ device = "output"
 type = "volume"
 
 [widget.ram]
-show_label = false
+show_value = false
 stat = "ram_pct"
 type = "sysmon"
 
@@ -681,7 +685,7 @@ stat = "ram_pct"
 type = "sysmon"
 
 [widget.temp]
-show_label = false
+show_value = false
 stat = "cpu_temp"
 type = "sysmon"
 
