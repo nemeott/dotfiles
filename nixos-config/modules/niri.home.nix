@@ -31,6 +31,11 @@
       };
     };
 
+  # HM keeps complaining about gtk.css.backup file being replaced even though the contents are the same
+  home.activation.removeGtkBackup = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+    rm -f "$HOME/.config/gtk-4.0/gtk.css.backup"
+  '';
+
   # Enabled here for automatic Catppuccin integration
   programs = {
     # Terminal emulator
