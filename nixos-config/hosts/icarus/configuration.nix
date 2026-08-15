@@ -31,7 +31,7 @@
     ../../modules/packages/firefox.nix
     ../../modules/packages/fonts.nix
     ../../modules/packages/media.nix
-    # ../../modules/packages/messaging.nix # Not using Signal currently
+    ../../modules/packages/messaging.nix
     ../../modules/packages/productivity.nix
     ../../modules/packages/zen-browser.nix
   ];

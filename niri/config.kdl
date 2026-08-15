@@ -441,6 +441,7 @@ binds {
     Mod+K hotkey-overlay-title="Okular" { spawn "okular"; }
     
     // Noctalia settings
+    Mod+Shift+N { spawn "noctalia" "msg" "bar-toggle" "eDP-1"; }
     Mod+Comma { spawn "noctalia" "msg" "settings-toggle"; }
     Mod+Period { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
 

@@ -40,7 +40,7 @@ let
         }
     '';
   };
-  
+
   graxpert-wrapped = pkgs.writeShellScriptBin "graxpert" ''
     exec ${pkgs.steam-run}/bin/steam-run /home/nathan/Pictures/Astrophotography/Siril/GraXpert-linux-3.1.0rc2/GraXpert "$@"
   '';
@@ -65,6 +65,8 @@ in
 
     # Media editing
     gimp-with-plugins # Image editor (gmic, lighting, resynthisizer)
+    inkscape # Vector graphics editor
+    # inkscape-with-extensions
     siril-wrapped # Astrophotographic image processing tool
     graxpert-wrapped # Astrophotograpic background remover
     # python313Packages.tkinter # For GraXpert

@@ -2,6 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    signal-desktop
+    # signal-desktop
+    thunderbird
   ];
 }
