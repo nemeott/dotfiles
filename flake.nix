@@ -31,7 +31,6 @@
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixpkgs-surge.url = "github:ErmitaVulpe/nixpkgs/init/surge-downloader";
     nixpkgs-models.url = "github:nemeott/nixpkgs/add-models-package";
     nixpkgs-my-yazi-plugins.url = "github:nemeott/nixpkgs/my-yazi-plugins";
     nixpkgs-onlyoffice.url = "github:emmanuelrosa/nixpkgs/onlyoffice-update";
@@ -68,7 +67,6 @@
 
       mkOverlays = system: [
         (final: prev: {
-          surge-downloader = inputs.nixpkgs-surge.legacyPackages.${system}.surge-downloader;
           models = inputs.nixpkgs-models.legacyPackages.${system}.models;
           yaziPlugins = inputs.nixpkgs-my-yazi-plugins.legacyPackages.${system}.yaziPlugins;
         })
