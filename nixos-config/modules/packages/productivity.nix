@@ -5,7 +5,7 @@
 
   environment.systemPackages = with pkgs; [
     obsidian
-    libreoffice-fresh
+    libreoffice-stable
     # onlyoffice-desktopeditors
     kdePackages.okular # PDF viewer
     pdfsam-basic # Edit PDFs

@@ -18,7 +18,7 @@
     serviceConfig = {
       Type = "oneshot";
       # Pray noctalia shell is fully started after this
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 7";
       ExecStart = "${pkgs.bluez}/bin/bluetoothctl power off";
     };
   };

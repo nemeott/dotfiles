@@ -56,6 +56,7 @@ in
 
     # Editors
     vscode-with-tools
+    arduino-ide
 
     # Languages/compilers
     gcc

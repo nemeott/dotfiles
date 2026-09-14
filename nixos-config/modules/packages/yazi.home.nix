@@ -8,7 +8,7 @@
       ouch
       imagemagick # Used by convert plugin
       # duckdb # TODO
-      libreoffice-fresh # Used by office plugin
+      libreoffice-stable # Used by office plugin
       poppler-utils # Used by office plugin (pdftoppm)
       jdupes # Used by dupes plugin
     ];
