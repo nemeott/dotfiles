@@ -26,6 +26,8 @@ in
       dns = "systemd-resolved";
       wifi.powersave = true;
     };
+
+    firewall.allowedTCPPorts = [ 3000 ];
   };
 
   # TODO: Convert to systemd service to allow toggling DNS?

@@ -64,6 +64,7 @@ in
     python313
     python313Packages.numpy
     gnumake
+    arduino-cli
 
     # Nix Development
     nixpkgs-review

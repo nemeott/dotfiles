@@ -167,40 +167,21 @@
     };
   };
 
-  services.udev.extraRules = ''
-    # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
-    ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
-
-    ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
-
-    # Disable auto for Wireless Logitech mouse (fixes lag after not using mouse for a while)
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c548", TEST=="power/control", ATTR{power/control}="on"
-
-    # Use powersave on battery and performance when plugged-in
-    SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver"
-    SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance"
-
-    # Let users in video group change backlight without sudo
-    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/intel_backlight/bl_power"
-    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/intel_backlight/bl_power"
-  '';
-
-  # Systemd service to set power profile on boot based on AC state (udev rules don't work on boot)
-  systemd.services.power-profile-on-boot = {
-    description = "Set power profile based on AC state";
-    wantedBy = [ "power-profiles-daemon.service" ];
-    after = [ "power-profiles-daemon.service" ];
-    script = ''
-      if [ "$(cat /sys/class/power_supply/AC/online)" = "1" ]; then
-        ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance
-      else
-        ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver
-      fi
-    '';
-    serviceConfig.Type = "oneshot";
-  };
-
   services = {
+    udev.extraRules = ''
+      # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
+      ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
+
+      ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
+
+      # Disable auto for Wireless Logitech mouse (fixes lag after not using mouse for a while)
+      ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c548", TEST=="power/control", ATTR{power/control}="on"
+
+      # Let users in video group change backlight without sudo
+      ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/intel_backlight/bl_power"
+      ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/intel_backlight/bl_power"
+    '';
+
     # Enable power-profiles-daemon for power management
     power-profiles-daemon.enable = true;
     upower.enable = true; # Let Noctalia-shell detect battery status

@@ -8,6 +8,6 @@
     libreoffice-stable
     # onlyoffice-desktopeditors
     kdePackages.okular # PDF viewer
-    pdfsam-basic # Edit PDFs
+    # pdfsam-basic # Edit PDFs
   ];
 }
