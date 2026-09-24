@@ -77,7 +77,9 @@ in
     # llama-cpp-vulkan
     jan
 
-    xauth # For X11 ssh forwarding (school)
+    # School
+    xauth # For X11 ssh forwarding
+    glab
   ];
   # Set the xauth location for ssh correctly (nixos uses unusual file system)
   programs.ssh.setXAuthLocation = true;

@@ -73,10 +73,12 @@ in
     gpufetch
     neo # Why not
 
+    # TODO: Make tui.nix
     # Tools
     gdu # Fast disk usage analyzer
     powertop # Power utils
     systemctl-tui # Terminal-based systemctl interface
+    glab-tui # Terminal interface for GitHub and GitLab
     bitwise # Terminal-based bit manipulator and calculator
     tlrc # Simple man pages
     navi # Interactive cheatsheet tool (Get tldr man pages with: `navi repo add tao3k/navi-tldr-pages`)
