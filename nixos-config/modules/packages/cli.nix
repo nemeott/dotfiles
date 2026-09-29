@@ -32,9 +32,6 @@ let
     nix run .#"$@"
   '';
 
-  # Custom script to display Zswap stats
-  zswap-stats = pkgs.writeShellScriptBin "zswap" (builtins.readFile ../../../scripts/zswap.sh);
-
   # Custom script to create a .envrc file with "use nix" for direnv
   direnv-init = pkgs.writeShellScriptBin "direnv-init" ''
     if [ -e .envrc ]; then
@@ -100,8 +97,6 @@ in
     nbh # nix build .# expand helper (nix build here)
     nrn # nix run nixpkgs# expand helper
     nrh # nix run .# expand helper (nix run here)
-
-    zswap-stats # Custom shell script to display zswap stats
 
     direnv-init # Custom shell script to create a .envrc file with "use nix" for direnv
   ];

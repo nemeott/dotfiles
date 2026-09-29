@@ -23,6 +23,8 @@
     ../../modules/niri.nix
     ../../modules/networking.nix
     ../../modules/audio.nix
+    # ../../modules/zswap.nix
+    ../../modules/zram.nix
 
     # Packages
     ../../modules/packages/base.nix
@@ -114,9 +116,6 @@
       # Power-saving dirty writeback settings (less disk writes)
       "vm.dirty_writeback_centisecs" = 5000;
       "vm.dirty_expire_centisecs" = 5000;
-
-      # Zswap settings
-      "vm.swappiness" = 30;
     };
 
     kernelParams = [
@@ -134,18 +133,6 @@
       "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
       "rcutree.enable_rcu_lazy=1" # Enable lazy RCU for +5-10% battery savings (slightly worse disk I/O)
     ];
-
-    zswap = {
-      enable = true;
-
-      # Useful compression algorithm resource: https://morotti.github.io/lzbench-web/
-      # lz4 much faster (especially decode) than lzo with slightly worse compression
-      compressor = "lz4"; # Compression algorithm (default is zstd; kernel default is lzo)
-      zpool = "zsmalloc"; # Default
-      maxPoolPercent = 40; # Maximum percentage of RAM zswap is allowed to use (25% default)
-      acceptThresholdPercent = 80; # Percentage at which zswap starts accepting pages after pool full (default 90%)
-      shrinkerEnabled = true; # Enable zswap shrinker to reclaim memory when under pressure (default true)
-    };
   };
 
   systemd = {
@@ -169,9 +156,8 @@
 
   services = {
     udev.extraRules = ''
-      # Udev rule to set PCI power control to auto for better power management (used with power-profiles-daemon)
+      # Udev rule to set PCI and USB power control to auto for better power management (used with power-profiles-daemon)
       ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
-
       ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
 
       # Disable auto for Wireless Logitech mouse (fixes lag after not using mouse for a while)
@@ -204,21 +190,6 @@
 
   # Set time zone and select internationalisation properties
   time.timeZone = "America/New_York";
-
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    extraLocaleSettings = {
-      LC_ADDRESS = "en_US.UTF-8";
-      LC_IDENTIFICATION = "en_US.UTF-8";
-      LC_MEASUREMENT = "en_US.UTF-8";
-      LC_MONETARY = "en_US.UTF-8";
-      LC_NAME = "en_US.UTF-8";
-      LC_NUMERIC = "en_US.UTF-8";
-      LC_PAPER = "en_US.UTF-8";
-      LC_TELEPHONE = "en_US.UTF-8";
-      LC_TIME = "en_US.UTF-8";
-    };
-  };
 
   # # Enable CUPS to print documents.
   # services.printing.enable = true;

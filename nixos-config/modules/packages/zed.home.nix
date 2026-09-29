@@ -62,6 +62,10 @@ in
         # Shell
         shellcheck
         shfmt
+
+        # C++
+        clang
+        clang-tools
       ];
     };
   };
