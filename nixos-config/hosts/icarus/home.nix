@@ -44,6 +44,7 @@ in
 
       # Clang format
       ".clang-format".source = "${dotfilesPath}/.clang-format";
+      ".clang-tidy".source = "${dotfilesPath}/.clang-tidy";
     };
   };
 }

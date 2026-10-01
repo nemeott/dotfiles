@@ -35,8 +35,9 @@ in
       ".bash_aliases".source = "${dotfilesPath}/.bash_aliases";
       ".profile".source = ./.profile;
 
-      # Clang format
+      # Clang format and tidy
       ".clang-format".source = "${dotfilesPath}/.clang-format";
+      ".clang-tidy".source = "${dotfilesPath}/.clang-tidy";
     };
   };
 
