@@ -20,7 +20,8 @@
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
-    # noctalia.inputs.nixpkgs.follows = "nixpkgs";  # Disable for binary cache
+    # FIXME: Comment out again when issue fixed: https://github.com/noctalia-dev/noctalia/issues/4668
+    noctalia.inputs.nixpkgs.follows = "nixpkgs"; # Disable for binary cache
 
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
@@ -34,7 +35,7 @@
     onlyoffice4nixos.url = "github:emmanuelrosa/onlyoffice4nixos";
 
     nixpkgs-models.url = "github:nemeott/nixpkgs/add-models-package";
-    nixpkgs-my-yazi-plugins.url = "github:nemeott/nixpkgs/my-yazi-plugins";
+    # nixpkgs-my-yazi-plugins.url = "github:nemeott/nixpkgs/my-yazi-plugins";
 
     #
     # Android (nix-on-droid)
@@ -69,7 +70,7 @@
       mkOverlays = system: [
         (final: prev: {
           models = inputs.nixpkgs-models.legacyPackages.${system}.models;
-          yaziPlugins = inputs.nixpkgs-my-yazi-plugins.legacyPackages.${system}.yaziPlugins;
+          # yaziPlugins = inputs.nixpkgs-my-yazi-plugins.legacyPackages.${system}.yaziPlugins;
         })
       ];
 

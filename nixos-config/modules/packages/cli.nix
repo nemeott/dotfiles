@@ -61,6 +61,7 @@ in
     fd # find
     # fzf # fuzzy finder (cli.home.nix)
     ripgrep # grep
+    trash-cli # rm
 
     bash-completion # Needed by atuin
 

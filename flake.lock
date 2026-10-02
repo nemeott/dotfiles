@@ -232,22 +232,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-my-yazi-plugins": {
-      "locked": {
-        "lastModified": 1790875608,
-        "narHash": "sha256-rvcdtm4w6OeYwo6PtcKzpu8Id7bnE6MqorRIeJWSdik=",
-        "owner": "nemeott",
-        "repo": "nixpkgs",
-        "rev": "614321707ef8bdeefe8ffcb013a0d960a92d4cd6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nemeott",
-        "ref": "my-yazi-plugins",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1790822859,
@@ -265,19 +249,6 @@
       }
     },
     "nixpkgs_3": {
-      "locked": {
-        "lastModified": 1790323409,
-        "narHash": "sha256-m4DGo58Fza5ImOegtWOeE18nhpSO1IGzsVA6Lpsb4zw=",
-        "rev": "e94cb152ed51bd6e24eb4a41f1460252beb52cd2",
-        "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1079315.e94cb152ed51/nixexprs.tar.zst"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"
-      }
-    },
-    "nixpkgs_4": {
       "locked": {
         "lastModified": 1780222723,
         "narHash": "sha256-slX6L7WT3xMfxcWkoBPG0heFoAKuLYgiPkfmX0AgHqQ=",
@@ -333,7 +304,9 @@
     },
     "noctalia": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1790857470,
@@ -411,7 +384,7 @@
     "onlyoffice4nixos": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "nixpkgs": "nixpkgs_4"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1789742251,
@@ -437,7 +410,6 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-models": "nixpkgs-models",
-        "nixpkgs-my-yazi-plugins": "nixpkgs-my-yazi-plugins",
         "noctalia": "noctalia",
         "nod-catppuccin": "nod-catppuccin",
         "nod-home-manager": "nod-home-manager",

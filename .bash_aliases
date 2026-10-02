@@ -291,6 +291,7 @@ _run_if_exists eza "eza alias" alias tree='eza --tree'
 _run_if_exists fd "fd alias" alias find='fd'
 _run_if_exists fzf "fzf alias" alias fzfp='fzf --preview "bat --color=always --style=numbers {}"'
 _run_if_exists rg "rg alias" alias grep='rg'
+_run_if_exists trash-put "trash-put alias" alias rm='trash-put -i'
 
 _run_if_exists powertop "ptop alias" alias ptop='powertop'
 _run_if_exists fastfetch "ff alias" alias ff='fastfetch'

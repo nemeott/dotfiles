@@ -8,7 +8,7 @@
       ouch
       imagemagick # Used by convert plugin
       # duckdb # TODO
-      libreoffice-stable # Used by office plugin
+      # libreoffice-stable # Used by office plugin
       poppler-utils # Used by office plugin (pdftoppm)
       jdupes # Used by dupes plugin
     ];
@@ -27,7 +27,7 @@
         convert # Convert images to PNG, JPG, and WepP using ImageMagick
         ouch # Preview more archive types (like tar.zst)
         # duckdb # TODO
-        office
+        # office
         dupes # Detect and remove duplicates
         toggle-pane # Toggle the file finder or the preview pane
         # mediainfo # TODO
@@ -127,51 +127,51 @@
             run = "ouch --archive-icon=''"; # No icons
           }
 
-          # Office plugin
-          {
-            mime = "application/openxmlformats-officedocument.*";
-            run = "office";
-          }
-          {
-            mime = "application/oasis.opendocument.*";
-            run = "office";
-          }
-          {
-            mime = "application/ms-*";
-            run = "office";
-          }
-          {
-            mime = "application/msword";
-            run = "office";
-          }
-          {
-            url = "*.docx";
-            run = "office";
-          }
+        #   # Office plugin
+        #   {
+        #     mime = "application/openxmlformats-officedocument.*";
+        #     run = "office";
+        #   }
+        #   {
+        #     mime = "application/oasis.opendocument.*";
+        #     run = "office";
+        #   }
+        #   {
+        #     mime = "application/ms-*";
+        #     run = "office";
+        #   }
+        #   {
+        #     mime = "application/msword";
+        #     run = "office";
+        #   }
+        #   {
+        #     url = "*.docx";
+        #     run = "office";
+        #   }
         ];
-        prepend_preloaders = [
-          # Office plugin
-          {
-            mime = "application/openxmlformats-officedocument.*";
-            run = "office";
-          }
-          {
-            mime = "application/oasis.opendocument.*";
-            run = "office";
-          }
-          {
-            mime = "application/ms-*";
-            run = "office";
-          }
-          {
-            mime = "application/msword";
-            run = "office";
-          }
-          {
-            url = "*.docx";
-            run = "office";
-          }
-        ];
+        # prepend_preloaders = [
+        #   # Office plugin
+        #   {
+        #     mime = "application/openxmlformats-officedocument.*";
+        #     run = "office";
+        #   }
+        #   {
+        #     mime = "application/oasis.opendocument.*";
+        #     run = "office";
+        #   }
+        #   {
+        #     mime = "application/ms-*";
+        #     run = "office";
+        #   }
+        #   {
+        #     mime = "application/msword";
+        #     run = "office";
+        #   }
+        #   {
+        #     url = "*.docx";
+        #     run = "office";
+        #   }
+        # ];
       };
     };
     keymap = {
