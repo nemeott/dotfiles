@@ -1,4 +1,9 @@
-{ pkgs, username, ... }:
+{
+  inputs,
+  pkgs,
+  username,
+  ...
+}:
 
 let
   flake-path = "path:/home/${username}/dotfiles";
@@ -8,12 +13,12 @@ let
     nixos-rebuild build --flake ${flake-path} "$@" && nvd diff /run/current-system result
   '';
 
-  nsn = pkgs.writeShellScriptBin "nsn" ''
-    nix shell "''${@/#/nixpkgs#}"
+  nrn = pkgs.writeShellScriptBin "nrn" ''
+    nix run nixpkgs#"$@"
   '';
 
-  nsh = pkgs.writeShellScriptBin "nsh" ''
-    nix shell "''${@/#/.#}"
+  nrh = pkgs.writeShellScriptBin "nrh" ''
+    nix run .#"$@"
   '';
 
   nbn = pkgs.writeShellScriptBin "nbn" ''
@@ -24,12 +29,12 @@ let
     nix build "''${@/#/.#}"
   '';
 
-  nrn = pkgs.writeShellScriptBin "nrn" ''
-    nix run nixpkgs#"$@"
+  nsn = pkgs.writeShellScriptBin "nsn" ''
+    nix shell "''${@/#/nixpkgs#}"
   '';
 
-  nrh = pkgs.writeShellScriptBin "nrh" ''
-    nix run .#"$@"
+  nsh = pkgs.writeShellScriptBin "nsh" ''
+    nix shell "''${@/#/.#}"
   '';
 
   # Custom script to create a .envrc file with "use nix" for direnv
@@ -82,6 +87,7 @@ in
     navi # Interactive cheatsheet tool (Get tldr man pages with: `navi repo add tao3k/navi-tldr-pages`)
     nvd # NixOS version diff
     nixmate # Useful semi-nix related multitool
+    inputs.multiverse.packages.${pkgs.system}.mvs # nixpkgs multiverse (old packages)
     surge-downloader # Fast TUI downlaod manager
     llmfit # TUI for finding good LLMs for local use
     models # TUI for displaying and comparing LLM providers and benchmarks
@@ -103,6 +109,7 @@ in
   ];
 
   environment.shellAliases = {
+    # Nix aliases
     nfu = "nix flake update";
 
     nrt = "nixos-rebuild test --flake ${flake-path}";
@@ -126,6 +133,10 @@ in
 
     # Get option from main flake
     no = "nixos-option --flake ${flake-path}";
+
+    # Multiverse aliases
+    mrn = "mvs run";
+    msh = "mvs shell";
 
     #
     # Old aliases for nix-shell and nix-build

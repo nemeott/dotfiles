@@ -58,6 +58,26 @@
         "type": "github"
       }
     },
+    "helium-flake": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791121350,
+        "narHash": "sha256-vYGn78EPCbb01BkzyV/9HA/ll0YgOsG+sQa3RpJ5mhU=",
+        "owner": "oxcl",
+        "repo": "nix-flake-helium-browser",
+        "rev": "730e14328f617876510a4ec0724a4a34560fe4ae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxcl",
+        "repo": "nix-flake-helium-browser",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -75,6 +95,21 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "multiverse": {
+      "locked": {
+        "lastModified": 1791482513,
+        "narHash": "sha256-+sFUL2Vykuk65yb5MxL2H3ykoJnZF9274v9GncvgO8s=",
+        "owner": "fzakaria",
+        "repo": "nixpkgs-multiverse",
+        "rev": "555490a0100ea823302d845e07a75c493e07c973",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fzakaria",
+        "repo": "nixpkgs-multiverse",
         "type": "github"
       }
     },
@@ -250,6 +285,19 @@
     },
     "nixpkgs_3": {
       "locked": {
+        "lastModified": 1790822859,
+        "narHash": "sha256-VBA0QerzzmL+4wxgtwiCdiLwLpJg2/9xOxhgO3BRJQA=",
+        "rev": "c59305bab2065cfecc4944690d9eedbb56f3a9fa",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1083223.c59305bab206/nixexprs.tar.zst?lastModified=1790822859&rev=c59305bab2065cfecc4944690d9eedbb56f3a9fa"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
         "lastModified": 1780222723,
         "narHash": "sha256-slX6L7WT3xMfxcWkoBPG0heFoAKuLYgiPkfmX0AgHqQ=",
         "owner": "emmanuelrosa",
@@ -304,9 +352,7 @@
     },
     "noctalia": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1790857470,
@@ -384,7 +430,7 @@
     "onlyoffice4nixos": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1789742251,
@@ -404,7 +450,9 @@
       "inputs": {
         "catppuccin": "catppuccin",
         "firefox-addons": "firefox-addons",
+        "helium-flake": "helium-flake",
         "home-manager": "home-manager",
+        "multiverse": "multiverse",
         "nix-index-database": "nix-index-database",
         "nix-on-droid": "nix-on-droid",
         "nixos-hardware": "nixos-hardware",

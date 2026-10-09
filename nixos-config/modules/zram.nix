@@ -15,6 +15,6 @@ _:
     enable = true;
 
     algorithm = "lz4"; # Compression algorithm; lz4 is lightweight and fast (default is zstd)
-    memoryPercent = 50;
+    memoryPercent = 35;
   };
 }

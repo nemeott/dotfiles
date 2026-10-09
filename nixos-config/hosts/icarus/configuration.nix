@@ -32,6 +32,7 @@
     ../../modules/packages/dev.nix
     ../../modules/packages/firefox.nix
     ../../modules/packages/fonts.nix
+    ../../modules/packages/helium-browser.nix
     ../../modules/packages/media.nix
     ../../modules/packages/messaging.nix
     ../../modules/packages/productivity.nix

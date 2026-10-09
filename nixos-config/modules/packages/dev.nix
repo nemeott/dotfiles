@@ -77,6 +77,8 @@ in
     # llama-cpp-vulkan
     jan
 
+    localsend # Cross-platform file sharing over WiFi
+
     # School
     xauth # For X11 ssh forwarding
     glab

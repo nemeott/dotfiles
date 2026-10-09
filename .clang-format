@@ -3,4 +3,5 @@ BasedOnStyle: Google
 ColumnLimit: 120
 IndentWidth: 4
 SpacesBeforeTrailingComments: 1
+IndentPPDirectives: BeforeHash
 ---

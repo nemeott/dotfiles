@@ -12,7 +12,14 @@ Checks: >
     mpi-*,
     openmp-*,
     performance-*,
-    readability-*
+    readability-*,
+
+    -google-readability-todo,
+    -modernize-use-trailing-return-type,
+
+CheckOptions:
+  - key: misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
+    value: 'true'
 
 FormatStyle: file
 

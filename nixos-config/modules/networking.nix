@@ -27,7 +27,15 @@ in
       wifi.powersave = true;
     };
 
-    firewall.allowedTCPPorts = [ 3000 ];
+    firewall = {
+      enable = true;
+
+      allowedTCPPorts = [
+        # 3000 # npx serve
+        53317 # LocalSend
+      ];
+      allowedUDPPorts = [ 53317 ]; # LocalSend
+    };
   };
 
   # TODO: Convert to systemd service to allow toggling DNS?

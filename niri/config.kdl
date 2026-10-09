@@ -435,10 +435,12 @@ binds {
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Mod+Z hotkey-overlay-title="Zed" { spawn "zeditor"; }
     Mod+Shift+Z hotkey-overlay-title="Zen Browser" { spawn "zen-beta"; }
+    Mod+H hotkey-overlay-title="Helium" { spawn "helium"; }
     Mod+Shift+O hotkey-overlay-title="Obsidian" { spawn "obsidian"; }
     Mod+M hotkey-overlay-title="MuseScore 3.7 Evolution" { spawn "mscore-evo"; }
     Mod+Shift+M hotkey-overlay-title="MuseScore 4" { spawn "mscore"; }
     Mod+K hotkey-overlay-title="Okular" { spawn "okular"; }
+    Mod+Shift+V hotkey-overlay-title="VLC" { spawn "vlc"; }
     
     // Noctalia settings
     Mod+Shift+N { spawn "noctalia" "msg" "bar-toggle" "eDP-1"; }

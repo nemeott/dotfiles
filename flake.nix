@@ -20,8 +20,7 @@
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
-    # FIXME: Comment out again when issue fixed: https://github.com/noctalia-dev/noctalia/issues/4668
-    noctalia.inputs.nixpkgs.follows = "nixpkgs"; # Disable for binary cache
+    # noctalia.inputs.nixpkgs.follows = "nixpkgs"; # Disable for binary cache
 
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
@@ -32,7 +31,12 @@
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
 
+    helium-flake.url = "github:oxcl/nix-flake-helium-browser";
+    helium-flake.inputs.nixpkgs.follows = "nixpkgs";
+
     onlyoffice4nixos.url = "github:emmanuelrosa/onlyoffice4nixos";
+
+    multiverse.url = "github:fzakaria/nixpkgs-multiverse";
 
     nixpkgs-models.url = "github:nemeott/nixpkgs/add-models-package";
     # nixpkgs-my-yazi-plugins.url = "github:nemeott/nixpkgs/my-yazi-plugins";
