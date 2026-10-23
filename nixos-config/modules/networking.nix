@@ -33,6 +33,7 @@ in
       allowedTCPPorts = [
         # 3000 # npx serve
         53317 # LocalSend
+        5037 # ADB
       ];
       allowedUDPPorts = [ 53317 ]; # LocalSend
     };

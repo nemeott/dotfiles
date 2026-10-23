@@ -23,7 +23,7 @@
         mount
         recycle-bin
         rsync
-        compress
+        # compress # Not working (fix below)
         convert # Convert images to PNG, JPG, and WepP using ImageMagick
         ouch # Preview more archive types (like tar.zst)
         # duckdb # TODO
@@ -33,6 +33,14 @@
         # mediainfo # TODO
         lazygit
         ;
+
+      # Upstream still calls the removed `fs.unique_name()` (replaced with `fs.unique_file()`)
+      compress = pkgs.yaziPlugins.compress.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace main.lua \
+            --replace-fail 'fs.unique_name(' 'fs.unique_file('
+        '';
+      });
     };
     initLua = ''
       -- Git plugin configuration
@@ -127,27 +135,27 @@
             run = "ouch --archive-icon=''"; # No icons
           }
 
-        #   # Office plugin
-        #   {
-        #     mime = "application/openxmlformats-officedocument.*";
-        #     run = "office";
-        #   }
-        #   {
-        #     mime = "application/oasis.opendocument.*";
-        #     run = "office";
-        #   }
-        #   {
-        #     mime = "application/ms-*";
-        #     run = "office";
-        #   }
-        #   {
-        #     mime = "application/msword";
-        #     run = "office";
-        #   }
-        #   {
-        #     url = "*.docx";
-        #     run = "office";
-        #   }
+          #   # Office plugin
+          #   {
+          #     mime = "application/openxmlformats-officedocument.*";
+          #     run = "office";
+          #   }
+          #   {
+          #     mime = "application/oasis.opendocument.*";
+          #     run = "office";
+          #   }
+          #   {
+          #     mime = "application/ms-*";
+          #     run = "office";
+          #   }
+          #   {
+          #     mime = "application/msword";
+          #     run = "office";
+          #   }
+          #   {
+          #     url = "*.docx";
+          #     run = "office";
+          #   }
         ];
         # prepend_preloaders = [
         #   # Office plugin

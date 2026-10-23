@@ -23,8 +23,8 @@
     ../../modules/niri.nix
     ../../modules/networking.nix
     ../../modules/audio.nix
-    # ../../modules/zswap.nix
-    ../../modules/zram.nix
+    ../../modules/zswap.nix
+    # ../../modules/zram.nix
 
     # Packages
     ../../modules/packages/base.nix
