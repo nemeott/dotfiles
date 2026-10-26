@@ -19,7 +19,7 @@ in
 
     ../../modules/packages/cli.home.nix
     ../../modules/packages/dev.home.nix
-    ../../modules/packages/yazi.home.nix
+    ../../modules/packages/yazi.home.nix # FIXME: Remove close-and-restore-tab and convert
   ];
 
   catppuccin.enable = true;
