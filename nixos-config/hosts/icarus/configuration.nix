@@ -23,8 +23,8 @@
     ../../modules/niri.nix
     ../../modules/networking.nix
     ../../modules/audio.nix
-    ../../modules/zswap.nix
-    # ../../modules/zram.nix
+    # ../../modules/zswap.nix
+    ../../modules/zram.nix
 
     # Packages
     ../../modules/packages/base.nix
@@ -100,14 +100,20 @@
   # Also helps latency for interactive workloads
   services.scx = {
     enable = true;
-    scheduler = "scx_cake";
-    extraArgs = [ "--profile battery" ];
+    # scheduler = "scx_bpfland";
+    # scheduler = "scx_cake";
+    scheduler = "scx_cosmos";
+    # extraArgs = [ "-m powersave" ]; # TODO: Switch when battery mode switches
+    # scheduler = "scx_lavd";
+    # extraArgs = [ "--autopower" ];
+    # scheduler = "scx_pandemonium";
   };
 
   # Bootloader
   boot = {
     # Check for latest kernel versions here: https://www.kernel.org/
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_18; # TODO: 7_0 has battery life bug for me
+    # kernelPackages = pkgs.linuxKernel.packages.linux_6_18; # LTS
+    kernelPackages = pkgs.linuxKernel.packages.linux_7_3;
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -149,13 +155,14 @@
     };
 
     # Hibernate after 60 minutes of suspend
-    sleep.settings.Sleep = {
-      SuspendThenHibernate = true;
-      HibernateDelaySec = "1h";
-    };
+    sleep.settings.Sleep.HibernateDelaySec = "1h";
   };
-
   services = {
+    logind.settings.Login = {
+      HandleLidSwitch = "suspend-then-hibernate";
+      HandleLidSwitchExternalPower = "suspend-then-hibernate";
+    };
+
     udev.extraRules = ''
       # Udev rule to set PCI and USB power control to auto for better power management (used with power-profiles-daemon)
       ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
@@ -180,6 +187,9 @@
     devmon.enable = true; # Automatic device mounting
     gvfs.enable = true; # Userspace virtual filesystem
     udisks2.enable = true; # Disk management
+
+    # More efficient time synchronization for laptops
+    chrony.enable = true;
   };
 
   # Bluetooth

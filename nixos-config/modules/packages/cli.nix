@@ -8,7 +8,7 @@
 let
   flake-path = "path:/home/${username}/dotfiles";
 
-  # Scripts to get the diff of the current system with a new build
+  # Script to get the diff of the current system with a new build
   nrdiff = pkgs.writeShellScriptBin "nrdiff" ''
     nixos-rebuild build --flake ${flake-path} "$@" && nvd diff /run/current-system result
   '';
@@ -87,10 +87,12 @@ in
     navi # Interactive cheatsheet tool (Get tldr man pages with: `navi repo add tao3k/navi-tldr-pages`)
     nvd # NixOS version diff
     nixmate # Useful semi-nix related multitool
-    inputs.multiverse.packages.${pkgs.system}.mvs # nixpkgs multiverse (old packages)
+    inputs.multiverse.packages.${pkgs.stdenv.hostPlatform.system}.mvs # nixpkgs multiverse (old packages)
     surge-downloader # Fast TUI downlaod manager
     llmfit # TUI for finding good LLMs for local use
-    models # TUI for displaying and comparing LLM providers and benchmarks
+    (inputs.models.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+      doCheck = false;
+    })) # TUI for displaying and comparing LLM providers and benchmarks
 
     #
     # Aliases and scripts

@@ -34,11 +34,14 @@
     helium-flake.url = "github:oxcl/nix-flake-helium-browser";
     helium-flake.inputs.nixpkgs.follows = "nixpkgs";
 
-    onlyoffice4nixos.url = "github:emmanuelrosa/onlyoffice4nixos";
-
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
 
-    nixpkgs-models.url = "github:nemeott/nixpkgs/add-models-package";
+    models.url = "github:reyamira/models";
+
+    # statix.url = "git+https://git.peppe.rs/languages/statix";
+    # statix.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixpkgs-cake-autorate.url = "github:nemeott/nixpkgs/cake-autorate-init";
     # nixpkgs-my-yazi-plugins.url = "github:nemeott/nixpkgs/my-yazi-plugins";
 
     #
@@ -73,7 +76,7 @@
 
       mkOverlays = system: [
         (final: prev: {
-          models = inputs.nixpkgs-models.legacyPackages.${system}.models;
+          cake-autorate = inputs.nixpkgs-cake-autorate.legacyPackages.${system}.cake-autorate;
           # yaziPlugins = inputs.nixpkgs-my-yazi-plugins.legacyPackages.${system}.yaziPlugins;
         })
       ];

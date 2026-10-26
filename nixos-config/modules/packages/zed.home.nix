@@ -1,30 +1,16 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 
-let
-  # # TODO: Chromebook can't compile this without OOM
-  # zed-no-title = pkgs.zed-editor.overrideAttrs (old: {
-  #   patches = (old.patches or [ ]) ++ [
-  #     (pkgs.fetchpatch {
-  #       url = "https://github.com/zed-industries/zed/compare/main...rudiodeo:zed:main.patch";
-  #       hash = "sha256-R3+S9gECZwOW7ylsLFxL3Q7Lz20U8UGn7sKTn6tLBbo=";
-  #     })
-  #   ];
-  # });
-
-  statix = pkgs.statix.overrideAttrs (_o: rec {
-    src = pkgs.fetchFromGitHub {
-      owner = "oppiliappan";
-      repo = "statix";
-      rev = "e9df54ce918457f151d2e71993edeca1a7af0132";
-      hash = "sha256-duH6Il124g+CdYX+HCqOGnpJxyxOCgWYcrcK0CBnA2M=";
-    };
-
-    cargoDeps = pkgs.rustPlatform.importCargoLock {
-      lockFile = src + "/Cargo.lock";
-      allowBuiltinFetchGit = true;
-    };
-  });
-in
+# let
+# # TODO: Chromebook can't compile this without OOM
+# zed-no-title = pkgs.zed-editor.overrideAttrs (old: {
+#   patches = (old.patches or [ ]) ++ [
+#     (pkgs.fetchpatch {
+#       url = "https://github.com/zed-industries/zed/compare/main...rudiodeo:zed:main.patch";
+#       hash = "sha256-R3+S9gECZwOW7ylsLFxL3Q7Lz20U8UGn7sKTn6tLBbo=";
+#     })
+#   ];
+# });
+# in
 {
   catppuccin.zed.enable = false; # Handle themes separately in Zed
 
