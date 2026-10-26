@@ -257,6 +257,9 @@
     };
   };
 
+  # Don't build NixOS manual to improve build times
+  documentation.nixos.enable = false; # ~5 sec
+
   # First installation version
   system.stateVersion = "25.11";
 }

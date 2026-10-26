@@ -9,6 +9,7 @@
 
     # Need to use special url to use hardware modules not implemented for flakes: might not be needed anymore?
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -37,6 +38,7 @@
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
 
     models.url = "github:reyamira/models";
+    models.inputs.nixpkgs.follows = "nixpkgs"; # TODO: Remove this when they publish to Cachix
 
     # statix.url = "git+https://git.peppe.rs/languages/statix";
     # statix.inputs.nixpkgs.follows = "nixpkgs";
@@ -49,10 +51,8 @@
     #
     nod-nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
-    nod-home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
-      inputs.nixpkgs.follows = "nod-nixpkgs";
-    };
+    nod-home-manager.url = "github:nix-community/home-manager/release-25.11";
+    nod-home-manager.inputs.nixpkgs.follows = "nod-nixpkgs";
 
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid/testing";

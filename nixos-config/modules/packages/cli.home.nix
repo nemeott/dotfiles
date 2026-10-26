@@ -32,6 +32,9 @@ _:
       enable = true;
       settings = {
         theme_background = false; # Don't draw background so we can use transparency
+        proc_sorting = "memory"; # Sort by memory usage
+        proc_tree = true; # Show process tree
+        proc_aggregate = true; # Aggregate processes by name (parent has all children's memory usage)
       };
     };
     eza.enable = true; # ls

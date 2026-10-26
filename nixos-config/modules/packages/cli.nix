@@ -52,6 +52,15 @@ in
   # programs.bat.enable = true; # cat (cli.home.nix)
   programs.zoxide.enable = true; # cd
 
+  # TODO: Enable this when they publish to the cache
+  # Enable binary cache for models
+  nix.settings = {
+    substituters = [ "https://modelsdev.cachix.org" ];
+    trusted-public-keys = [
+      "modelsdev.cachix.org-1:P/sJsc6wE55M7DWEGL7SjWAxKTD8TjZMYM8Iows77Ls="
+    ];
+  };
+
   environment.systemPackages = with pkgs; [
     #
     # Packages
@@ -90,6 +99,7 @@ in
     inputs.multiverse.packages.${pkgs.stdenv.hostPlatform.system}.mvs # nixpkgs multiverse (old packages)
     surge-downloader # Fast TUI downlaod manager
     llmfit # TUI for finding good LLMs for local use
+    # inputs.models.packages.${pkgs.stdenv.hostPlatform.system}.default
     (inputs.models.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       doCheck = false;
     })) # TUI for displaying and comparing LLM providers and benchmarks
