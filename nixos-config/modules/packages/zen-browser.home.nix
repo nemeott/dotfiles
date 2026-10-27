@@ -302,6 +302,8 @@
           shortkeys # TODO: Auto apply shortcuts (duplicate tab: ctrl + d)
           darkreader # TODO: Auto apply Catppuccin settings
           material-icons-for-github
+          localcdn # Cache commonly used CDN resources
+          yang # Local bangs
         ];
       };
     };

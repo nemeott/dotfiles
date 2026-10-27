@@ -16,6 +16,11 @@ in
     interface = "wlp0s20f3";
   };
 
+  # Use correct regulatory domain for WiFi (default is global which is more restrictive)
+  boot.extraModprobeConfig = ''
+    options cfg80211 ieee80211_regdom=US
+  '';
+
   networking = {
     hostName = hostname; # Define your hostname (default is nixos)
 
