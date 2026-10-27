@@ -1,7 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -98,22 +103,86 @@
 
   # Battery draw under load much less than default from my testing (https://github.com/nemeott/scx_benchmark)
   # Also helps latency for interactive workloads
-  services.scx = {
-    enable = true;
-    # scheduler = "scx_bpfland";
-    # scheduler = "scx_cake";
-    scheduler = "scx_cosmos";
-    # extraArgs = [ "-m powersave" ]; # TODO: Switch when battery mode switches
-    # scheduler = "scx_lavd";
-    # extraArgs = [ "--autopower" ];
-    # scheduler = "scx_pandemonium";
+  # services.scx = {
+  # enable = true;
+  # scheduler = "scx_bpfland";
+  # scheduler = "scx_cake";
+  # scheduler = "scx_cosmos";
+  # extraArgs = [ "-m powersave" ]; # TODO: Switch when battery mode switches
+  # scheduler = "scx_lavd";
+  # extraArgs = [ "--autopower" ];
+  # scheduler = "scx_pandemonium";
+  # };
+
+  # Profile Linux kernel modules to help build minimal config later
+  environment.systemPackages = [ pkgs.modprobed-db ];
+  systemd = {
+    packages = [ pkgs.modprobed-db ];
+
+    # Auto start the services
+    user = {
+      services.modprobed-db = {
+        wantedBy = [ "default.target" ];
+        path = with pkgs; [
+          kmod
+          coreutils
+          gawk
+          gnugrep
+          gnused
+          findutils
+          getent
+        ];
+        serviceConfig.ExecStart = [
+          "" # Clear hardcoded /usr/bin path
+          "${pkgs.modprobed-db}/bin/modprobed-db storesilent" # systemctl --user cat modprobed-db | rg 'Exec|Type'
+        ];
+      };
+      timers.modprobed-db.wantedBy = [ "timers.target" ];
+    };
   };
+  # TODO: Check these: https://github.com/NotAShelf/bunker-patches/blob/08f95845ae8b3749453a0ac16ca581aab2028af3/module.nix#L888
 
   # Bootloader
   boot = {
     # Check for latest kernel versions here: https://www.kernel.org/
     # kernelPackages = pkgs.linuxKernel.packages.linux_6_18; # LTS
-    kernelPackages = pkgs.linuxKernel.packages.linux_7_3;
+    # kernelPackages = pkgs.linuxKernel.packages.linux_7_3;
+
+    # Build kernel natively with Clang Thin LTO (https://liassica.dev/posts/0004-clang-linux-nixos)
+    kernelPackages =
+      let
+        kernel = pkgs.linux_7_3;
+        llvm = pkgs.llvmPackages_latest;
+      in
+      # Generate kernel modules for our custom kernel
+      pkgs.linuxPackagesFor (
+        kernel.override {
+          # Set chosen version of LLVM as our standard environment
+          stdenv = pkgs.overrideCC llvm.stdenv (
+            # Tell our C compiler (Clang) to use LLVM bintools
+            # normally GNU binutils are used even with Clang as the compiler
+            llvm.stdenv.cc.override { inherit (llvm) bintools; }
+          );
+
+          extraMakeFlags = [ "LLVM=1" ]; # Compile with Clang and LLVM
+
+          argsOverride = {
+            modDirVersion = "${kernel.modDirVersion}-native-thinlto"; # Update module directory name to match kernel name
+          };
+          structuredExtraConfig = with lib.kernel; {
+            LOCALVERSION = freeform "-native-thinlto"; # Appended to kernel name
+            X86_NATIVE_CPU = yes; # Build natively
+            LTO_CLANG_THIN = yes; # Clang Thin LTO (faster builds and decrease runtime memory usage)
+
+            # Rust not available, so ignore modules that require it
+            RUST = lib.mkOverride 40 unset;
+            NOVA_CORE = lib.mkOverride 40 unset;
+            DRM_NOVA = lib.mkOverride 40 unset;
+            DRM_PANIC_SCREEN_QR_CODE = lib.mkOverride 40 unset;
+          };
+        }
+      );
+
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -163,6 +232,15 @@
       HandleLidSwitchExternalPower = "suspend-then-hibernate";
     };
 
+    # Auto-nice daemon to improve responsiveness and reduce lag during resource-heavy workloads
+    ananicy = {
+      enable = true;
+      package = pkgs.ananicy-cpp;
+      rulesProvider = pkgs.ananicy-rules-cachyos;
+    };
+
+    earlyoom.enable = true; # Better OOM handling
+
     udev.extraRules = ''
       # Udev rule to set PCI and USB power control to auto for better power management (used with power-profiles-daemon)
       ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
@@ -174,6 +252,7 @@
       # Let users in video group change backlight without sudo
       ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/intel_backlight/bl_power"
       ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/intel_backlight/bl_power"
+
     '';
 
     # Enable power-profiles-daemon for power management
