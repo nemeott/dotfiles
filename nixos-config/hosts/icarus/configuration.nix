@@ -40,6 +40,7 @@
     ../../modules/packages/helium-browser.nix
     ../../modules/packages/media.nix
     ../../modules/packages/messaging.nix
+    ../../modules/packages/nix.nix
     ../../modules/packages/productivity.nix
     ../../modules/packages/zen-browser.nix
   ];
@@ -58,43 +59,6 @@
       detected.dhcp.interfaces = [ "wlp0s20f3" ];
     };
   };
-
-  # Use Lix package manager instead of Nix
-  # Override packages that use Nix to use Lix instead
-  # Overlay help: https://github.com/NixOS/nixpkgs/pull/445223#issuecomment-3330902652
-  nixpkgs.overlays = [
-    (final: prev: {
-      nix = final.lixPackageSets.latest.lix;
-
-      inherit (final.lixPackageSets.latest)
-        nixpkgs-review
-        nurl
-        nix-init
-        nix-update
-        nix-direnv
-        nil
-        # nixd
-        # nix-eval-jobs
-        nix-fast-build
-        colmena
-        ;
-
-      lixPackageSets = prev.lixPackageSets.override {
-        inherit (prev)
-          nixpkgs-review
-          nurl
-          nix-init
-          nix-update
-          nix-direnv
-          nil
-          # nixd
-          # nix-eval-jobs
-          nix-fast-build
-          colmena
-          ;
-      };
-    })
-  ];
 
   fileSystems."/".options = [
     "noatime" # Disable access time updates for better performance (not usually needed by modern programs)
@@ -278,9 +242,6 @@
   };
   services.blueman.enable = true;
 
-  # Set time zone and select internationalisation properties
-  time.timeZone = "America/New_York";
-
   # # Enable CUPS to print documents.
   # services.printing.enable = true;
 
@@ -298,46 +259,13 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  # Set time zone and select internationalisation properties
+  time.timeZone = "America/New_York";
 
-  # Settings to make builds faster
-  nix = {
-    daemonIOSchedClass = "best-effort"; # (default)
-    daemonCPUSchedPolicy = "batch"; # Optimized for non-interactive tasks
-    daemonIOSchedPriority = 2; # Higher priority for IO operations
-
-    # Enable flakes
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-
-      keep-derivations = true; # Default
-      keep-outputs = true; # Keep build outputs for fast package rebuilds
-    };
-
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 7d"; # Keep previous week
-      dates = "weekly"; # Monday at midnight
-      persistent = true; # Do after reboot if system was shut down early
-      randomizedDelaySec = "300"; # Random delay to avoid running at the same time as other services (5 min)
-    };
-    optimise = {
-      automatic = true;
-      dates = "weekly"; # Monday at midnight
-      persistent = true; # Do after reboot if system was shut down early
-      randomizedDelaySec = "300"; # Random delay to avoid running at the same time as other services (5 min)
-    };
-  };
-
-  # Don't build NixOS manual to improve build times
-  documentation.nixos.enable = false; # ~5 sec
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # First installation version
   system.stateVersion = "25.11";
