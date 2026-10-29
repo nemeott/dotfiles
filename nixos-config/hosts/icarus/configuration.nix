@@ -152,27 +152,29 @@
       efi.canTouchEfiVariables = true;
     };
 
+    # Applied at boot time
+    kernelParams = [
+      "nmi_watchdog=0" # Disable NMI watchdog for performance improvement (less CPU usage)
+      "pcie_aspm.policy=powersupersave" # Enable PCIe ASPM for better power saving (less power usage)
+      "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
+      "rcutree.enable_rcu_lazy=1" # Enable lazy RCU for +5-10% battery savings (slightly worse disk I/O)
+      "transparent_hugepage=madvise" # Reduce memory usage
+    ];
+
+    # Applied at runtime
     kernel.sysctl = {
       # Power-saving dirty writeback settings (less disk writes)
       "vm.dirty_writeback_centisecs" = 5000;
       "vm.dirty_expire_centisecs" = 5000;
+      "vm.laptop_mode" = 5; # Enable laptop mode for better power saving (less disk writes)
     };
 
-    kernelParams = [
-      # Disable NMI watchdog for performance improvement
-      "nmi_watchdog=0"
-
-      # Manage power saving for Intel HDA audio (sed with power-profiles-daemon)
-      "snd_hda_intel.power_save=1"
-      "snd_hda_intel.power_save_controller=Y"
-
-      "pcie_aspm.policy=powersupersave"
-      "i915.i915_enable_rc6=1" # Enable RC6 deep sleep state for Intel GPU
-      "i915.i915_enable_fbc=1" # Enable frame buffer compression (less memory bandwidth and lower power usage)
-
-      "rcu_nocbs=all" # VERY IMPORTANT FOR LOWERING tick_nohz_handler USAGE (went from ~1000 to ~300 idle)
-      "rcutree.enable_rcu_lazy=1" # Enable lazy RCU for +5-10% battery savings (slightly worse disk I/O)
-    ];
+    extraModprobeConfig = ''
+      # Power saving for Intel HDA audio (used with power-profiles-daemon)
+      options snd_hda_intel power_save=1 power_save_controller=Y
+      # Enable RC6 deep sleep state and frame buffer compression for Intel GPU (less memory bandwidth and power usage)
+      options i915 enable_rc6=1 enable_fbc=1
+    '';
   };
 
   systemd = {
@@ -227,9 +229,9 @@
     thermald.enable = true;
 
     # Enable removable media management
+    udisks2.enable = true; # Disk management
     devmon.enable = true; # Automatic device mounting
     gvfs.enable = true; # Userspace virtual filesystem
-    udisks2.enable = true; # Disk management
 
     # More efficient time synchronization for laptops
     chrony.enable = true;
@@ -240,7 +242,6 @@
     enable = true;
     powerOnBoot = false; # Don't power on Bluetooth by default
   };
-  services.blueman.enable = true;
 
   # # Enable CUPS to print documents.
   # services.printing.enable = true;
