@@ -29,8 +29,7 @@ order = [ "default" ]
     capsule = true
     capsule_border = "outline_variant"
     capsule_border_width = 1.0
-    capsule_fill = "primary"
-    capsule_group = []
+    capsule_fill = "secondary"
     capsule_opacity = 0.1
     capsule_padding = 6.0
     capsule_thickness = 0.75
@@ -56,17 +55,29 @@ order = [ "default" ]
     radius_top_left = 12
     radius_top_right = 12
     reserve_space = true
-    scale = 0.95
+    scale = 0.90
     shadow = true
     show_on_workspace_switch = true
     show_tooltip = true
     smart_auto_hide = false
-    start = [ "clock", "spacer_20", "cpu", "ram", "temp", "disk", "spacer_15", "notifications" ]
-    thickness = 27
+    start = [ "clock", "spacer_15", "group:system", "spacer_15", "notifications" ]
+    thickness = 25
     widget_spacing = 4
 
         [bar.default.dead_zone]
         click_through = false
+
+        [[bar.default.capsule_group]]
+        accordion = false
+        accordion_direction = "end"
+        border = "outline_variant"
+        border_width = 1.0
+        enabled = true
+        fill = "tertiary"
+        id = "system"
+        members = [ "cpu", "ram", "temp", "disk" ]
+        opacity = 0.1
+        padding = 6.0
 
 [battery]
 warning_threshold = 20
@@ -705,16 +716,36 @@ refresh_minutes = 30
 unit = "imperial"
 
 [widget.active_window]
+capsule_foreground = "tertiary"
 icon_size = 14.0
 max_length = 320
 min_length = 80.0
+scale = 1.05
 show_empty_label = true
+show_tooltip = false
 title_scroll = "none"
 type = "active_window"
 
+    [widget.active_window.actions]
+    left = "exec niri msg action toggle-overview"
+
+[widget.battery]
+font_scale = 0.8
+icon_color = "tertiary"
+scale = 1.2
+type = "battery"
+
 [widget.bluetooth]
+capsule_radius = "auto"
+icon_color = "primary"
 show_label = true
 type = "bluetooth"
+
+[widget.brightness]
+font_scale = 0.9
+icon_color = "tertiary"
+scale = 1.1
+type = "brightness"
 
 [widget.clock]
 format = "{:%H:%M:%S, %a, %b %d}"
@@ -726,6 +757,7 @@ custom_image_colorize = true
 type = "control-center"
 
 [widget.cpu]
+scale = 1.1
 show_value = false
 stat = "cpu_usage"
 type = "sysmon"
@@ -735,6 +767,7 @@ format = "{:%a, %b %d}"
 type = "clock"
 
 [widget.disk]
+scale = 1.1
 show_value = false
 stat = "disk_used_pct"
 type = "sysmon"
@@ -763,6 +796,12 @@ min_length = 80.0
 title_scroll = "none"
 type = "media"
 
+[widget.network]
+font_scale = 0.9
+icon_color = "primary"
+scale = 1.1
+type = "network"
+
 [widget.network_rx]
 stat = "net_rx"
 type = "sysmon"
@@ -777,9 +816,16 @@ type = "notifications"
 
 [widget.output_volume]
 device = "output"
+icon_color = "primary"
 type = "volume"
 
+[widget.power_profile]
+icon_color = "tertiary"
+type = "power_profile"
+
 [widget.ram]
+capsule = false
+scale = 1.1
 show_value = false
 stat = "ram_pct"
 type = "sysmon"
@@ -801,6 +847,7 @@ stat = "ram_pct"
 type = "sysmon"
 
 [widget.temp]
+scale = 1.1
 show_value = false
 stat = "cpu_temp"
 type = "sysmon"
