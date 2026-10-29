@@ -3,10 +3,14 @@ high_contrast = false
 ui_scale = 1.0
 
 [audio]
+enable_notification_sounds = false
 enable_overdrive = false
+enable_power_sounds = false
+enable_screenshot_sounds = false
 enable_sounds = false
+enable_volume_sounds = false
 sound_theme = "freedesktop"
-sound_volume = 0.5
+sound_volume = 0.0
 
 [backdrop]
 blur_intensity = 0.5
@@ -18,11 +22,13 @@ order = [ "default" ]
 
     [bar.default]
     auto_hide = false
+    auto_hide_delay_ms = 0
     background_opacity = 0.5
-    border = "outline"
+    border = "outline_variant"
     border_width = 0.0
     capsule = true
-    capsule_border = "outline"
+    capsule_border = "outline_variant"
+    capsule_border_width = 1.0
     capsule_fill = "primary"
     capsule_group = []
     capsule_opacity = 0.1
@@ -53,15 +59,21 @@ order = [ "default" ]
     scale = 0.95
     shadow = true
     show_on_workspace_switch = true
+    show_tooltip = true
     smart_auto_hide = false
     start = [ "clock", "spacer_20", "cpu", "ram", "temp", "disk", "spacer_15", "notifications" ]
     thickness = 27
     widget_spacing = 4
 
         [bar.default.dead_zone]
+        click_through = false
 
 [battery]
 warning_threshold = 20
+
+[bluetooth]
+connect_when_enabled = false
+connection_notifications = false
 
 [brightness]
 enable_ddcutil = false
@@ -70,6 +82,8 @@ minimum_brightness = 0.0
 sync_all_monitors = false
 
 [calendar]
+dedupe_events = false
+dedupe_ignore_patterns = []
 enabled = false
 event_date_format = "%A %e %B"
 event_time_format = "%H:%M"
@@ -82,7 +96,9 @@ refresh_minutes = 15
     use_event_reminders = true
 
 [control_center]
+circular_avatar = true
 hidden_tabs = []
+show_avatar_border = true
 show_session_button = true
 show_shortcut_labels = true
 sidebar = "full"
@@ -90,8 +106,14 @@ sidebar_section = "compact"
 width = 800
 
     [control_center.calendar]
+    hide_past_events = false
+    past_events_threshold_minutes = 30
     show_events_card = true
+    show_events_location = false
     show_week_numbers = false
+
+    [control_center.media]
+    show_visualizer = true
 
     [[control_center.shortcuts]]
     type = "wifi"
@@ -126,7 +148,7 @@ active_opacity = 1.0
 active_scale = 1.0
 auto_hide = false
 background_opacity = 0.88
-border = "outline"
+border = "outline_variant"
 border_width = 0.0
 concave_edge_corners = true
 cross_axis_padding = 8
@@ -284,7 +306,7 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -295,9 +317,11 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
         show_keyboard_layout = true
         show_login_button = true
         show_media = true
+        show_password_reveal = true
         show_session_buttons = true
         show_unlock_hint = true
         show_weather = true
+
 [nightlight]
 enabled = true
 force = false
@@ -307,7 +331,7 @@ temperature_night = 3200
 [notification]
 background_opacity = 0.4
 border = true
-border_color = "outline"
+border_color = "outline_variant"
 border_width = 1.0
 collapse_on_dismiss = true
 enable_daemon = true
@@ -328,7 +352,7 @@ width = 360
 [osd]
 background_opacity = 0.4
 border = true
-border_color = "outline"
+border_color = "outline_variant"
 border_width = 1.0
 enabled = true
 follow_focused_output = false
@@ -345,11 +369,13 @@ scale = 1.0
     bluetooth = true
     brightness = true
     caffeine = true
+    custom = true
     dnd = true
     keyboard_backlight = true
     keyboard_layout = true
     lock_keys = true
     media = true
+    media_volume = true
     nightlight = true
     power_profile = true
     privacy = true
@@ -396,6 +422,7 @@ font_family = "Noto Sans"
 input_borders = true
 launch_apps_as_systemd_services = false
 launch_apps_custom_command = ""
+niri_overview_close_on_launch_enabled = false
 niri_overview_type_to_launch_enabled = false
 offline_mode = false
 password_style = "default"
@@ -409,9 +436,12 @@ settings_show_advanced = true
 settings_window_translucent = false
 setup_wizard_enabled = true
 shared_gl_context = true
+show_close_buttons = true
 show_location = true
 telemetry_enabled = false
 time_format = "{:%H:%M:%S}"
+umbriel_audio_provider_enabled = false
+umbriel_overview_close_on_launch_enabled = false
 umbriel_overview_type_to_launch_enabled = false
 
     [shell.animation]
@@ -427,14 +457,24 @@ umbriel_overview_type_to_launch_enabled = false
     app_grid = false
     auto_paste = "auto"
     categories = true
+    category_icons_only = false
     compact = false
+    default_view = "recent"
     fetch_exchange_rates = true
+    ignore_mouse = false
+    layout = "full"
     pinned = []
     provider_prefix = "/"
+    search_position = "bottom"
     show_app_actions = false
     show_app_origin_indicator = true
     show_icons = true
+    show_navigation_labels = true
+    show_session_button = true
+    show_settings_button = true
     sort_by_usage = true
+    track_usage = true
+    width = 760
 
         [shell.launcher.dmenu]
 
@@ -445,6 +485,8 @@ umbriel_overview_type_to_launch_enabled = false
     blacklist = []
 
     [shell.panel]
+    border_color = "outline_variant"
+    border_width = 1.0
     borders = true
     clipboard_placement = "floating"
     clipboard_position = "center"
@@ -468,6 +510,7 @@ umbriel_overview_type_to_launch_enabled = false
     transparency_mode = "glass"
     wallpaper_placement = "attached"
     wallpaper_position = "auto"
+    wallpaper_show_names = true
 
     [shell.privacy]
     cam_filter_regex = ""
@@ -483,15 +526,23 @@ umbriel_overview_type_to_launch_enabled = false
     close_on_copy = true
     close_on_save = true
     confirm_region = false
+    copy_on_close = false
     copy_to_clipboard = true
     directory = "/home/nathan/Pictures/Screenshots"
     filename_pattern = ""
+    format = "png"
     freeze_screen = true
     pipe_command = ""
     pipe_to_command = false
+    quality = 90
+    region_border_width = 2.0
+    region_dim_opacity = 0.65
+    region_modifier = "none"
     remember_last_region = false
     save_to_file = true
     show_cursor = false
+    show_region_dimensions = true
+    show_region_hint = true
     skip_annotate_on_copy_save = false
 
     [shell.session]
@@ -508,6 +559,7 @@ umbriel_overview_type_to_launch_enabled = false
         enabled = true
         glyph = ""
         label = ""
+        lockscreen_shortcut = ""
         shortcut = "1"
         variant = "default"
 
@@ -518,6 +570,7 @@ umbriel_overview_type_to_launch_enabled = false
         enabled = true
         glyph = ""
         label = ""
+        lockscreen_shortcut = ""
         shortcut = "2"
         variant = "default"
 
@@ -528,6 +581,7 @@ umbriel_overview_type_to_launch_enabled = false
         enabled = true
         glyph = ""
         label = ""
+        lockscreen_shortcut = ""
         shortcut = "3"
         variant = "default"
 
@@ -538,6 +592,7 @@ umbriel_overview_type_to_launch_enabled = false
         enabled = true
         glyph = ""
         label = ""
+        lockscreen_shortcut = ""
         shortcut = "4"
         variant = "default"
 
@@ -548,6 +603,7 @@ umbriel_overview_type_to_launch_enabled = false
         enabled = true
         glyph = ""
         label = ""
+        lockscreen_shortcut = ""
         shortcut = "5"
         variant = "destructive"
 
@@ -607,13 +663,14 @@ swap_pct_critical_threshold = 80.0
 
 [theme]
 builtin = "Catppuccin"
-community_palette = "Oxocarbon"
+community_palette = "Catppuccin Mocha Blue"
 custom_palette = ""
 mode = "dark"
 pure_black_dark = false
 shell_mode = "follow"
-source = "builtin"
-wallpaper_scheme = "m3-content"
+source = "community"
+sync_color_scheme = true
+wallpaper_scheme = "faithful"
 
     [theme.templates]
     builtin_ids = [ "gtk3", "gtk4", "kcolorscheme", "niri", "qt" ]
@@ -638,6 +695,7 @@ transition_on_startup = false
     enabled = false
     interval_seconds = 1800
     order = "random"
+    pause_on_fullscreen = false
     recursive = true
 
 [weather]

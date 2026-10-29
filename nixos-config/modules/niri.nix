@@ -62,13 +62,6 @@
     tty.enable = false; # Save my eyes on boot
   };
 
-  # Enable binary cache for Noctalia
-  nix.settings = {
-    extra-substituters = [ "https://noctalia.cachix.org" ];
-    extra-trusted-public-keys = [
-      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-    ];
-  };
 
   environment.systemPackages = with pkgs; [
     xwayland-satellite # X11 compatibility for Wayland

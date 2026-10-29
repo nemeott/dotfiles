@@ -431,8 +431,8 @@ binds {
     Mod+Shift+Slash { spawn "noctalia" "msg" "panel-toggle" "kenn/keybind-cheatsheet:cheatsheet"; }
 
     // Open apps
-    Mod+T hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
-    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Mod+T hotkey-overlay-title="Foot" { spawn "foot"; }
+    Mod+D hotkey-overlay-title="Fuzzel" { spawn "fuzzel"; }
     Mod+Z hotkey-overlay-title="Zed" { spawn "zeditor"; }
     Mod+Shift+Z hotkey-overlay-title="Zen Browser" { spawn "zen-beta"; }
     Mod+H hotkey-overlay-title="Helium" { spawn "helium"; }
@@ -443,21 +443,23 @@ binds {
     Mod+Shift+V hotkey-overlay-title="VLC" { spawn "vlc"; }
     
     // Noctalia settings
-    Mod+Shift+N { spawn "noctalia" "msg" "bar-toggle" "eDP-1"; }
-    Mod+Comma { spawn "noctalia" "msg" "settings-toggle"; }
-    Mod+Period { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
+    Mod+Shift+N hotkey-overlay-title="Noctalia bar" { spawn "noctalia" "msg" "bar-toggle" "eDP-1"; }
+    Mod+Comma hotkey-overlay-title="Noctalia settings" { spawn "noctalia" "msg" "settings-toggle"; }
+    Mod+Period hotkey-overlay-title="Noctalia control center" { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
 
     // Noctalia shortcuts
-    Mod+V { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
-    // Mod+E { spawn "noctalia" "msg" "launcher" "emoji"; }
-    Mod+A { spawn "noctalia" "msg" "panel-toggle" "control-center" "calendar"; }
-    Mod+Shift+W { spawn "noctalia" "msg" "panel-toggle" "control-center" "weather"; }
-    Mod+N { spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"; }
-    Mod+W { spawn "noctalia" "msg" "panel-toggle" "control-center" "network"; }
-    Mod+S { spawn "noctalia" "msg" "panel-toggle" "control-center" "system"; }
-    Mod+Shift+S { spawn "noctalia" "msg" "panel-toggle" "control-center" "screen-time"; }
-    Mod+B { spawn "noctalia" "msg" "panel-toggle" "control-center" "bluetooth"; }
-    Mod+Shift+B { spawn "noctalia" "msg" "power-cycle"; }
+    Mod+V hotkey-overlay-title="Noctalia clipboard" { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
+    // Mod+E hotkey-overlay-title="Noctalia emojis" { spawn "noctalia" "msg" "launcher" "emoji"; }
+    Mod+A hotkey-overlay-title="Noctalia calendar" { spawn "noctalia" "msg" "panel-toggle" "control-center" "calendar"; }
+    Mod+Shift+W hotkey-overlay-title="Noctalia weather" { spawn "noctalia" "msg" "panel-toggle" "control-center" "weather"; }
+    Mod+N hotkey-overlay-title="Noctalia notifications" { spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"; }
+    Mod+W hotkey-overlay-title="Noctalia network" { spawn "noctalia" "msg" "panel-toggle" "control-center" "network"; }
+    Mod+Alt+W hotkey-overlay-title="Toggle WiFi" { spawn "noctalia" "msg" "wifi-toggle"; }
+    Mod+S hotkey-overlay-title="Noctalia system monitor" { spawn "noctalia" "msg" "panel-toggle" "control-center" "system"; }
+    Mod+Shift+S hotkey-overlay-title="Noctalia screen time" { spawn "noctalia" "msg" "panel-toggle" "control-center" "screen-time"; }
+    Mod+B hotkey-overlay-title="Noctalia bluetooth" { spawn "noctalia" "msg" "panel-toggle" "control-center" "bluetooth"; }
+    Mod+Alt+B hotkey-overlay-title="Toggle bluetooth" { spawn "noctalia" "msg" "bluetooth-toggle"; }
+    Mod+Shift+B hotkey-overlay-title="Cycle power profiles" { spawn "noctalia" "msg" "power-cycle"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
