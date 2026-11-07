@@ -37,6 +37,7 @@
     "c-cpp-flylint.lizard.enable": false,
     "c-cpp-flylint.flawfinder.enable": false,
     "c-cpp-flylint.cppcheck.standard": [
+        "c17",
         "c++17"
     ],
     "c-cpp-flylint.standard": [
@@ -55,7 +56,6 @@
     "diffEditor.maxComputationTime": 0,
     "workbench.layoutControl.enabled": false,
     "chat.commandCenter.enabled": false,
-    "window.menuBarVisibility": "compact",
     "zenMode.hideActivityBar": false,
     "zenMode.hideLineNumbers": false,
     "zenMode.hideStatusBar": false,
@@ -206,5 +206,9 @@
     "security.workspace.trust.untrustedFiles": "open",
     "git.autofetch": true,
     "window.zoomPerWindow": false,
-    "window.zoomLevel": -1,
+    "window.menuBarVisibility": "compact",
+    "sonarlint.disableTelemetry": true,
+    "sonarlint.pathToNodeExecutable": "/nix/store/v6wsd9nyglmwh32yn7w8z11dq9cksg4m-nodejs-24.20.0/bin/node",
+    "sonarlint.ls.javaHome": "/nix/store/p3ckxs1gmqir4m2b6yknbbka33da1y4m-openjdk-21.0.12.1+1/bin/java",
+    "sonarlint.pathToCompileCommands": "/home/nathan/Coding/.../firmware/compile_commands.json",
 }

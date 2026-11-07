@@ -7,7 +7,9 @@
     # nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-26.05";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
-    # Need to use special url to use hardware modules not implemented for flakes: might not be needed anymore?
+    nixpkgs-kernel.url = "github:nixos/nixpkgs?ref=nixos-unstable"; # Separate nixpkgs for kernel (avoid often rebuilds if needed)
+
+    # Need to use special url to use hardware modules not implemented for flakes; might not be needed anymore?
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -20,7 +22,7 @@
     catppuccin.url = "github:catppuccin/nix";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
-    noctalia.url = "github:noctalia-dev/noctalia";
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
     # noctalia.inputs.nixpkgs.follows = "nixpkgs"; # Disable for binary cache
 
     zen-browser = {

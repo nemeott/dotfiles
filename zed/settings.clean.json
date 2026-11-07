@@ -14,6 +14,7 @@
   "session": {
     "trust_all_worktrees": false,
   },
+  "restore_on_startup": "last_workspace",
   "cli_default_open_behavior": "new_window",
   "language_models": {
     "ollama": {
@@ -67,6 +68,14 @@
       "hard_tabs": false,
       "language_servers": ["pyrefly", "ruff"],
     },
+    "Arduino": {
+      "formatter": {
+        "external": {
+          "command": "clang-format",
+          "arguments": ["-assume-filename=file.cpp"],
+        },
+      },
+    },
   },
   "lsp": {
     "ruff": {
@@ -103,6 +112,29 @@
         },
       },
     },
+    "clangd": {
+      "binary": {
+        // "path": "/nix/store/0skhb15j2szcq05929gs9m1dbpiydhb7-clang-21.1.8/bin/clangd",
+        "arguments": [
+          "--clang-tidy",
+          "--background-index",
+          "--header-insertion=iwyu", // Include What You Use
+          // "--header-insertion=never",
+        ],
+      },
+    },
+    // "sonarlint": {
+    //   "initialization_options": {
+    //     "showVerboseLogs": true,
+    //   },
+    //   "settings": {
+    //       "pathToNodeExecutable": "/nix/store/v6wsd9nyglmwh32yn7w8z11dq9cksg4m-nodejs-24.20.0/bin/node",
+    //     // "rules": {
+    //       // "ls.javaHome": "/nix/store/p3ckxs1gmqir4m2b6yknbbka33da1y4m-openjdk-21.0.12.1+1/bin/java",
+    //       // "pathToCompileCommands": "/home/nathan/Coding/.../firmware/compile_commands.json",
+    //     // },
+    //   },
+    // },
     "rust-analyzer": {
       "initialization_options": {
         "cargo": {
@@ -117,8 +149,22 @@
         },
       },
     },
+    "arduino-language-server": {
+      "binary": {
+        "arguments": [
+          "-fqbn",
+          "arduino:avr:nano",
+          "-cli-config",
+          "/home/nathan/.arduino15/arduino-cli.yaml",
+        ],
+      },
+    },
   },
   "show_edit_predictions": true,
+  "edit_predictions": {
+    "allow_data_collection": "no",
+    "provider": "copilot",
+  },
   "agent_buffer_font_size": 12.0,
   "extend_comment_on_newline": false,
   "vertical_scroll_margin": 6.0,
@@ -160,6 +206,7 @@
     "button": true,
   },
   "project_panel": {
+    "folder_indicator": "icon",
     "auto_reveal_entries": true,
     "dock": "right",
     "git_status_indicator": true,
@@ -175,10 +222,8 @@
     "starts_open": true,
     "indent_size": 12.0,
     "git_status": true,
-    "folder_icons": true,
     "entry_spacing": "standard",
   },
-  "window_decorations": "client",
   "centered_layout": {
     "right_padding": 0.2,
   },
@@ -220,7 +265,6 @@
     "current_line_highlight": "all",
     "thumb_border": "left_open",
     "thumb": "always",
-    "show": "always",
   },
   "scroll_beyond_last_line": "vertical_scroll_margin",
   "agent_ui_font_size": 12.0,
@@ -251,10 +295,8 @@
   },
   "modeline_lines": 0,
   "base_keymap": "VSCode",
-  "edit_predictions": {
-    "provider": "copilot",
-  },
   "agent": {
+    "max_idle_retained_threads": 1,
     "show_turn_stats": true,
     "profiles": {
       "write": {
@@ -357,20 +399,20 @@
         "provider": "copilot_chat",
         "model": "gpt-5-mini",
         "enable_thinking": true,
-        "effort": "high"
+        "effort": "high",
       },
       {
         "provider": "copilot_chat",
         "model": "gemini-3.1-pro-preview",
         "enable_thinking": true,
-        "effort": "high"
+        "effort": "high",
       },
       {
         "provider": "copilot_chat",
         "model": "gpt-5.4-mini",
         "enable_thinking": false,
-        "effort": "medium"
-      }
+        "effort": "medium",
+      },
     ],
     "default_profile": "ask",
     "default_width": 320.0,
@@ -389,7 +431,7 @@
   },
   "context_servers": {
     "nixos": {
-      "enabled": true,
+      "enabled": false,
       "remote": false,
       "command": "nix",
       "args": ["run", "github:utensils/mcp-nixos", "--"],

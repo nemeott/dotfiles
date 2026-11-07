@@ -16,6 +16,7 @@ Checks: >
 
     -google-readability-todo,
     -modernize-use-trailing-return-type,
+    -google-objc-function-naming,
 
 CheckOptions:
   - key: misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic

@@ -1,4 +1,6 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
+
+# FIXME: TRY THIS AGAIN
 
 # let
 # # TODO: Chromebook can't compile this without OOM

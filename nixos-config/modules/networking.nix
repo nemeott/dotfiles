@@ -79,7 +79,8 @@ in
 
     cake-autorate = {
       enable = true;
-      autoStart = true; # Start the systemd service
+      # TODO: Not needed in some places?
+      autoStart = false; # Start the systemd service
 
       interface = "wlp0s20f3";
 
@@ -91,8 +92,8 @@ in
       };
       upload = {
         min = 5000;
-        base = 20000;
-        speed = 22800; # Measured upload speed
+        base = 50000;
+        speed = 209400; # Measured upload speed
       };
     };
   };

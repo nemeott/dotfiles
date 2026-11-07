@@ -87,6 +87,7 @@ in
 
     # TODO: Make tui.nix
     # Tools
+    wl-clipboard # Wayland clipboard utilities
     gdu # Fast disk usage analyzer
     powertop # Power utils
     systemctl-tui # Terminal-based systemctl interface

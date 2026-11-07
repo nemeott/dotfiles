@@ -60,6 +60,9 @@ in
     # Image viewer
     vipsdisp
 
+    # File manager
+    nemo-with-extensions
+
     # Color picker
     wl-color-picker
 

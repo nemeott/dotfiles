@@ -23,13 +23,17 @@
     ./hardware/chrome-keyboard.nix # Custom keymap for Chromebook keyboard (with keyd)
 
     # Modules
+    ../../modules/greeter.nix
+    ../../modules/zram.nix
+    # ../../modules/zswap.nix
+    ../../modules/brightness-control.nix
     ../../modules/user.nix
+    ../../modules/catppuccin.nix
     # ../../modules/cinnamon.nix
     ../../modules/niri.nix
+    ../../modules/noctalia.nix
     ../../modules/networking.nix
     ../../modules/audio.nix
-    # ../../modules/zswap.nix
-    ../../modules/zram.nix
 
     # Packages
     ../../modules/packages/base.nix
@@ -43,6 +47,11 @@
     ../../modules/packages/nix.nix
     ../../modules/packages/productivity.nix
     ../../modules/packages/zen-browser.nix
+
+    # ../../modules/packages/podman-vlc.nix
+    ../../modules/packages/docker.nix
+    # ../../modules/packages/slurm.nix
+    # ./kernel.nix
   ];
 
   hardware = {
@@ -134,7 +143,7 @@
             modDirVersion = "${kernel.modDirVersion}-native-thinlto"; # Update module directory name to match kernel name
           };
           structuredExtraConfig = with lib.kernel; {
-            LOCALVERSION = freeform "-native-thinlto"; # Appended to kernel name
+            LOCALVERSION = freeform "-native-thinlto";
             X86_NATIVE_CPU = yes; # Build natively
             LTO_CLANG_THIN = yes; # Clang Thin LTO (faster builds and decrease runtime memory usage)
 
@@ -146,6 +155,30 @@
           };
         }
       );
+
+    # # Build kernel natively with Clang Thin LTO (https://liassica.dev/posts/0004-clang-linux-nixos)
+    # kernelPackages =
+    #   let
+    #     kernel = pkgs.linux_7_3;
+    #     llvm = pkgs.llvmPackages_latest;
+    #   in
+    #   pkgs.linuxPackagesFor (
+    #     (pkgs.linuxManualConfig.override {
+    #       # Set chosen version of LLVM as our standard environment
+    #       stdenv = pkgs.overrideCC llvm.stdenv (
+    #         # Tell our C compiler (Clang) to use LLVM bintools
+    #         # normally GNU binutils are used even with Clang as the compiler
+    #         llvm.stdenv.cc.override { inherit (llvm) bintools; }
+    #       );
+    #     })
+    #       {
+    #         inherit (kernel) src version;
+    #         modDirVersion = "${kernel.modDirVersion}-native-thinlto";
+    #         configfile = ../../../kernel.config;
+    #         extraMakeFlags = [ "LLVM=1" ];
+    #         kernelPatches = kernel.kernelPatches or [ ];
+    #       }
+    #   );
 
     loader = {
       systemd-boot.enable = true;
