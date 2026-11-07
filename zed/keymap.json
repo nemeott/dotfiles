@@ -349,5 +349,66 @@
         }
       ]
     }
+  },
+  {
+    "context": "Editor",
+    "unbind": {
+      "ctrl-i": "editor::ShowSignatureHelp"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-i": "editor::FormatSelections"
+    }
+  },
+  {
+    "bindings": {
+      "alt-d v": "editor::DiffClipboardWithSelection"
+    }
+  },
+  {
+    "unbind": {
+      "ctrl-alt-shift-o": "dev::ResetFrameOverlayStats"
+    }
+  },
+  {
+    "bindings": {
+      "alt-c s": "editor::ConvertToSnakeCase"
+    }
+  },
+  {
+    "bindings": {
+      "alt-c l": "editor::ConvertToLowerCase"
+    }
+  },
+  {
+    "bindings": {
+      "alt-c u": "editor::ConvertToUpperCase"
+    }
+  },
+  {
+    "bindings": {
+      "alt-c t": "editor::ConvertToTitleCase"
+    }
+  },
+  {
+    "bindings": {
+      "alt-c k": "editor::ConvertToKebabCase"
+    }
+  },
+  {
+    "bindings": {
+      "alt-c c": "editor::ConvertToLowerCamelCase"
+    }
+  },
+  {
+    "bindings": {
+      "alt-c shift-c": "editor::ConvertToUpperCamelCase"
+    }
+  },
+  {
+    "bindings": {
+      "alt-c n": "editor::ConvertToSentenceCase"
+    }
   }
 ]

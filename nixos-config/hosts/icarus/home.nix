@@ -8,12 +8,14 @@ in
     inputs.catppuccin.homeModules.catppuccin
     inputs.nix-index-database.homeModules.default
 
+    ../../modules/catppuccin.home.nix
+    ../../modules/niri.home.nix
+    ../../modules/noctalia.home.nix
     ../../modules/packages/cli.home.nix
     ../../modules/packages/dev.home.nix
     ../../modules/packages/yazi.home.nix
-    ../../modules/packages/zen-browser.home.nix
     ../../modules/packages/zed.home.nix
-    ../../modules/niri.home.nix
+    ../../modules/packages/zen-browser.home.nix
   ];
 
   catppuccin.enable = true;
@@ -35,12 +37,6 @@ in
       # TODO: Keep secret
       # # Give Nix an access token to avoid rate-limiting
       # ".config/nix/nix.conf".source = "${dotfilesPath}/nix/nix.conf";
-
-      # Niri
-      ".config/niri/config.kdl".source = "${dotfilesPath}/niri/config.kdl";
-      
-      # Noctalia
-      ".config/noctalia/config.toml".source = "${dotfilesPath}/noctalia/config.toml";
 
       # Clang format
       ".clang-format".source = "${dotfilesPath}/.clang-format";

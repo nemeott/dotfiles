@@ -1,57 +1,13 @@
 { lib, pkgs, ... }:
 
+let
+  dotfilesPath = ../..;
+in
 {
-  gtk =
-    let
-      catppuccin-theme = {
-        name = "catppuccin-mocha-mauve-standard";
-        package = pkgs.catppuccin-gtk.override {
-          variant = "mocha";
-          accents = [ "mauve" ];
-        };
-      };
-    in
-    {
-      enable = true;
+  # Link Niri settings
+  home.file.".config/niri/config.kdl".source = "${dotfilesPath}/niri/config.kdl";
 
-      theme = catppuccin-theme;
-      gtk3.theme = catppuccin-theme;
-      gtk4.theme = catppuccin-theme;
-      iconTheme = lib.mkForce {
-        name = "Papirus-Dark";
-        package = pkgs.papirus-icon-theme;
-      };
-      # Already applied in Niri
-      cursorTheme = {
-        name = "Bibata-Modern-Classic";
-        package = pkgs.bibata-cursors;
-      };
-      gtk3.extraConfig = {
-        gtk-application-prefer-dark-theme = true;
-      };
-    };
-
-  # HM keeps complaining about gtk.css.backup file being replaced even though the contents are the same
-  home.activation.removeGtkBackup = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
-    rm -f "$HOME/.config/gtk-4.0/gtk.css.backup"
-  '';
-
-  # Enabled here for automatic Catppuccin integration
   programs = {
-    # Terminal emulator
-    foot = {
-      enable = true;
-      settings = {
-        colors-dark.alpha = 0.85;
-        main = {
-          term = "xterm-256color";
-          font = "Monaspace Neon Frozen:size=8.5";
-          pad = "1x1 center"; # Slight padding so text isn't super close to the edge
-        };
-        scrollback.lines = 100000; # Larger scrollback buffer (default is 10,000?)
-      };
-    };
-
     # Application launcher
     fuzzel.enable = true;
 
