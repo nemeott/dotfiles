@@ -109,6 +109,19 @@
       end
     '';
     settings = {
+      opener.bulk-rename = [
+        {
+          run = ''if command -v zeditor >/dev/null 2>&1; then zeditor --wait %s ; else nano %s ; fi''; # Use Zed if available, otherwise fallback to Nano
+          block = true;
+          for = "unix";
+        }
+      ];
+      open.prepend_rules = [
+        {
+          url = "bulk-rename.txt";
+          use = "bulk-rename";
+        }
+      ];
       mgr = {
         sort_by = "mtime";
         sort_reverse = true; # Newest first
