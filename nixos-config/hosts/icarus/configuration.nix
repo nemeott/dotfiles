@@ -31,6 +31,7 @@
     ../../modules/catppuccin.nix
     # ../../modules/cinnamon.nix
     ../../modules/niri.nix
+    # ../../modules/umbriel.nix
     ../../modules/noctalia.nix
     ../../modules/networking.nix
     ../../modules/audio.nix

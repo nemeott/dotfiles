@@ -10,6 +10,7 @@ in
 
     ../../modules/catppuccin.home.nix
     ../../modules/niri.home.nix
+    # ../../modules/umbriel.home.nix
     ../../modules/noctalia.home.nix
     ../../modules/packages/cli.home.nix
     ../../modules/packages/dev.home.nix

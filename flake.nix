@@ -21,6 +21,8 @@
 
     catppuccin.url = "github:catppuccin/nix";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
+    
+    umbriel.url = "github:noctalia-dev/umbriel/cachix";
 
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
     # noctalia.inputs.nixpkgs.follows = "nixpkgs"; # Disable for binary cache

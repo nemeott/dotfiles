@@ -53,6 +53,8 @@ _run_if_exists() {
 
 alias reload='source ~/.bashrc'
 
+alias venv='source .venv/bin/activate'
+
 # Allow aliases to work with sudo
 alias sudo='sudo '
 
