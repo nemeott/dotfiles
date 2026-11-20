@@ -123,16 +123,18 @@
     # kernelPackages = pkgs.linuxKernel.packages.linux_7_3;
 
     # Build kernel natively with Clang Thin LTO (https://liassica.dev/posts/0004-clang-linux-nixos)
+    # TODO: Use normal stdenv?
     kernelPackages =
+      with inputs.nixpkgs-kernel.legacyPackages.${pkgs.stdenv.hostPlatform.system};
       let
-        kernel = pkgs.linux_7_3;
-        llvm = pkgs.llvmPackages_latest;
+        kernel = linux_7_3;
+        llvm = llvmPackages_latest;
       in
       # Generate kernel modules for our custom kernel
-      pkgs.linuxPackagesFor (
+      linuxPackagesFor (
         kernel.override {
           # Set chosen version of LLVM as our standard environment
-          stdenv = pkgs.overrideCC llvm.stdenv (
+          stdenv = overrideCC llvm.stdenv (
             # Tell our C compiler (Clang) to use LLVM bintools
             # normally GNU binutils are used even with Clang as the compiler
             llvm.stdenv.cc.override { inherit (llvm) bintools; }

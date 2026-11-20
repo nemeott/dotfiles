@@ -107,7 +107,6 @@ refresh_minutes = 15
     use_event_reminders = true
 
 [control_center]
-circular_avatar = true
 hidden_tabs = []
 show_avatar_border = true
 show_session_button = true
@@ -427,6 +426,7 @@ enabled = [ "kenn/keybind-cheatsheet" ]
 avatar_path = ".face"
 button_borders = true
 card_borders = true
+circular_avatar = true
 clipboard_auto_paste = "off"
 clipboard_confirm_clear_history = true
 clipboard_enabled = true
